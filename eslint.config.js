@@ -2,33 +2,41 @@ import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+import tseslint from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
+import prettier from 'eslint-plugin-prettier'
 
-export default tseslint.config(
-  { ignores: ['dist'] },
+export default [
   {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-      'plugin:prettier/recommended'
-    ],
-    files: ['**/*.{ts,tsx}'],
+    // 공통 설정
+    ignores: ['dist'],
+    files: ['**/*.{js,jsx,ts,tsx}'], // 모든 파일에 적용
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser
+      globals: globals.browser,
+      parser: tsParser,
+      parserOptions: {
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true
+        }
+      }
     },
     plugins: {
       'react-hooks': reactHooks,
-      'react-refresh': reactRefresh
+      'react-refresh': reactRefresh,
+      '@typescript-eslint': tseslint,
+      prettier
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      ...tseslint.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true }
       ],
-      'prettier/prettier': 'error',
+      'prettier/prettier': 'error', // Prettier 규칙 추가
       '@typescript-eslint/no-unused-vars': 'warn'
     }
   }
-)
+]
