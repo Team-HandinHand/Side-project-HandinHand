@@ -35,7 +35,7 @@ export default [
         'warn',
         { allowConstantExport: true }
       ],
-      'prettier/prettier': 'error', // Prettier 규칙 추가
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
       '@typescript-eslint/no-unused-vars': 'warn'
     }
   }
