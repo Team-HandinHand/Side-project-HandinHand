@@ -20,6 +20,12 @@ const GlobalStyle = createGlobalStyle`
         --color-pink-dark: #E21079;
         --color-red: #FF2A2A;
 
+        /** text-colors **/
+        --color-text-dark: #292a32;
+        --color-text-gray: #747474;
+        --color-text-pink: #FF2F62;
+        --color-text-warning: #FF5454;
+
         /** font-size **/
         /* Headlines */
         --font-xxlarge: clamp(4rem, 5rem, 6rem);
