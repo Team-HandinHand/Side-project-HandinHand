@@ -59,15 +59,15 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Pretendard', sans-serif;
         line-height: 1.5;
         font-weight: 400;
-        color: var(--color-black);
-        background-color: var(--color-white);
+        color: var(--color-white);
+        background-color: var(--color-black);
         font-size: var(--font-medium);
     }
 
     @media (max-width: 768px) {
         /* 데스크탑 이하 디바이스 */
         html {
-            font-size: 90%;
+            font-size: var(--font-medium);
         }
     }
 `
