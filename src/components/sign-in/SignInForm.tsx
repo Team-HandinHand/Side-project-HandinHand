@@ -5,12 +5,11 @@ import { signInSchema, TSignInFormValues } from '@/schemas/user/signInSchema'
 import { useSignIn } from '@/hooks/mutations/useSignIn'
 
 export const SignInForm = () => {
-  const { signIn, isPending } = useSignIn()
-
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
+    setError,
     watch // 디버깅용
   } = useForm<TSignInFormValues>({
     resolver: zodResolver(signInSchema),
@@ -20,6 +19,8 @@ export const SignInForm = () => {
       password: ''
     }
   })
+
+  const { signIn, isPending } = useSignIn(setError)
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<TSignInFormValues> = async formData => {

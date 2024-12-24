@@ -1,7 +1,8 @@
+import * as S from './Header.styles'
 import { useSignOut } from '@/hooks/mutations/useSignOut'
 import { useUserStore } from '@/stores/userStore'
 
-export default function Header() {
+export function Header() {
   const { signOut, isPending } = useSignOut()
   const { user } = useUserStore()
 
@@ -13,6 +14,11 @@ export default function Header() {
         <a href="/series">Series</a>
         {!user && <a href="/signin">SignIn</a>}
         {!user && <a href="/signup">SignUp</a>}
+        {user && (
+          <a href="/edit-profile">
+            <S.ProfileImg src={user?.profilePicturePath}></S.ProfileImg>
+          </a>
+        )}
         {user && (
           <button
             onClick={() => signOut()}

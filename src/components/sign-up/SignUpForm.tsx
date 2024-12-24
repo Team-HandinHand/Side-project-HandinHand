@@ -1,34 +1,29 @@
 import * as S from './SignUpForm.styles'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import {
-  allUserInfoSchema,
-  TAllUserFormValues
-} from '@/schemas/user/allUserInfoSchema'
-import { DEFAULT_PROFILE_PATH } from '@/constants/user'
+import { signUpSchema, TSignUpFormValues } from '@/schemas/user/signUpSchema'
 import { useCheckDuplicate } from '@/hooks/queries/useCheckDuplicate'
 import { useSignUp } from '@/hooks/mutations/useSignUp'
 
 export const SignUpForm = () => {
-  const { signUp, isPending } = useSignUp()
-
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
     setError,
     watch // 디버깅용
-  } = useForm<TAllUserFormValues>({
-    resolver: zodResolver(allUserInfoSchema),
+  } = useForm<TSignUpFormValues>({
+    resolver: zodResolver(signUpSchema),
     mode: 'onChange',
     defaultValues: {
       nickname: '',
       email: '',
       password: '',
-      confirmPassword: '',
-      profilePicturePath: DEFAULT_PROFILE_PATH
+      confirmPassword: ''
     }
   })
+
+  const { signUp, isPending } = useSignUp(setError)
 
   // 닉네임, 이메일 중복 체크
   const { isDuplicate: isDuplicateNickname } = useCheckDuplicate(
@@ -49,7 +44,7 @@ export const SignUpForm = () => {
   }
 
   // 폼 제출 핸들러
-  const onSubmit: SubmitHandler<TAllUserFormValues> = async formData => {
+  const onSubmit: SubmitHandler<TSignUpFormValues> = async formData => {
     await signUp(formData)
   }
 

@@ -1,5 +1,4 @@
-import { BASE_64_PATTERN } from '@/constants/user'
-
-export const isBase64 = (s: string) => {
-  return BASE_64_PATTERN.test(s)
+export const isBase64 = (str: string) => {
+  const regex = /^data:image\/(png|jpg|jpeg);base64,/
+  return regex.test(str)
 }
