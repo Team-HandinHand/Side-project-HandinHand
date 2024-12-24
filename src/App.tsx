@@ -1,5 +1,10 @@
 import Router from './routes/router'
-
+import GlobalStyle from './GlobalStyle'
 export default function App() {
-  return <Router />
+  return (
+    <>
+      <GlobalStyle />
+      <Router />
+    </>
+  )
 }
