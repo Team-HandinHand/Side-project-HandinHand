@@ -1,5 +1,7 @@
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import DefaultLayout from '@/layout/DefaultLayout'
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorFallback } from '@/components'
 import { DeferredLoader } from '@/components'
 import Home from '@/pages/home'
 import Movies from '@/pages/movies'
@@ -33,7 +35,11 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <DefaultLayout />,
+    element: (
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <DefaultLayout />
+      </ErrorBoundary>
+    ),
     // errorElement: <NotFound/>,
     children: [
       {

@@ -6,6 +6,8 @@ import { useCheckDuplicate } from '@/hooks/queries/useCheckDuplicate'
 import { useSignUp } from '@/hooks/mutations/useSignUp'
 
 export const SignUpForm = () => {
+  const { signUp, isPending } = useSignUp()
+
   const {
     register,
     handleSubmit,
@@ -22,8 +24,6 @@ export const SignUpForm = () => {
       confirmPassword: ''
     }
   })
-
-  const { signUp, isPending } = useSignUp(setError)
 
   // 닉네임, 이메일 중복 체크
   const { isDuplicate: isDuplicateNickname } = useCheckDuplicate(

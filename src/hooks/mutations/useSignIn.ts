@@ -4,9 +4,12 @@ import { UseFormSetError } from 'react-hook-form'
 import { supabase } from '../../../supabaseConfig'
 import { TSignInFormValues } from '@/schemas/user/signInSchema'
 import { queryClient } from '../../App'
+import { isApiError } from '@/utils/isApiError'
+import { useErrorHandler } from '@/hooks/useErrorHandler'
 
 export const useSignIn = (setError: UseFormSetError<TSignInFormValues>) => {
   const navigate = useNavigate()
+  const handleError = useErrorHandler()
 
   const { mutateAsync: signIn, isPending } = useMutation({
     mutationFn: async (formData: TSignInFormValues) => {
@@ -17,14 +20,7 @@ export const useSignIn = (setError: UseFormSetError<TSignInFormValues>) => {
       })
 
       if (error) {
-        if (error.status === 500) {
-          setError('email', {
-            message: '이메일과 비밀번호를 다시 확인해주세요 ~~'
-          })
-          throw error
-        } else {
-          throw error // 다른 에러는 ErrorBoundary에 던짐
-        }
+        throw error
       }
 
       return data // 성공시 데이터 반환
@@ -37,8 +33,13 @@ export const useSignIn = (setError: UseFormSetError<TSignInFormValues>) => {
       navigate('/')
     },
     onError: error => {
-      if (error instanceof Error) {
-        console.error('로그인 에러:', error)
+      if (isApiError(error) && (error.status === 400 || error.status === 401)) {
+        // 폼에 에러 메시지 표시
+        setError('password', {
+          message: '이메일과 비밀번호를 다시 확인해주세요'
+        })
+      } else {
+        handleError('로그인', error)
       }
     }
   })

@@ -5,7 +5,7 @@ import {
   PASSWORD_MAX_LENGTH,
   DEFAULT_PROFILE_PATH
 } from '@/constants/user'
-import { isBase64 } from '@/utils/user/isBase64'
+import { isBase64 } from '@/utils/isBase64'
 
 export const editProfileSchema = z
   .object({

@@ -10,7 +10,12 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       {/* <GlobalStyles /> */}
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <ErrorBoundary
+        FallbackComponent={ErrorFallback}
+        onError={(error, info) => {
+          console.error('에러 발생:', error)
+          console.error('컴포넌트 스택:', info)
+        }}>
         <Suspense fallback={<DeferredLoader />}>
           <Router />
         </Suspense>
