@@ -6,7 +6,7 @@ import { DeferredLoader } from '@/components'
 import Home from '@/pages/home'
 import Movies from '@/pages/movies'
 import Series from '@/pages/series'
-import { SignUp, SignIn, EditProfile } from '@/pages'
+import { SignUp, SignIn, EditProfile, NotFound } from '@/pages'
 import { useFetchUser } from '@/hooks/queries/useFetchUser'
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
         <DefaultLayout />
       </ErrorBoundary>
     ),
-    // errorElement: <NotFound/>,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,

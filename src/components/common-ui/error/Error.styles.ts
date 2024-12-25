@@ -7,18 +7,17 @@ export const ErrorContainer = styled.div`
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  gap: var(--space-medium);
+  gap: var(--space-large);
   align-items: center;
+  text-align: center;
 `
 
-export const ErrorText = styled.h2`
-  color: var(--color-coral-dark);
-  font-size: var(--font-large);
+export const ErrorText = styled.h1`
+  color: var(--color-text-gray);
   font-weight: 700;
 `
 
-export const ErrorDetailText = styled.h2`
-  color: var(--color-regular-gray);
+export const ErrorDetailText = styled.p`
   font-size: var(--font-large);
   word-break: keep-all;
 `

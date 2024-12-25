@@ -3,13 +3,14 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { DeferredLoader, ErrorFallback } from '@/components'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Router from './routes/router'
+import GlobalStyle from './GlobalStyle'
 
 export const queryClient = new QueryClient()
 
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <GlobalStyles /> */}
+      <GlobalStyle />
       <ErrorBoundary
         FallbackComponent={ErrorFallback}
         onError={(error, info) => {

@@ -10,7 +10,7 @@ export const useErrorHandler = () => {
       console.error(`${type} 에러:`, error)
 
       if (isApiError(error) && error.status === 500) {
-        showBoundary(new Error('서버 에러가 발생했습니다. 다시 시도해주세요'))
+        showBoundary(new Error('서버 에러가 발생했습니다. 다시 시도해주세요.'))
       }
     }
   }

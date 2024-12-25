@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../../supabaseConfig'
 import { TSignUpFormValues } from '@/schemas/user/signUpSchema'
 import { queryClient } from '../../App'
-// import { DEFAULT_PROFILE_PATH } from '@/constants/user'
+import { DEFAULT_PROFILE_PATH } from '@/constants/user'
 import { useErrorHandler } from '@/hooks/useErrorHandler'
 
 export const useSignUp = () => {
@@ -18,8 +18,8 @@ export const useSignUp = () => {
         password: formData.password,
         options: {
           data: {
-            nickname: formData.nickname
-            // profile_picture_path: DEFAULT_PROFILE_PATH
+            nickname: formData.nickname,
+            profile_picture_path: DEFAULT_PROFILE_PATH
           }
         }
       })

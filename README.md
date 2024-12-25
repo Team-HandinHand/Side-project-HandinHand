@@ -107,6 +107,8 @@ SIDE-PROJECT-HANDINHAND-ROOT/
    - 함수, 변수 이름: Camel Case (ex. userName, handleOnclick)
    - 컴포넌트 이름: Pascal Case (ex. Button)
 
+- 폴더 이름 컨벤션
+   - kebab-case (ex. common-ui)
 ### 설치 방법
 
 1. **레포지토리 클론**
