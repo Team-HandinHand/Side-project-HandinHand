@@ -1,6 +1,7 @@
 import DefaultLayout from '@/layout/DefaultLayout'
 import Home from '@/pages/home'
 import Movies from '@/pages/movies'
+import OtherUserProfilePage from '@/pages/OtherUserProfilePage'
 import Series from '@/pages/series'
 import SignIn from '@/pages/signin'
 import SignUp from '@/pages/signup'
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: '/signup',
         element: <SignUp />
+      },
+      {
+        path: '/profile',
+        element: <OtherUserProfilePage />
       }
     ]
   }

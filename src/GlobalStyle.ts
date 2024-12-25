@@ -19,9 +19,10 @@ const GlobalStyle = createGlobalStyle`
         --color-pink: #FC1287;
         --color-pink-dark: #E21079;
         --color-red: #FF2A2A;
+        --color-profile-background: #D9D9D9;
 
         /** text-colors **/
-        --color-text-dark: #292a32;
+        --color-text-dark: #292A32;
         --color-text-gray: #747474;
         --color-text-pink: #FF2F62;
         --color-text-warning: #FF5454;
