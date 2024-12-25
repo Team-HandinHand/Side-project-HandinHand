@@ -2,10 +2,8 @@ import { z } from 'zod'
 import {
   NICKNAME_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
-  PASSWORD_MAX_LENGTH,
-  DEFAULT_PROFILE_PATH
+  PASSWORD_MAX_LENGTH
 } from '@/constants/user'
-import { isBase64 } from '@/utils/isBase64'
 
 export const editProfileSchema = z
   .object({
@@ -25,13 +23,7 @@ export const editProfileSchema = z
         message: `비밀번호는 ${PASSWORD_MAX_LENGTH}자 이하로 입력해주세요`
       }),
     confirmPassword: z.string().optional(),
-    profilePicturePath: z
-      .string()
-      .optional()
-      .refine(
-        path => !path || path === DEFAULT_PROFILE_PATH || isBase64(path),
-        { message: '유효한 프로필 사진(Base64)이 아닙니다' }
-      )
+    profilePicturePath: z.string().optional()
   })
   .refine(data => data.password === data.confirmPassword, {
     message: '비밀번호가 일치하지 않습니다',

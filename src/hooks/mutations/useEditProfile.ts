@@ -13,23 +13,25 @@ export const useEditProfile = () => {
   const handleError = useErrorHandler()
 
   const { mutateAsync: editProfile, isPending } = useMutation({
-    mutationFn: async (formData: TEditProfileFormValues) => {
+    mutationFn: async ({
+      nickname,
+      password,
+      profilePicturePath
+    }: TEditProfileFormValues) => {
       const updateData: TEditProfileRequestValues = {
         data: {
-          nickname: formData.nickname,
-          profile_picture_path: formData.profilePicturePath
+          nickname,
+          profile_picture_path: profilePicturePath
         }
       }
 
       // password를 바꿀 때만 요청에 추가
-      if (formData.password) updateData.password = formData.password
+      if (password) updateData.password = password
 
       // Supabase 프로필 수정
       const { data, error } = await supabase.auth.updateUser(updateData)
 
-      if (error) {
-        throw error
-      }
+      if (error) throw error
 
       return data // 성공시 데이터 반환
     },

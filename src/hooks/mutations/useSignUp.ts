@@ -11,22 +11,20 @@ export const useSignUp = () => {
   const handleError = useErrorHandler()
 
   const { mutateAsync: signUp, isPending } = useMutation({
-    mutationFn: async (formData: TSignUpFormValues) => {
+    mutationFn: async ({ email, password, nickname }: TSignUpFormValues) => {
       // Supabase 회원가입
       const { data, error } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
+        email,
+        password,
         options: {
           data: {
-            nickname: formData.nickname,
+            nickname,
             profile_picture_path: DEFAULT_PROFILE_PATH
           }
         }
       })
 
-      if (error) {
-        throw error // onError에서 처리
-      }
+      if (error) throw error // onError에서 처리
 
       return data // 성공시 데이터 반환
     },

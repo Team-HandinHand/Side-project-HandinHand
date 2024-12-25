@@ -1,4 +1,5 @@
 import * as S from './SignUpForm.styles'
+import { useCallback } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { signUpSchema, TSignUpFormValues } from '@/schemas/user/signUpSchema'
@@ -26,22 +27,31 @@ export const SignUpForm = () => {
   })
 
   // 닉네임, 이메일 중복 체크
-  const { isDuplicate: isDuplicateNickname } = useCheckDuplicate(
+  const { checkDuplicate: checkNickname } = useCheckDuplicate(
     'nickname',
     watch('nickname')
   )
-  const { isDuplicate: isDuplicateEmail } = useCheckDuplicate(
+  const { checkDuplicate: checkEmail } = useCheckDuplicate(
     'email',
     watch('email')
   )
 
-  const checkDuplicateNicknameOrEmail = (field: 'nickname' | 'email') => {
-    if (field === 'nickname' && isDuplicateNickname) {
-      setError('nickname', { message: '이미 사용 중인 닉네임입니다' })
-    } else if (field === 'email' && isDuplicateEmail) {
-      setError('email', { message: '이미 가입된 이메일입니다' })
-    }
-  }
+  const checkDuplicateNicknameOrEmail = useCallback(
+    async (field: 'nickname' | 'email') => {
+      const result = await (field === 'nickname'
+        ? checkNickname()
+        : checkEmail())
+      if (result.data) {
+        setError(field, {
+          message:
+            field === 'nickname'
+              ? '이미 사용 중인 닉네임입니다'
+              : '이미 가입된 이메일입니다'
+        })
+      }
+    },
+    [checkNickname, checkEmail, setError]
+  )
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<TSignUpFormValues> = async formData => {

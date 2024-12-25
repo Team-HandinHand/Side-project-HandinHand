@@ -9,18 +9,15 @@ const rotation = keyframes`
   }
 `
 
-export const LoadingContainer = styled.div<{ $size?: number }>`
+export const LoadingContainer = styled.div`
   position: absolute;
   top: 50%;
   left: 45%;
   transform: translate(-50%, -45%);
 
-  --size: ${({ $size }) => $size ?? 48}px;
-  --border-size: ${({ $size }) => ($size ?? 48) / 6}px;
-
-  width: var(--size);
-  height: var(--size);
-  border: var(--border-size) solid var(--color-blue);
+  width: 50px;
+  height: 50px;
+  border: 6px solid var(--color-gray);
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;

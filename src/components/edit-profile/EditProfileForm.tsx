@@ -1,5 +1,5 @@
 import * as S from './EditProfileForm.styles'
-import { useRef, useState } from 'react'
+import { useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -54,16 +54,20 @@ export const EditProfileForm = () => {
     }
   }
 
-  // 닉네임, 이메일 중복 체크
-  const { isDuplicate: isDuplicateNickname } = useCheckDuplicate(
+  // 닉네임 중복 체크
+  const { checkDuplicate: checkNickname } = useCheckDuplicate(
     'nickname',
     watch('nickname') ?? ''
   )
 
-  const checkDuplicateNickname = () => {
-    if (isDuplicateNickname)
-      setError('nickname', { message: '이미 사용 중인 닉네임입니다' })
-  }
+  const checkDuplicateNickname = useCallback(async () => {
+    const result = await checkNickname()
+    if (result.data) {
+      setError('nickname', {
+        message: '이미 사용 중인 닉네임입니다'
+      })
+    }
+  }, [checkNickname, setError])
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<TEditProfileFormValues> = async formData => {

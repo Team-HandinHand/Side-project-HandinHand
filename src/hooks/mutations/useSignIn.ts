@@ -12,16 +12,14 @@ export const useSignIn = (setError: UseFormSetError<TSignInFormValues>) => {
   const handleError = useErrorHandler()
 
   const { mutateAsync: signIn, isPending } = useMutation({
-    mutationFn: async (formData: TSignInFormValues) => {
+    mutationFn: async ({ email, password }: TSignInFormValues) => {
       // Supabase 로그인
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password
+        email,
+        password
       })
 
-      if (error) {
-        throw error
-      }
+      if (error) throw error
 
       return data // 성공시 데이터 반환
     },
@@ -33,14 +31,14 @@ export const useSignIn = (setError: UseFormSetError<TSignInFormValues>) => {
       navigate('/')
     },
     onError: error => {
-      if (isApiError(error) && (error.status === 400 || error.status === 401)) {
-        // 폼에 에러 메시지 표시
+      if (isApiError(error) && error.status >= 400 && error.status < 500) {
+        // 400번재 에러는 폼에 에러 메시지 표시
         setError('password', {
           message: '이메일과 비밀번호를 다시 확인해주세요'
         })
-      } else {
-        handleError('로그인', error)
+        return
       }
+      handleError('로그인', error)
     }
   })
 

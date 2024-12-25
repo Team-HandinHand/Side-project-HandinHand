@@ -5,31 +5,31 @@ import { useUserStore } from '@/stores/userStore'
 export const useCheckDuplicate = (field: string, value: string) => {
   const { user } = useUserStore()
 
-  const { data } = useQuery({
+  const { refetch } = useQuery({
     queryKey: ['checkDuplicate', field, value],
     queryFn: async () => {
       try {
-        // 현재 유저의 닉네임은 검사 통과
         if (field === 'nickname' && user?.nickname === value) return false
 
-        // Supabase에서 데이터 가져오기
         const { data, error } = await supabase
           .from('users')
           .select('*')
           .eq(field, value)
 
-        if (error) {
-          console.error(`${field} 중복 체크 에러:`, error)
-          throw error
-        }
+        if (error) throw error
 
         return (data ?? []).length > 0
       } catch (error) {
-        console.error(`${field} 중복 체크 에러:`, error)
         throw error
       }
     },
-    enabled: !!field && !!value
+    enabled: false, // 자동 실행 방지 (refetch로만 실행)
+    staleTime: Infinity, // 데이터를 항상 fresh하게 유지 (자동 리페치 방지)
+    retry: false, // 자동 재시도 막음
+    throwOnError: true // 에러를 ErrorBoundary로 전파
   })
-  return { isDuplicate: data }
+
+  return {
+    checkDuplicate: () => refetch()
+  }
 }

@@ -1,8 +1,8 @@
 import * as S from './Loader.styles'
 import { useState, useEffect } from 'react'
 
-const Loader = ({ size = 48 }: { size?: number }) => {
-  return <S.LoadingContainer $size={size} />
+const Loader = () => {
+  return <S.LoadingContainer />
 }
 
 export const DeferredLoader = () => {
