@@ -1,5 +1,5 @@
 import { EditProfileForm } from '@/components'
 
-export const EditProfile = () => {
+export const EditProfilePage = () => {
   return <EditProfileForm />
 }

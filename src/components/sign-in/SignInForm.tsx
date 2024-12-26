@@ -68,6 +68,10 @@ export const SignInForm = () => {
           }>
           {isPending ? '로그인 중...' : '로그인'}
         </S.SubmitButton>
+
+        <S.ToSignUpText href="/signup">
+          회원가입이 되어 있지 않으신가요?
+        </S.ToSignUpText>
       </S.SignInForm>
     </S.SignInFormContainer>
   )

@@ -1,5 +1,5 @@
 import { SignUpForm } from '@/components'
 
-export const SignUp = () => {
+export const SignUpPage = () => {
   return <SignUpForm />
 }

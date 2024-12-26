@@ -17,3 +17,16 @@ export const ErrorMessage = styled.p``
 export const SubmitButton = styled.button`
   //컴포넌트로 교체 필요
 `
+
+export const OtherTextWrapper = styled.div``
+
+export const ToSignUpText = styled.a`
+  display: block;
+  color: var(--color-text-gray);
+  text-decoration: underline;
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--color-light-gray);
+  }
+`

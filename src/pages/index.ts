@@ -1,4 +1,4 @@
-export { SignUp } from './sign-up'
-export { SignIn } from './sign-in'
-export { EditProfile } from './edit-profile'
-export { NotFound } from './not-found/NotFound'
+export { SignUpPage } from './sign-up'
+export { SignInPage } from './sign-in'
+export { EditProfilePage } from './edit-profile'
+export { NotFoundPage } from './not-found/NotFoundPage'

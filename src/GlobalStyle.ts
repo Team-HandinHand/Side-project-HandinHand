@@ -62,10 +62,17 @@ const GlobalStyle = createGlobalStyle`
     color: var(--color-white);
     background-color: var(--color-black);
     font-size: var(--font-medium);
+    cursor: default;
   }
 
-  p, h1, h2, h3, h4, div {
+  p, h1, h2, h3, h4, div, span {
     word-break: keep-all;
+  }
+
+  a {
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--color-white);
   }
 
   @media (max-width: 768px) {

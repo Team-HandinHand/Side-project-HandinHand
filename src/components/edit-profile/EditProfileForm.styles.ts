@@ -31,7 +31,7 @@ export const Input = styled.input`
 
 export const ErrorMessage = styled.p``
 
-export const ButtonContainer = styled.div`
+export const FormButtonContainer = styled.div`
   display: flex;
   gap: 1rem;
 `
@@ -41,5 +41,31 @@ export const CancleButton = styled.button`
 `
 
 export const SubmitButton = styled.button`
+  //컴포넌트로 교체 필요
+`
+
+export const DeactivateAccountButton = styled.button`
+  //컴포넌트로 교체 필요
+`
+
+// 계정 해지 확인 토스트
+export const ToastDAContainer = styled.div`
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-medium);
+  align-items: center;
+`
+
+export const ToastDABtnContainer = styled.div`
+  display: flex;
+  gap: var(--space-medium);
+`
+
+export const ToastDACancleBtn = styled.button`
+  //컴포넌트로 교체 필요
+`
+
+export const ToastDAAcceptBtn = styled.button`
   //컴포넌트로 교체 필요
 `

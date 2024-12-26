@@ -3,18 +3,22 @@ import { useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 import {
   editProfileSchema,
   TEditProfileFormValues
 } from '@/schemas/user/editProfileSchema'
 import { useCheckDuplicate } from '@/hooks/queries/useCheckDuplicate'
 import { useEditProfile } from '@/hooks/mutations/useEditProfile'
+import { useDeactivateAccount } from '@/hooks/mutations/usedeactivateAccount'
 import { useUserStore } from '@/stores/userStore'
 
 export const EditProfileForm = () => {
   const navigate = useNavigate()
   const { user } = useUserStore()
-  const { editProfile, isPending } = useEditProfile()
+  const { editProfile, isPending: isEditProfilePending } = useEditProfile()
+  const { deactivateAccount, isPending: isDeactivateAccountPending } =
+    useDeactivateAccount()
 
   // 사집 업로드
   const imgRef = useRef<HTMLInputElement>(null)
@@ -103,6 +107,31 @@ export const EditProfileForm = () => {
     setImgPreview(user?.profilePicturePath ?? '')
   }
 
+  // 계정 해지
+  const handleDeactiveAccount = () => {
+    toast(
+      <S.ToastDAContainer>
+        <p>⚠️ 정말 계정을 해지하시겠습니까?</p>
+        <S.ToastDABtnContainer>
+          <S.ToastDACancleBtn onClick={() => toast.dismiss()}>
+            취소
+          </S.ToastDACancleBtn>
+          <S.ToastDAAcceptBtn
+            onClick={async () => {
+              toast.dismiss()
+              await deactivateAccount()
+            }}>
+            해지
+          </S.ToastDAAcceptBtn>
+        </S.ToastDABtnContainer>
+      </S.ToastDAContainer>,
+      {
+        position: 'top-center',
+        duration: Infinity
+      }
+    )
+  }
+
   // 디버깅용
   console.log('current edit profile form', {
     errors: errors,
@@ -177,7 +206,7 @@ export const EditProfileForm = () => {
             )}
           </S.FormField>
 
-          <S.ButtonContainer>
+          <S.FormButtonContainer>
             {isFormChanged && (
               <S.CancleButton
                 type="button"
@@ -187,11 +216,19 @@ export const EditProfileForm = () => {
             )}
             <S.SubmitButton
               disabled={
-                isSubmitting || Object.keys(errors).length > 0 || isPending
+                isSubmitting ||
+                Object.keys(errors).length > 0 ||
+                isEditProfilePending
               }>
-              {isPending ? '저장 중...' : '변경 저장'}
+              {isEditProfilePending ? '저장 중...' : '변경 저장'}
             </S.SubmitButton>
-          </S.ButtonContainer>
+          </S.FormButtonContainer>
+
+          <S.DeactivateAccountButton
+            type="button"
+            onClick={handleDeactiveAccount}>
+            {isDeactivateAccountPending ? '해지 중...' : '계정 해지'}
+          </S.DeactivateAccountButton>
         </S.EditProfileForm>
       </S.EditProfileFormContainer>
     </>

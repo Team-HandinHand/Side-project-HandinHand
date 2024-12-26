@@ -1,8 +1,8 @@
-import * as S from './NotFound.styles'
+import * as S from './NotFoundPage.styles'
 import { useNavigate } from 'react-router-dom'
 // import { Button } from '@/components';
 
-export const NotFound = () => {
+export const NotFoundPage = () => {
   const navigate = useNavigate()
 
   const handleToHome = () => {
