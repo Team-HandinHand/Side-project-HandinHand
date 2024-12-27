@@ -6,14 +6,33 @@ import {
   MovieImageBox,
   PosterBoxContainer
 } from './PosterBox.styled'
+import {
+  SkeletonContainer,
+  SkeletonContentBox,
+  SkeletonDescription,
+  SkeletonImage,
+  SkeletonTitle
+} from '../Skeleton/Skeleton'
 
 export const PosterBox = ({
   title,
   imageUrl,
   date,
   flex,
-  onClick
+  onClick,
+  isLoading
 }: PosterBoxProps) => {
+  if (isLoading) {
+    return (
+      <SkeletonContainer flex={flex}>
+        <SkeletonImage flex={flex} />
+        <SkeletonContentBox flex={flex}>
+          <SkeletonTitle />
+          <SkeletonDescription />
+        </SkeletonContentBox>
+      </SkeletonContainer>
+    )
+  }
   return (
     <PosterBoxContainer
       title={title}

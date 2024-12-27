@@ -4,6 +4,7 @@ interface PosterBoxProps {
   date: string
   flex?: boolean
   onClick?: () => void
+  isLoading?: boolean
 }
 interface PosterBoxContainerProps {
   title: string

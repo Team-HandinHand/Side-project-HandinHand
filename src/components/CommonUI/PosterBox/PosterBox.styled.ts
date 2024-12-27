@@ -25,7 +25,7 @@ export const ContentTitle = styled.div`
   margin-top: var(--space-medium);
 `
 export const ContentDescription = styled.div`
-  font-size: 0.75rem;
+  font-size: var(--font-small);
   color: var(--color-text-gray);
   border-radius: var(--border-radius-small);
   margin-top: var(--space-medium);
