@@ -1,14 +1,5 @@
 import styled, { css } from 'styled-components'
-
-type ButtonColor = 'pink' | 'gray' | 'transparent'
-type ButtonSize = 'small' | 'medium' | 'large'
-
-interface ButtonProps {
-  color?: ButtonColor
-  size?: ButtonSize
-  fontSize?: string
-  padding?: string
-}
+import { ButtonProps } from './Button'
 
 export const colorStyles = {
   pink: css`
@@ -57,7 +48,7 @@ export const StyledButton = styled.button<ButtonProps>`
   border-radius: var(--border-radius-medium);
   cursor: pointer;
   transition: background-color 0.3s ease;
-  padding: 8px 10px;
+  padding: 10px 10px;
 
   ${({ color }) => color && colorStyles[color]}
   ${({ size }) => size && sizeStyles[size]}
