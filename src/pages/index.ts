@@ -1,0 +1,7 @@
+export { HomePage } from './Home'
+export { SignUpPage } from './SignUp'
+export { SignInPage } from './SignIn'
+export { EditProfilePage } from './EditProfile'
+export { MoviesPage } from './Movies'
+export { SeriesPage } from './Series'
+export { NotFoundPage } from './NotFoundPage'
