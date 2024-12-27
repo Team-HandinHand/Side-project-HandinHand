@@ -8,7 +8,6 @@ import styled from 'styled-components'
 export const PosterBoxContainer = styled.div<PosterBoxContainerProps>`
   width: ${props => (props.flex ? '100%' : '212px')};
   display: ${props => (props.flex ? 'flex' : 'inline-block')};
-  margin: var(--space-small);
 `
 export const MovieImageBox = styled.img<MovieImageBoxProps>`
   width: ${props => (props.flex ? '100px' : '212px')};
