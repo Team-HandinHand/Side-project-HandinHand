@@ -1,10 +1,7 @@
+import type { comment } from '@/types/commentDetail'
 import StarRating from '../common-ui/star-rating/StarRating'
 import * as S from './CommentDetail.styled'
 
-interface comment {
-  commentData: string
-  readonly: boolean
-}
 export const ReviewComment = ({ commentData, readonly }: comment) => {
   return (
     <S.ReviewCommentContainer>

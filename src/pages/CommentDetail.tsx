@@ -1,6 +1,6 @@
 import * as S from '@/components/comment-detail/CommentDetail.styled'
 import { ReviewComment } from '@/components/comment-detail/ReviewComment'
-import { PosterBox } from '@/components/common-ui/PosterBox/PosterBox'
+import { PosterBox } from '@/components/common-ui/posterBox/PosterBox'
 import { IoArrowBack } from 'react-icons/io5'
 
 export const CommentDetailPage = () => {

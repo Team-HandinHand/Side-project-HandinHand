@@ -1,4 +1,4 @@
-import { PosterBoxProps } from '@/types/components'
+import type { PosterBoxProps } from '@/types/components'
 import {
   ContentBox,
   ContentDescription,
@@ -12,7 +12,7 @@ import {
   SkeletonDescription,
   SkeletonImage,
   SkeletonTitle
-} from '../Skeleton/Skeleton'
+} from '../skeleton/Skeleton'
 
 export const PosterBox = ({
   title,
