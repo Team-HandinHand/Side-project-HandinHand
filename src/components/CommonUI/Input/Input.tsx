@@ -1,5 +1,16 @@
 import React from 'react'
-import { InputWrapper, StyledInput, StyledTextarea } from './Input.styled'
+import * as S from './Input.styled'
+
+/*
+사용예시 - PR 예시 화면 참고해주세요
+      <InputField
+        placeholder="이메일(example@email.com)"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        //type="textarea" (textarea일때 명시)
+        //(fontSize, width 커스텀 가능)
+      />
+*/
 
 interface InputProps {
   label?: string
@@ -22,9 +33,9 @@ const InputField = ({
   fontSize
 }: InputProps) => {
   return (
-    <InputWrapper>
+    <S.InputWrapper>
       {type === 'textarea' ? (
-        <StyledTextarea
+        <S.StyledTextarea
           placeholder={placeholder}
           value={value}
           onChange={onChange}
@@ -32,7 +43,7 @@ const InputField = ({
           fontSize={fontSize}
         />
       ) : (
-        <StyledInput
+        <S.StyledInput
           type={type}
           placeholder={placeholder}
           value={value}
@@ -41,7 +52,7 @@ const InputField = ({
           fontSize={fontSize}
         />
       )}
-    </InputWrapper>
+    </S.InputWrapper>
   )
 }
 
