@@ -9,7 +9,8 @@ import {
   EditProfilePage,
   MoviesPage,
   SeriesPage,
-  NotFoundPage
+  NotFoundPage,
+  CommentDetailPage
 } from '@/pages'
 import { useFetchUser } from '@/hooks/queries/useFetchUser'
 
@@ -59,6 +60,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <SeriesPage />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/comments/detail',
+        element: (
+          <ProtectedRoute>
+            <CommentDetailPage />
           </ProtectedRoute>
         )
       },

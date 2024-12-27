@@ -6,7 +6,7 @@ import {
 import styled from 'styled-components'
 
 export const PosterBoxContainer = styled.div<PosterBoxContainerProps>`
-  width: ${props => (props.flex ? '100%' : '212px')};
+  width: ${props => (props.flex ? '70%' : '212px')};
   display: ${props => (props.flex ? 'flex' : 'inline-block')};
   margin: var(--space-small);
 `
