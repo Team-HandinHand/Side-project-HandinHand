@@ -2,10 +2,15 @@ import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import DefaultLayout from '@/layout/DefaultLayout'
 import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorFallback } from '@/components'
-import Home from '@/pages/home'
-import Movies from '@/pages/movies'
-import Series from '@/pages/series'
-import { SignUpPage, SignInPage, EditProfilePage, NotFoundPage } from '@/pages'
+import {
+  HomePage,
+  SignUpPage,
+  SignInPage,
+  EditProfilePage,
+  MoviesPage,
+  SeriesPage,
+  NotFoundPage
+} from '@/pages'
 import { useFetchUser } from '@/hooks/queries/useFetchUser'
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -37,7 +42,7 @@ const router = createBrowserRouter([
         index: true,
         element: (
           <ProtectedRoute>
-            <Home />
+            <HomePage />
           </ProtectedRoute>
         )
       },
@@ -45,7 +50,7 @@ const router = createBrowserRouter([
         path: '/movies',
         element: (
           <ProtectedRoute>
-            <Movies />
+            <MoviesPage />
           </ProtectedRoute>
         )
       },
@@ -53,7 +58,7 @@ const router = createBrowserRouter([
         path: '/series',
         element: (
           <ProtectedRoute>
-            <Series />
+            <SeriesPage />
           </ProtectedRoute>
         )
       },

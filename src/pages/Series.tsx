@@ -1,4 +1,4 @@
-export default function Series() {
+export const SeriesPage = () => {
   return (
     <div>
       <h1>Series</h1>

@@ -12,8 +12,8 @@ export function Header() {
         <a href="/">Home</a>
         <a href="/movies">Movies</a>
         <a href="/series">Series</a>
-        {!user && <a href="/signin">SignIn</a>}
-        {!user && <a href="/signup">SignUp</a>}
+        {!user && <a href="/signin">로그인</a>}
+        {!user && <a href="/signup">회원가입</a>}
         {user && (
           <a href="/edit-profile">
             <S.ProfileImg src={user?.profilePicturePath}></S.ProfileImg>
