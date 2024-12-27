@@ -12,7 +12,7 @@ import {
   SkeletonDescription,
   SkeletonImage,
   SkeletonTitle
-} from '../Skeleton/Skeleton'
+} from '../skeleton/Skeleton'
 
 export const PosterBox = ({
   title,
