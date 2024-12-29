@@ -1,6 +1,5 @@
-import * as S from './Profile.styled'
-
-export type ProfileButtonSize = 'small' | 'medium' | 'large' | string
+import { ProfileButtonProps } from '@/types/profile'
+import * as S from './Profile.styles'
 
 /* 사용예시 
       <ProfileButton
@@ -18,16 +17,7 @@ export type ProfileButtonSize = 'small' | 'medium' | 'large' | string
       - 댓글 조회 프로필: small   이외에 커스텀 가능
 */
 
-export interface ProfileButtonProps {
-  imageUrl?: string
-  altText?: string
-  onClick: () => void
-  size?: ProfileButtonSize
-}
-
-const Defaultprofile = '/defaultProfile.jpg'
-
-const ProfileButton = ({
+const Profile = ({
   imageUrl,
   altText = 'Profile',
   onClick,
@@ -38,11 +28,11 @@ const ProfileButton = ({
       onClick={onClick}
       size={size}>
       <S.ProfileImage
-        src={imageUrl || Defaultprofile}
+        src={imageUrl}
         alt={altText}
       />
     </S.ProfileButtonWrapper>
   )
 }
 
-export default ProfileButton
+export default Profile

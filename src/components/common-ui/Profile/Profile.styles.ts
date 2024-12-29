@@ -1,5 +1,5 @@
+import { ProfileButtonSize } from '@/types/profile'
 import styled from 'styled-components'
-import { ProfileButtonSize } from './Profile'
 
 export const ProfileButtonWrapper = styled.button<{ size?: ProfileButtonSize }>`
   background: none;

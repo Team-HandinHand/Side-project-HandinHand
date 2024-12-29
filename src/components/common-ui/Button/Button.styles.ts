@@ -1,5 +1,5 @@
+import { ButtonProps } from '@/types/button'
 import styled, { css } from 'styled-components'
-import { ButtonProps } from './Button'
 
 export const colorStyles = {
   pink: css`
@@ -14,6 +14,12 @@ export const colorStyles = {
     color: var(--color-white);
     &:hover {
       background-color: var(--color-dark-gray);
+    }
+    &:disabled {
+      cursor: not-allowed;
+      &:hover {
+        background-color: var(--color-gray);
+      }
     }
   `,
   transparent: css`
@@ -37,7 +43,7 @@ export const sizeStyles = {
   `,
   large: css`
     font-size: var(--font-medium);
-    width: 300px;
+    width: 320px;
     font-weight: bold;
   `
 }

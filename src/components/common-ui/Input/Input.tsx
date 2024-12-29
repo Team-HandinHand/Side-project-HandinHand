@@ -1,5 +1,5 @@
-import React from 'react'
-import * as S from './Input.styled'
+import * as S from './Input.styles'
+import { InputProps } from '@/types/input'
 
 /*
 사용예시 - PR 예시 화면 참고해주세요
@@ -12,28 +12,17 @@ import * as S from './Input.styled'
       />
 */
 
-interface InputProps {
-  label?: string
-  placeholder?: string
-  type?: 'text' | 'textarea'
-  value: string
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void
-  width?: string
-  fontSize?: string
-}
-
-const InputField = ({
+const Input = ({
   placeholder,
   type = 'text',
   value,
   onChange,
   width,
-  fontSize
+  fontSize,
+  error = false
 }: InputProps) => {
   return (
-    <S.InputWrapper>
+    <>
       {type === 'textarea' ? (
         <S.StyledTextarea
           placeholder={placeholder}
@@ -41,6 +30,7 @@ const InputField = ({
           onChange={onChange}
           width={width}
           fontSize={fontSize}
+          error={error}
         />
       ) : (
         <S.StyledInput
@@ -50,10 +40,11 @@ const InputField = ({
           onChange={onChange}
           width={width}
           fontSize={fontSize}
+          error={error}
         />
       )}
-    </S.InputWrapper>
+    </>
   )
 }
 
-export default InputField
+export default Input
