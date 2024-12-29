@@ -75,6 +75,10 @@ const GlobalStyle = createGlobalStyle`
     color: var(--color-white);
   }
 
+  img {
+    display: block;
+  }
+
   @media (max-width: 768px) {
     /* 데스크탑 이하 디바이스 */
     html {

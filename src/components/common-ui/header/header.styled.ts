@@ -8,10 +8,11 @@ import {
   HeaderLinkProps,
   HeaderIconProps
 } from '@/types/commonUi'
+import { HEADER_COLORS } from '@/constants/commonUi'
 
 export const HeaderContainer = styled.header<HeaderProps>`
   background-color: ${({ $backgroundColor }) =>
-    $backgroundColor || 'transparent'};
+    HEADER_COLORS[$backgroundColor] ?? 'transparent'};
   padding: var(--space-medium);
   display: flex;
   justify-content: space-between;
@@ -24,6 +25,9 @@ export const HeaderContainer = styled.header<HeaderProps>`
 `
 
 export const LogoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
   @media (width <= 576px) {
     display: none;
   }
@@ -31,7 +35,7 @@ export const LogoWrapper = styled.div`
 
 export const Logo = styled.img`
   aspect-ratio: 1;
-  width: clamp(0px, 5vw, 50px);
+  width: clamp(0px, 3vw, 30px);
   height: auto;
   object-fit: contain;
 `

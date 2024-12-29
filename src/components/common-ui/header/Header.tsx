@@ -60,12 +60,10 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
         ) : (
           <>
             <S.BaseLink to="/">
-              {' '}
               {/* 즐겨찾기 */}
               <S.FavoriteIcon $active={pathname === '/'} />
             </S.BaseLink>
             <S.BaseLink to="/">
-              {' '}
               {/* 보관함 */}
               <S.StorageIcon $active={pathname === '/'} />
             </S.BaseLink>
