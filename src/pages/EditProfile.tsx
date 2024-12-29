@@ -1,5 +1,10 @@
-import { EditProfileForm } from '@/components'
+import { Back, EditProfileForm } from '@/components'
 
 export const EditProfilePage = () => {
-  return <EditProfileForm />
+  return (
+    <>
+      <Back />
+      <EditProfileForm />
+    </>
+  )
 }

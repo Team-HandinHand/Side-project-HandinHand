@@ -36,7 +36,6 @@ export const LogoWrapper = styled.div`
 export const Logo = styled.img`
   aspect-ratio: 1;
   width: clamp(0px, 3vw, 30px);
-  height: auto;
   object-fit: contain;
 `
 

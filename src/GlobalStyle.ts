@@ -51,6 +51,10 @@ const GlobalStyle = createGlobalStyle`
     --space-xxlarge: 128px;
   }
 
+  * {
+    box-sizing: border-box;
+  }
+
   html {
     font-size: 100%; /* 16px */
   }

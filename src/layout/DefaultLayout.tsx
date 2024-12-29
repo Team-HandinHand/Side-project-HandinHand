@@ -4,11 +4,11 @@ import { Header } from '@/components'
 
 export default function DefaultLayout() {
   return (
-    <>
+    <S.ContentContainer>
       <Header $backgroundColor="black" />
       <S.OutletContainer>
         <Outlet />
       </S.OutletContainer>
-    </>
+    </S.ContentContainer>
   )
 }
