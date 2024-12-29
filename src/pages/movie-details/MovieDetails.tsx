@@ -36,10 +36,10 @@ export default function MovieDetails() {
       </S.MovieHeaderContainer>
 
       {/* 두번째 박스 */}
-      <S.SeperatingBox>
+      <S.SeparatingBox>
         <S.ShowTypes>콘텐츠 정보</S.ShowTypes>
         <S.ShowTypes>관련 콘텐츠</S.ShowTypes>
-      </S.SeperatingBox>
+      </S.SeparatingBox>
 
       <S.MovieActorContainer>
         <S.ListsTitle>감독/출연</S.ListsTitle>

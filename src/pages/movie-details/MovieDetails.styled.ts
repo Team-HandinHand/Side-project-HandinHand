@@ -14,9 +14,11 @@ export const MovieHeaderContainer = styled.div`
 `
 
 export const MoviePoster = styled.img`
-  width: 250px;
-  height: 250px;
+  width: 100%;
+  max-width: 250px;
+  height: auto;
   object-fit: cover;
+  aspect-ratio: 2/3;
 `
 
 export const MovieInfo = styled.div`
@@ -46,6 +48,13 @@ export const MovieDescription = styled.p`
   line-height: 1.5;
   color: #333;
   max-width: 500px;
+  text-overflow: ellipsis;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 //두번째 박스
@@ -54,7 +63,7 @@ export const MovieActorContainer = styled.div`
   margin-bottom: var(--space-xlarge);
 `
 
-export const SeperatingBox = styled.div`
+export const SeparatingBox = styled.div`
   display: flex;
   justify-content: center;
   gap: var(--space-medium);
@@ -79,13 +88,19 @@ export const ActorBox = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: var(--space-medium);
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `
 
 export const ActorList = styled.div``
 
 // 세번째 박스
 
-export const UserRateContainer = styled.div``
+export const UserRateContainer = styled.div`
+  margin-bottom: var(--space-xlarge);
+`
 
 export const UserRateTitle = styled.div`
   font-weight: 700;
