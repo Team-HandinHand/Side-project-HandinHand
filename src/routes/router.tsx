@@ -1,3 +1,4 @@
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import DefaultLayout from '@/layout/DefaultLayout'
 import Home from '@/pages/Home'
 import Movies from '@/pages/movies'
@@ -6,29 +7,84 @@ import SignIn from '@/pages/signin'
 import SignUp from '@/pages/signup'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorFallback } from '@/components'
+import {
+  HomePage,
+  SignUpPage,
+  SignInPage,
+  EditProfilePage,
+  MoviesPage,
+  SeriesPage,
+  NotFoundPage
+} from '@/pages'
+import { useFetchUser } from '@/hooks/queries/useFetchUser'
+
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { data: user } = useFetchUser()
+
+  if (!user) {
+    return (
+      <Navigate
+        to="/signin"
+        replace
+      />
+    ) // 인증되지 않은 경우 리다이렉트
+  }
+
+  return children
+}
+
+
 const router = createBrowserRouter([
   {
-    element: <DefaultLayout />,
+    path: '/',
+    element: (
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <DefaultLayout />
+      </ErrorBoundary>
+    ),
+    errorElement: <NotFoundPage />,
     children: [
       {
-        path: '/',
-        element: <Home />
+        index: true,
+        element: (
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
+        )
       },
       {
         path: '/movies',
-        element: <Movies />
+        element: (
+          <ProtectedRoute>
+            <MoviesPage />
+          </ProtectedRoute>
+        )
       },
       {
         path: '/series',
-        element: <Series />
-      },
-      {
-        path: '/signin',
-        element: <SignIn />
+        element: (
+          <ProtectedRoute>
+            <SeriesPage />
+          </ProtectedRoute>
+        )
       },
       {
         path: '/signup',
-        element: <SignUp />
+        element: <SignUpPage />
+      },
+      {
+        path: '/signin',
+        element: <SignInPage />
+      },
+      {
+        path: '/edit-profile',
+        element: (
+          <ProtectedRoute>
+            <EditProfilePage />
+          </ProtectedRoute>
+        )
       }
     ]
   }
