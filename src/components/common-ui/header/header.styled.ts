@@ -1,71 +1,107 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { NavLink } from 'react-router-dom'
+import { FaRegStar } from 'react-icons/fa'
+import { SlDrawer } from 'react-icons/sl'
+import {
+  HeaderProps,
+  HeaderLiProps,
+  HeaderLinkProps,
+  HeaderIconProps
+} from '@/types/commonUi'
 
-interface Container {
-  backgroundColor: string
-}
-
-export const Header = styled.header<Container>`
-  background-color: ${props => props.backgroundColor || 'transparent'};
-  padding: 18px 64px;
+export const HeaderContainer = styled.header<HeaderProps>`
+  background-color: ${({ $backgroundColor }) =>
+    $backgroundColor || 'transparent'};
+  padding: var(--space-medium);
   display: flex;
   justify-content: space-between;
+  gap: var(--space-large); // 최소 gap
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 1;
+  transition: all 0.3s ease;
 `
 
-export const Container = styled.section`
-  width: 100%;
-  display: flex;
-  gap: 60px;
-  margin: 0 60px;
-`
-
-export const Logo = styled.div`
-  font-size: 18px; //임시
-  img {
-    width: 30px;
-    height: auto;
+export const LogoWrapper = styled.div`
+  @media (width <= 576px) {
+    display: none;
   }
 `
 
-export const NavUl = styled.ul`
-  display: flex;
-  gap: 60px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+export const Logo = styled.img`
+  aspect-ratio: 1;
+  width: clamp(0px, 5vw, 50px);
+  height: auto;
+  object-fit: contain;
 `
 
-export const Li = styled.li`
-  color: #fff;
-  font-size: 18px;
+// 기본 링크
+export const BaseLink = styled(NavLink)`
+  color: inherit;
+`
+// 로그인 안됐을때 막을 링크
+export const RestrictedLink = styled(BaseLink)<HeaderLinkProps>`
+  cursor: ${({ $signedUp = false }) => ($signedUp ? 'pointer' : 'not-allowed')};
+  pointer-events: ${({ $signedUp = false }) => ($signedUp ? 'auto' : 'none')};
+`
+
+// 홈, 영화, 드라마 nav
+export const NavUL = styled.ul`
+  flex: 1;
+  display: flex;
+  gap: var(--space-medium);
+  align-items: center;
+`
+
+export const Li = styled.li<HeaderLiProps>`
+  font-size: var(--font-large);
+  color: ${({ $active }) =>
+    $active ? 'var(--color-white)' : 'var(--color-light-gray)'};
+
+  &:hover {
+    color: ${({ $signedUp }) =>
+      $signedUp ? 'var(--color-white)' : 'var(--color-light-gray)'};
+  }
+
+  @media (width <= 576px) {
+    font-size: var(--font-medium);
+  }
+`
+
+// 유저 관련 nav
+export const AuthContainer = styled.div`
+  display: flex;
+  gap: var(--space-medium);
+  align-items: center;
+`
+
+const iconStyles = css<HeaderIconProps>`
+  font-size: var(--font-large);
+  color: ${({ $active }) =>
+    $active ? 'var(--color-white)' : 'var(--color-light-gray)'};
   cursor: pointer;
-  color: var(--color-gray);
 
   &:hover {
     color: var(--color-white);
   }
-`
 
-export const Link = styled(NavLink)`
-  text-decoration: none;
-  color: inherit; //inherit는 기본값을 그대로 유지한다는 뜻임~
-
-  &:hover {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  &:focus {
-    color: inherit;
+  @media (width <= 576px) {
+    font-size: var(--font-medium);
   }
 `
 
+export const FavoriteIcon = styled(FaRegStar)<HeaderIconProps>`
+  ${iconStyles}
+`
+
+export const StorageIcon = styled(SlDrawer)<HeaderIconProps>`
+  ${iconStyles}
+`
+
+// 컴포넌트로 변경 후 삭제해야함
 export const ProfileImg = styled.img`
-  border-radius: 50%; // 디자인 토큰으로 변경 필요
+  border-radius: 50%;
   width: 50px;
   height: 50px;
 `
