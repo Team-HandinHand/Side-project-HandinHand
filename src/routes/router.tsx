@@ -1,24 +1,17 @@
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import DefaultLayout from '@/layout/DefaultLayout'
-import Home from '@/pages/Home'
-import Movies from '@/pages/movies'
-import Series from '@/pages/series'
-import SignIn from '@/pages/signin'
-import SignUp from '@/pages/signup'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
-import { ErrorBoundary } from 'react-error-boundary'
-import { ErrorFallback } from '@/components'
 import {
   HomePage,
-  SignUpPage,
-  SignInPage,
-  EditProfilePage,
   MoviesPage,
   SeriesPage,
-  NotFoundPage,
-  OtherUserProfilePage
+  SignInPage,
+  SignUpPage,
+  EditProfilePage,
+  NotFoundPage
 } from '@/pages'
+//OtherUserProfilePage 추가 사용 예정
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorFallback } from '@/components'
 import { useFetchUser } from '@/hooks/queries/useFetchUser'
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -35,7 +28,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   return children
 }
-
 
 const router = createBrowserRouter([
   {
