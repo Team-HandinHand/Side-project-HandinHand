@@ -1,7 +1,4 @@
-import React from 'react'
 import OtherUserProfile from '@/components/OtherUserProfile/OtherUserProfile'
-const OtherUserProfilePage = () => {
+export const OtherUserProfilePage = () => {
   return <OtherUserProfile />
 }
-
-export default OtherUserProfilePage
