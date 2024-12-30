@@ -9,7 +9,8 @@ import {
   EditProfilePage,
   MoviesPage,
   SeriesPage,
-  NotFoundPage
+  NotFoundPage,
+  OtherUserProfilePage
 } from '@/pages'
 import { useFetchUser } from '@/hooks/queries/useFetchUser'
 
