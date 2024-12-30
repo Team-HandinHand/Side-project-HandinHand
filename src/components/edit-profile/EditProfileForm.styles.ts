@@ -4,9 +4,11 @@ import {
   FormTitle,
   Form,
   FormField,
+  InputwithDuplicateBtn,
   Input,
-  ErrorMessage
-} from '../common-ui/formStyle/formStyle.styles'
+  ErrorMessage,
+  SuccessMessage
+} from '../common-ui/styles/Form.styles'
 
 export const EditProfileFormContainer = FormContainer
 
@@ -27,7 +29,7 @@ export const PictureInput = styled.input`
 
 export const ChangeImageButton = styled.button``
 
-export { FormField, Input, ErrorMessage }
+export { FormField, InputwithDuplicateBtn, Input, ErrorMessage, SuccessMessage }
 
 export const FormButtonContainer = styled.div`
   display: flex;

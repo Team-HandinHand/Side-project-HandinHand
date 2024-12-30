@@ -8,7 +8,7 @@ export const SignInForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, errors, touchedFields },
     setError,
     watch // 디버깅용
   } = useForm<TSignInFormValues>({
@@ -45,7 +45,7 @@ export const SignInForm = () => {
             placeholder="이메일 (example@email.com)"
             // error={ errors.email }
           />
-          {errors.email && (
+          {touchedFields.email && errors.email && (
             <S.ErrorMessage>{errors.email?.message}</S.ErrorMessage>
           )}
         </S.FormField>
@@ -57,7 +57,7 @@ export const SignInForm = () => {
             placeholder="비밀번호를 입력해주세요 (6자 이상)"
             // error={ errors.password }
           />
-          {errors.password && (
+          {touchedFields.password && errors.password && (
             <S.ErrorMessage>{errors.password?.message}</S.ErrorMessage>
           )}
         </S.FormField>

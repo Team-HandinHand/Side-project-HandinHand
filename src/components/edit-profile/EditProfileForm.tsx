@@ -24,10 +24,13 @@ export const EditProfileForm = () => {
     user?.profilePicturePath ?? ''
   )
 
+  // 중복 확인 해야하는 필드 valid 여부
+  const [validNickname, setValidNickname] = useState<boolean>(false)
+
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, errors, touchedFields },
     setValue,
     setError,
     reset,
@@ -57,9 +60,11 @@ export const EditProfileForm = () => {
   }
 
   // 닉네임 중복 체크
+  const nicknameValue = watch('nickname')
+
   const { checkDuplicate: checkNickname } = useCheckDuplicate(
     'nickname',
-    watch('nickname') ?? ''
+    nicknameValue ?? ''
   )
 
   const checkDuplicateNickname = useCallback(async () => {
@@ -68,6 +73,9 @@ export const EditProfileForm = () => {
       setError('nickname', {
         message: '이미 사용 중인 닉네임입니다'
       })
+      setValidNickname(false)
+    } else {
+      setValidNickname(true)
     }
   }, [checkNickname, setError])
 
@@ -167,7 +175,7 @@ export const EditProfileForm = () => {
           ref={imgRef}
           onChange={handleImageChange}
         />
-        {errors.profilePicturePath && (
+        {touchedFields.profilePicturePath && errors.profilePicturePath && (
           <S.ErrorMessage>{errors.profilePicturePath?.message}</S.ErrorMessage>
         )}
         <S.FormField>
@@ -178,16 +186,28 @@ export const EditProfileForm = () => {
           </S.ChangeImageButton>
         </S.FormField>
         <S.FormField>
-          <S.Input
-            type="nickname"
-            id="nickname"
-            {...register('nickname')}
-            placeholder="닉네임을 입력해주세요"
-            // error={ errors.nickname }
-            onBlur={() => checkDuplicateNickname()} // 닉네임 중복 체크
-          />
-          {errors.nickname && (
+          <S.InputwithDuplicateBtn>
+            <S.Input
+              type="nickname"
+              id="nickname"
+              {...register('nickname', {
+                onChange: () => setValidNickname(false)
+              })}
+              placeholder="닉네임을 입력해주세요"
+              // error={ errors.nickname }
+            />
+            <button
+              type="button"
+              disabled={!nicknameValue}
+              onClick={() => checkDuplicateNickname()}>
+              중복 확인
+            </button>
+          </S.InputwithDuplicateBtn>
+          {touchedFields.nickname && errors.nickname && (
             <S.ErrorMessage>{errors.nickname?.message}</S.ErrorMessage>
+          )}
+          {validNickname && (
+            <S.SuccessMessage>사용 가능한 닉네임입니다</S.SuccessMessage>
           )}
         </S.FormField>
         <S.FormField>
@@ -198,7 +218,7 @@ export const EditProfileForm = () => {
             placeholder="비밀번호를 입력해주세요 (6자 이상)"
             // error={ errors.password }
           />
-          {errors.password && (
+          {touchedFields.password && errors.password && (
             <S.ErrorMessage>{errors.password?.message}</S.ErrorMessage>
           )}
         </S.FormField>
@@ -210,7 +230,7 @@ export const EditProfileForm = () => {
             placeholder="비밀번호를 다시 입력해주세요"
             // error={ errors.confirmPassword }
           />
-          {errors.confirmPassword && (
+          {touchedFields.confirmPassword && errors.confirmPassword && (
             <S.ErrorMessage>{errors.confirmPassword?.message}</S.ErrorMessage>
           )}
         </S.FormField>

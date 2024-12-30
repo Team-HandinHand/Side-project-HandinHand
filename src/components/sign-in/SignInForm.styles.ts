@@ -7,7 +7,7 @@ import {
   Input,
   ErrorMessage,
   SubmitButton
-} from '../common-ui/formStyle/formStyle.styles'
+} from '../common-ui/styles/Form.styles'
 
 export const SignInFormContainer = FormContainer
 

@@ -4,10 +4,12 @@ import {
   FormTitle,
   Form,
   FormField,
+  InputwithDuplicateBtn,
   Input,
   ErrorMessage,
+  SuccessMessage,
   SubmitButton
-} from '../common-ui/formStyle/formStyle.styles'
+} from '../common-ui/styles/Form.styles'
 
 export const SignUpFormContainer = FormContainer
 
@@ -15,4 +17,11 @@ export const SignUpFormTitle = FormTitle
 
 export const SignUpForm = Form
 
-export { FormField, Input, ErrorMessage, SubmitButton }
+export {
+  FormField,
+  InputwithDuplicateBtn,
+  Input,
+  ErrorMessage,
+  SuccessMessage,
+  SubmitButton
+}

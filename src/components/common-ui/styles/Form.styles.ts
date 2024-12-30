@@ -25,18 +25,30 @@ export const FormField = styled.div`
   width: 100%;
 `
 
+export const InputwithDuplicateBtn = styled.div`
+  display: flex;
+  gap: var(--space-small);
+  width: 100%;
+`
+
 export const Input = styled.input`
   width: 100%;
   //컴포넌트로 교체 필요
 `
 
-export const ErrorMessage = styled.p`
+export const BaseMessage = styled.p`
   position: absolute;
   top: 100%;
   left: var(--space-xsmall);
   margin-top: var(--space-xsmall);
+`
+
+export const ErrorMessage = styled(BaseMessage)`
   color: var(--color-text-warning);
-  font-size: var(--font-medium);
+`
+
+export const SuccessMessage = styled(BaseMessage)`
+  color: var(--color-text-gray);
 `
 
 export const SubmitButton = styled.button`
