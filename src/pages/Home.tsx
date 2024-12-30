@@ -1,6 +1,4 @@
 import HomeMain from '@/components/home-main/HomeMain'
-const Home = () => {
+export const HomePage = () => {
   return <HomeMain />
 }
-
-export default Home
