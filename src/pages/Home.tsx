@@ -1,7 +1,6 @@
-export const HomePage = () => {
-  return (
-    <div>
-      <h1>Home</h1>
-    </div>
-  )
+import HomeMain from '@/components/home-main/HomeMain'
+const Home = () => {
+  return <HomeMain />
 }
+
+export default Home
