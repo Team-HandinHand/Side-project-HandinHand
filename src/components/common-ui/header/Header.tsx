@@ -6,7 +6,7 @@ interface Container {
   backgroundColor: string
 }
 
-export default function Header({ backgroundColor }: Container) {
+export function Header({ backgroundColor }: Container) {
   // const { signOut, isPending } = useSignOut()
   // const { user } = useUserStore()
 
