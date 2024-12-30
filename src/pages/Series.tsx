@@ -1,5 +1,5 @@
 import { PosterBox } from '@/components/common-ui/poster/PosterBox'
-import * as S from '../components/series/Series.styled'
+import * as S from '../components/series/Series.styles'
 
 export const SeriesPage = () => {
   return (

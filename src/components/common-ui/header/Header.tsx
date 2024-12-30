@@ -1,4 +1,4 @@
-import * as S from './header.styled'
+import * as S from './header.styles'
 // import { useSignOut } from '@/hooks/mutations/useSignOut'
 // import { useUserStore } from '@/stores/userStore'
 

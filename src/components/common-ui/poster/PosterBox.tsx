@@ -5,7 +5,7 @@ import {
   ContentTitle,
   MovieImageBox,
   PosterBoxContainer
-} from './PosterBox.styled'
+} from './PosterBox.styles'
 import {
   SkeletonContainer,
   SkeletonContentBox,

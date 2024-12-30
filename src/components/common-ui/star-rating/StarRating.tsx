@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import * as S from './StarRating.styled'
+import * as S from './StarRating.styles'
 
 /* <Stars size={50} />  이런식으로 사이즈만 지정해서 사용. */
 

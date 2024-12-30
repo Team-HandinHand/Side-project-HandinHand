@@ -1,5 +1,5 @@
 import { PosterBox } from '@/components/common-ui/poster/PosterBox'
-import * as S from '../components/movies/Movies.styled'
+import * as S from '../components/movies/Movies.styles'
 
 export const MoviesPage = () => {
   return (
