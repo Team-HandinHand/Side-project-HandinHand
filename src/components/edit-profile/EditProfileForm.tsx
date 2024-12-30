@@ -245,6 +245,7 @@ export const EditProfileForm = () => {
           )}
           <S.SubmitButton
             disabled={
+              !isFormChanged ||
               isSubmitting ||
               Object.keys(errors).length > 0 ||
               isEditProfilePending

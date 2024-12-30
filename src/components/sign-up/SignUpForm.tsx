@@ -1,5 +1,5 @@
 import * as S from './SignUpForm.styles'
-import { useState, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { signUpSchema, TSignUpFormValues } from '@/schemas/user/signUpSchema'
@@ -18,6 +18,7 @@ export const SignUpForm = () => {
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { isSubmitting, errors, touchedFields },
     setError,
     watch // 디버깅용
@@ -31,6 +32,11 @@ export const SignUpForm = () => {
       confirmPassword: ''
     }
   })
+
+  // 초기 유효성 검사
+  useEffect(() => {
+    trigger(['nickname', 'email', 'password', 'confirmPassword'])
+  }, [trigger])
 
   // 닉네임, 이메일 중복 체크
   const nicknameValue = watch('nickname')
