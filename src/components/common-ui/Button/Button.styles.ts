@@ -54,7 +54,7 @@ export const StyledButton = styled.button<ButtonProps>`
   border-radius: var(--border-radius-medium);
   cursor: pointer;
   transition: background-color 0.3s ease;
-  padding: 10px 10px;
+  padding: 8px 10px;
 
   ${({ color }) => color && colorStyles[color]}
   ${({ size }) => size && sizeStyles[size]}

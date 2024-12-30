@@ -12,7 +12,7 @@ import { ButtonProps } from '@/types/button'
       </Button>
 */
 
-const Button = ({
+export const Button = ({
   color = 'pink',
   size = 'medium',
   fontSize,
@@ -31,5 +31,3 @@ const Button = ({
     </StyledButton>
   )
 }
-
-export default Button

@@ -9,7 +9,8 @@ import {
   EditProfilePage,
   MoviesPage,
   SeriesPage,
-  NotFoundPage
+  NotFoundPage,
+  MyReviewedList
 } from '@/pages'
 import { useFetchUser } from '@/hooks/queries/useFetchUser'
 
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
             <EditProfilePage />
           </ProtectedRoute>
         )
+      },
+      {
+        path: '/myreviewedlist',
+        element: <MyReviewedList />
       }
     ]
   }
