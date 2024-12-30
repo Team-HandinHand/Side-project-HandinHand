@@ -1,5 +1,5 @@
 import { Button, ActiveTab } from '@/components'
-import * as S from '@/components/myreviewedlist/MyReviewedList.styles'
+import * as S from '@/components/reviewedlist/MyReviewedList.styles'
 import { useState } from 'react'
 
 const mockReviews = [
@@ -30,7 +30,7 @@ const mockReviews = [
     comment: '완벽한 작품이었어요!'
   }
 ]
-export const MyReviewedList = () => {
+export const ReviewedList = () => {
   const [activeTab, setActiveTab] = useState<'영화' | '시리즈'>('영화')
   const username = '홍길동' // 예시 이름
 

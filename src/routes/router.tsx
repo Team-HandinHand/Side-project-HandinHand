@@ -10,7 +10,8 @@ import {
   MoviesPage,
   SeriesPage,
   NotFoundPage,
-  MyReviewedList
+  ReviewedList,
+  Bookmark
 } from '@/pages'
 import { useFetchUser } from '@/hooks/queries/useFetchUser'
 
@@ -80,8 +81,12 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: '/myreviewedlist',
-        element: <MyReviewedList />
+        path: '/reviewedlist',
+        element: <ReviewedList />
+      },
+      {
+        path: '/bookmark',
+        element: <Bookmark />
       }
     ]
   }
