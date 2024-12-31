@@ -1,7 +1,4 @@
+import HomeMain from '@/components/home-main/HomeMain'
 export const HomePage = () => {
-  return (
-    <div>
-      <h1>Home</h1>
-    </div>
-  )
+  return <HomeMain />
 }

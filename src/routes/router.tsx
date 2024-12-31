@@ -1,18 +1,19 @@
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import DefaultLayout from '@/layout/DefaultLayout'
-import { ErrorBoundary } from 'react-error-boundary'
-import { ErrorFallback } from '@/components'
 import {
   HomePage,
-  SignUpPage,
-  SignInPage,
-  EditProfilePage,
   MoviesPage,
   SeriesPage,
-  NotFoundPage,
   ReviewedList,
-  Bookmark
+  Bookmark,
+  SignUpPage,
+  EditProfilePage,
+  NotFoundPage,
+  SignInPage
 } from '@/pages'
+//OtherUserProfilePage 추가 사용 예정
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorFallback } from '@/components'
 import { useFetchUser } from '@/hooks/queries/useFetchUser'
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
