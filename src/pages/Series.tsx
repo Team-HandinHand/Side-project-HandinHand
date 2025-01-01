@@ -1,15 +1,12 @@
 import { PosterBox } from '@/components/common-ui/poster/PosterBox'
 import * as S from '../components/series/Series.styles'
+import { MovieFilters } from '@/components/movies/MovieFilters'
 
 export const SeriesPage = () => {
+  const labelValues = ['인기', '높은 평점', '현재 방영 중', '오늘 방영']
   return (
     <S.SeriesContainer>
-      <S.LabelContainer>
-        <S.TestLabel>인기</S.TestLabel>
-        <S.TestLabel>높은 평점</S.TestLabel>
-        <S.TestLabel>현재 상영 중</S.TestLabel>
-        <S.TestLabel>개봉 예정작</S.TestLabel>
-      </S.LabelContainer>
+      <MovieFilters labelValues={labelValues} />
       <S.PosterContainer>
         <PosterBox
           title="어벤져스: 인피니티 워"
