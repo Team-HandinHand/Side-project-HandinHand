@@ -1,6 +1,7 @@
-import * as S from './header.styled'
+import * as S from './header.styles'
 import { useLocation } from 'react-router-dom'
 import { HeaderProps } from '@/types/commonUi'
+import { Button, Profile } from '@/components'
 import { useSignOut } from '@/hooks/mutations/useSignOut'
 import { useUserStore } from '@/stores/userStore'
 
@@ -51,10 +52,20 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
         {!user ? (
           <>
             <S.BaseLink to="/signin">
-              <button>로그인</button>
+              <Button
+                type="button"
+                color="transparent"
+                size="small">
+                로그인
+              </Button>
             </S.BaseLink>
             <S.BaseLink to="/signup">
-              <button>회원가입</button>
+              <Button
+                type="button"
+                color="transparent"
+                size="small">
+                회원가입
+              </Button>
             </S.BaseLink>
           </>
         ) : (
@@ -68,14 +79,20 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
               <S.StorageIcon $active={pathname === '/'} />
             </S.BaseLink>
             <S.BaseLink to="/edit-profile">
-              <S.ProfileImg src={user?.profilePicturePath}></S.ProfileImg>{' '}
-              {/* 컴포넌트로 변경 필요 */}
+              <Profile
+                imageUrl={user?.profilePicturePath}
+                size="small"
+              />
             </S.BaseLink>
-            <button
+            <S.UserNickname>{user?.nickname}</S.UserNickname>
+            <Button
+              type="button"
+              color="transparent"
+              size="small"
               onClick={() => signOut()}
               disabled={isPending}>
               {isPending ? '로그아웃 중...' : '로그아웃'}
-            </button>
+            </Button>
           </>
         )}
       </S.AuthContainer>

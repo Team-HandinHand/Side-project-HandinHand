@@ -16,11 +16,11 @@ const GlobalStyle = createGlobalStyle`
         --color-dark-gray: #555555;
         --color-gray: #777777;
         --color-light-gray: #999999;
+        --color-pale-gray: #D9D9D9;
         --color-pink: #FC1287;
         --color-pink-dark: #E21079;
         --color-red: #FF2A2A;
-        --color-profile-background: #D9D9D9;
-
+       
         /** text-colors **/
         --color-text-dark: #292A32;
         --color-text-gray: #747474;

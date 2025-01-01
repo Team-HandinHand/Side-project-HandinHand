@@ -11,6 +11,7 @@ import { useCheckDuplicate } from '@/hooks/queries/useCheckDuplicate'
 import { useEditProfile } from '@/hooks/mutations/useEditProfile'
 import { useDeactivateAccount } from '@/hooks/mutations/usedeactivateAccount'
 import { useUserStore } from '@/stores/userStore'
+import { Button } from '@/components'
 
 export const EditProfileForm = () => {
   const { user } = useUserStore()
@@ -121,10 +122,19 @@ export const EditProfileForm = () => {
       <S.ToastDAContainer>
         <p>⚠️ 정말 계정을 해지하시겠습니까?</p>
         <S.ToastDABtnContainer>
-          <S.ToastDACancleBtn onClick={() => toast.dismiss()}>
+          <S.ToastDACancleBtn
+            type="button"
+            color="gray"
+            size="small"
+            padding="var(--space-xsmall) var(--space-small)"
+            onClick={() => toast.dismiss()}>
             취소
           </S.ToastDACancleBtn>
           <S.ToastDAAcceptBtn
+            type="button"
+            color="pink"
+            size="small"
+            padding="var(--space-xsmall) var(--space-small)"
             onClick={async () => {
               toast.dismiss()
               toast.promise(
@@ -148,7 +158,10 @@ export const EditProfileForm = () => {
       {
         position: 'top-center',
         duration: Infinity,
-        id: 'deactivate-account' // 토스트 중복 방지를 위한 id
+        id: 'deactivate-account', // 토스트 중복 방지를 위한 id
+        style: {
+          background: 'var(--color-pale-gray)'
+        }
       }
     )
   }
@@ -171,7 +184,6 @@ export const EditProfileForm = () => {
           type="file"
           id="profilePicturePath"
           {...register('profilePicturePath')}
-          // error={ errors.profilePicturePath }
           ref={imgRef}
           onChange={handleImageChange}
         />
@@ -179,29 +191,32 @@ export const EditProfileForm = () => {
           <S.ErrorMessage>{errors.profilePicturePath?.message}</S.ErrorMessage>
         )}
         <S.FormField>
-          <S.ChangeImageButton
+          <Button
             type="button"
+            color="transparent"
+            padding="var(--space-xsmall) var(--space-small)"
             onClick={() => imgRef.current?.click()}>
             이미지 변경
-          </S.ChangeImageButton>
+          </Button>
         </S.FormField>
         <S.FormField>
           <S.InputwithDuplicateBtn>
-            <S.Input
-              type="nickname"
+            <S.FormInput
+              type="text"
               id="nickname"
               {...register('nickname', {
                 onChange: () => setValidNickname(false)
               })}
               placeholder="닉네임을 입력해주세요"
-              // error={ errors.nickname }
+              error={touchedFields.nickname && !!errors.nickname}
             />
-            <button
+            <Button
               type="button"
+              color="transparent"
               disabled={!nicknameValue}
               onClick={() => checkDuplicateNickname()}>
               중복 확인
-            </button>
+            </Button>
           </S.InputwithDuplicateBtn>
           {touchedFields.nickname && errors.nickname && (
             <S.ErrorMessage>{errors.nickname?.message}</S.ErrorMessage>
@@ -211,24 +226,24 @@ export const EditProfileForm = () => {
           )}
         </S.FormField>
         <S.FormField>
-          <S.Input
+          <S.FormInput
             type="password"
             id="password"
             {...register('password')}
             placeholder="비밀번호를 입력해주세요 (6자 이상)"
-            // error={ errors.password }
+            error={touchedFields.password && !!errors.password}
           />
           {touchedFields.password && errors.password && (
             <S.ErrorMessage>{errors.password?.message}</S.ErrorMessage>
           )}
         </S.FormField>
         <S.FormField>
-          <S.Input
+          <S.FormInput
             type="password"
             id="confirmPassword"
             {...register('confirmPassword')}
             placeholder="비밀번호를 다시 입력해주세요"
-            // error={ errors.confirmPassword }
+            error={touchedFields.confirmPassword && !!errors.confirmPassword}
           />
           {touchedFields.confirmPassword && errors.confirmPassword && (
             <S.ErrorMessage>{errors.confirmPassword?.message}</S.ErrorMessage>
@@ -239,16 +254,19 @@ export const EditProfileForm = () => {
           {isFormChanged && (
             <S.CancleButton
               type="button"
+              color="gray"
               onClick={handleCancel}>
               변경 되돌리기
             </S.CancleButton>
           )}
           <S.SubmitButton
+            color="pink"
             disabled={
               !isFormChanged ||
               isSubmitting ||
               Object.keys(errors).length > 0 ||
-              isEditProfilePending
+              isEditProfilePending ||
+              !validNickname
             }>
             {isEditProfilePending ? '저장 중...' : '변경 저장'}
           </S.SubmitButton>
@@ -256,6 +274,8 @@ export const EditProfileForm = () => {
 
         <S.DeactivateAccountButton
           type="button"
+          color="gray"
+          padding="var(--space-xsmall) var(--space-large)"
           onClick={handleDeactiveAccount}>
           {isDeactivateAccountPending ? '해지 중...' : '계정 해지'}
         </S.DeactivateAccountButton>

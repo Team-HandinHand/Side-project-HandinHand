@@ -45,24 +45,24 @@ export const SignInForm = () => {
       <S.SignInFormTitle>로그인</S.SignInFormTitle>
       <S.SignInForm onSubmit={handleSubmit(onSubmit)}>
         <S.FormField>
-          <S.Input
+          <S.FormInput
             type="email"
             id="email"
             {...register('email')}
             placeholder="이메일 (example@email.com)"
-            // error={ errors.email }
+            error={touchedFields.email && !!errors.email}
           />
           {touchedFields.email && errors.email && (
             <S.ErrorMessage>{errors.email?.message}</S.ErrorMessage>
           )}
         </S.FormField>
         <S.FormField>
-          <S.Input
+          <S.FormInput
             type="password"
             id="password"
             {...register('password')}
             placeholder="비밀번호를 입력해주세요 (6자 이상)"
-            // error={ errors.password }
+            error={touchedFields.password && !!errors.password}
           />
           {touchedFields.password && errors.password && (
             <S.ErrorMessage>{errors.password?.message}</S.ErrorMessage>
@@ -70,6 +70,7 @@ export const SignInForm = () => {
         </S.FormField>
 
         <S.SubmitButton
+          color="pink"
           disabled={
             isSubmitting || Object.keys(errors).length > 0 || isPending
           }>

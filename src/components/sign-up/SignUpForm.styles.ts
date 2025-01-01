@@ -5,7 +5,7 @@ import {
   Form,
   FormField,
   InputwithDuplicateBtn,
-  Input,
+  FormInput,
   ErrorMessage,
   SuccessMessage,
   SubmitButton
@@ -20,7 +20,7 @@ export const SignUpForm = Form
 export {
   FormField,
   InputwithDuplicateBtn,
-  Input,
+  FormInput,
   ErrorMessage,
   SuccessMessage,
   SubmitButton

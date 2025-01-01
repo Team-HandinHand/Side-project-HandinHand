@@ -22,10 +22,10 @@ export const Button = ({
 }: ButtonProps) => {
   return (
     <StyledButton
-      color={color}
-      size={size}
-      fontSize={fontSize}
-      padding={padding}
+      $color={color}
+      $size={size}
+      $fontSize={fontSize}
+      $padding={padding}
       {...props}>
       {children}
     </StyledButton>

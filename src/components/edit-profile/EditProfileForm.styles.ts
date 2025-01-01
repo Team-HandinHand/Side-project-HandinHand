@@ -5,10 +5,11 @@ import {
   Form,
   FormField,
   InputwithDuplicateBtn,
-  Input,
+  FormInput,
   ErrorMessage,
   SuccessMessage
 } from '../common-ui/styles/Form.styles'
+import { Button } from '@/components'
 
 export const EditProfileFormContainer = FormContainer
 
@@ -27,9 +28,15 @@ export const PictureInput = styled.input`
   display: none;
 `
 
-export const ChangeImageButton = styled.button``
+export const ChangeImageButton = styled(Button)``
 
-export { FormField, InputwithDuplicateBtn, Input, ErrorMessage, SuccessMessage }
+export {
+  FormField,
+  InputwithDuplicateBtn,
+  FormInput,
+  ErrorMessage,
+  SuccessMessage
+}
 
 export const FormButtonContainer = styled.div`
   display: flex;
@@ -37,16 +44,14 @@ export const FormButtonContainer = styled.div`
   width: 100%;
 `
 
-export const CancleButton = styled.button`
-  //컴포넌트로 교체 필요
+export const CancleButton = styled(Button)`
   flex: 1;
 `
-export const SubmitButton = styled.button`
+export const SubmitButton = styled(Button)`
   flex: 1;
 `
 
-export const DeactivateAccountButton = styled.button`
-  //컴포넌트로 교체 필요
+export const DeactivateAccountButton = styled(Button)`
   margin-top: var(--space-large);
 `
 
@@ -64,10 +69,6 @@ export const ToastDABtnContainer = styled.div`
   gap: var(--space-medium);
 `
 
-export const ToastDACancleBtn = styled.button`
-  //컴포넌트로 교체 필요
-`
+export const ToastDACancleBtn = styled(Button)``
 
-export const ToastDAAcceptBtn = styled.button`
-  //컴포넌트로 교체 필요
-`
+export const ToastDAAcceptBtn = styled(Button)``

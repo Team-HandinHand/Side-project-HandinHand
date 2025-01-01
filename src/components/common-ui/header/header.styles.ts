@@ -102,9 +102,6 @@ export const StorageIcon = styled(SlDrawer)<HeaderIconProps>`
   ${iconStyles}
 `
 
-// 컴포넌트로 변경 후 삭제해야함
-export const ProfileImg = styled.img`
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
+export const UserNickname = styled.h1`
+  font-weight: 700;
 `

@@ -5,10 +5,9 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { signUpSchema, TSignUpFormValues } from '@/schemas/user/signUpSchema'
 import { useCheckDuplicate } from '@/hooks/queries/useCheckDuplicate'
 import { useSignUp } from '@/hooks/mutations/useSignUp'
+import { Button } from '@/components'
 
 export const SignUpForm = () => {
-  const { signUp, isPending } = useSignUp()
-
   // 중복 확인 해야하는 필드 valid 여부
   const [validFields, setValidFields] = useState<{
     nickname?: boolean
@@ -32,6 +31,13 @@ export const SignUpForm = () => {
       confirmPassword: ''
     }
   })
+
+  const { signUp, isPending } = useSignUp(
+    (field: keyof TSignUpFormValues, message: string) => {
+      setError(field, { message })
+      setValidFields(prev => ({ ...prev, [field]: false }))
+    }
+  )
 
   // 초기 유효성 검사
   useEffect(() => {
@@ -85,22 +91,24 @@ export const SignUpForm = () => {
       <S.SignUpForm onSubmit={handleSubmit(onSubmit)}>
         <S.FormField>
           <S.InputwithDuplicateBtn>
-            <S.Input
-              type="nickname"
+            <S.FormInput
+              type="text"
               id="nickname"
               {...register('nickname', {
                 onChange: () =>
                   setValidFields(prev => ({ ...prev, nickname: false }))
               })}
-              placeholder="닉네임"
-              // error={ errors.nickname }
+              placeholder="닉네임을 입력해주세요"
+              error={touchedFields.nickname && !!errors.nickname}
             />
-            <button
+            <Button
               type="button"
+              color="transparent"
+              size="small"
               disabled={!nicknameValue}
               onClick={() => checkDuplicateNicknameOrEmail('nickname')}>
               중복 확인
-            </button>
+            </Button>
           </S.InputwithDuplicateBtn>
           {touchedFields.nickname && errors.nickname && (
             <S.ErrorMessage>{errors.nickname?.message}</S.ErrorMessage>
@@ -111,7 +119,7 @@ export const SignUpForm = () => {
         </S.FormField>
         <S.FormField>
           <S.InputwithDuplicateBtn>
-            <S.Input
+            <S.FormInput
               type="email"
               id="email"
               {...register('email', {
@@ -119,14 +127,16 @@ export const SignUpForm = () => {
                   setValidFields(prev => ({ ...prev, email: false }))
               })}
               placeholder="이메일 (example@email.com)"
-              // error={ errors.email }
+              error={touchedFields.email && !!errors.email}
             />
-            <button
+            <Button
               type="button"
+              color="transparent"
+              size="small"
               disabled={!emailValue}
               onClick={() => checkDuplicateNicknameOrEmail('email')}>
               중복 확인
-            </button>
+            </Button>
           </S.InputwithDuplicateBtn>
           {touchedFields.email && errors.email && (
             <S.ErrorMessage>{errors.email?.message}</S.ErrorMessage>
@@ -136,24 +146,24 @@ export const SignUpForm = () => {
           )}
         </S.FormField>
         <S.FormField>
-          <S.Input
+          <S.FormInput
             type="password"
             id="password"
             {...register('password')}
             placeholder="비밀번호를 입력해주세요 (6자 이상)"
-            // error={ errors.password }
+            error={touchedFields.password && !!errors.password}
           />
           {touchedFields.password && errors.password && (
             <S.ErrorMessage>{errors.password?.message}</S.ErrorMessage>
           )}
         </S.FormField>
         <S.FormField>
-          <S.Input
+          <S.FormInput
             type="password"
             id="confirmPassword"
             {...register('confirmPassword')}
             placeholder="비밀번호를 다시 입력해주세요"
-            // error={ errors.confirmPassword }
+            error={touchedFields.confirmPassword && !!errors.confirmPassword}
           />
           {touchedFields.confirmPassword && errors.confirmPassword && (
             <S.ErrorMessage>{errors.confirmPassword?.message}</S.ErrorMessage>
@@ -161,8 +171,13 @@ export const SignUpForm = () => {
         </S.FormField>
 
         <S.SubmitButton
+          color="pink"
           disabled={
-            isSubmitting || Object.keys(errors).length > 0 || isPending
+            isSubmitting ||
+            Object.keys(errors).length > 0 ||
+            isPending ||
+            !validFields.nickname ||
+            !validFields.email
           }>
           {isPending ? '가입 중...' : '가입하기'}
         </S.SubmitButton>

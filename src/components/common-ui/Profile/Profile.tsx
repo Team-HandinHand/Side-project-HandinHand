@@ -2,13 +2,13 @@ import { ProfileButtonProps } from '@/types/profile'
 import * as S from './Profile.styles'
 
 /* 사용예시 
-      <ProfileButton
-        //image={} (넣을 이미지가 있을때, 명시안해주면 기본프로필)
+      <Profile
+        //imageUrl={} (넣을 이미지가 있을때, 명시안해주면 기본프로필)
         //altText="User Profile"
         onClick={handleProfileClick}
         size="large"
       />
-      <ProfileButton 
+      <Profile 
         onClick={handleProfileClick}
         size="100px" // custom size
       />

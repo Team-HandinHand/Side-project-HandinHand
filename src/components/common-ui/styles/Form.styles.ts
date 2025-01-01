@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-// import { Button } from './button/Button'
+import { Button, Input } from '@/components'
 
 export const FormContainer = styled.section`
   width: 100%;
@@ -31,9 +31,8 @@ export const InputwithDuplicateBtn = styled.div`
   width: 100%;
 `
 
-export const Input = styled.input`
+export const FormInput = styled(Input)`
   width: 100%;
-  //컴포넌트로 교체 필요
 `
 
 export const BaseMessage = styled.p`
@@ -51,7 +50,6 @@ export const SuccessMessage = styled(BaseMessage)`
   color: var(--color-text-gray);
 `
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled(Button)`
   width: 100%;
-  //컴포넌트로 교체 필요
 `

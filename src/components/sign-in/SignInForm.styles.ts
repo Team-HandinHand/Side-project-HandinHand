@@ -4,7 +4,7 @@ import {
   FormTitle,
   Form,
   FormField,
-  Input,
+  FormInput,
   ErrorMessage,
   SubmitButton
 } from '../common-ui/styles/Form.styles'
@@ -15,7 +15,7 @@ export const SignInFormTitle = FormTitle
 
 export const SignInForm = Form
 
-export { FormField, Input, ErrorMessage, SubmitButton }
+export { FormField, FormInput, ErrorMessage, SubmitButton }
 
 export const ToSignUpText = styled.a`
   margin-top: var(--space-large);
