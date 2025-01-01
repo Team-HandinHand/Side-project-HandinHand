@@ -17,11 +17,9 @@ export const LabelContainer = styled.div`
 
 export const PosterContainer = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: var(--space-medium);
-  @media (min-width: 1440px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(212px, 1fr));
+  @media (min-width: 1441px) {
     width: 1440px;
   }
 `
