@@ -1,18 +1,12 @@
 import type { PosterBoxProps } from '@/types/components'
 import {
-  ContentBox,
-  ContentDescription,
-  ContentTitle,
-  MovieImageBox,
-  PosterBoxContainer
-} from './PosterBox.styled'
-import {
   SkeletonContainer,
   SkeletonContentBox,
   SkeletonDescription,
   SkeletonImage,
   SkeletonTitle
-} from '../skeleton/Skeleton'
+} from '../Skeleton/Skeleton.tsx'
+import * as S from './PosterBox.styles.ts'
 
 export const PosterBox = ({
   title,
@@ -34,21 +28,21 @@ export const PosterBox = ({
     )
   }
   return (
-    <PosterBoxContainer
+    <S.PosterBoxContainer
       title={title}
       imageUrl={imageUrl}
       date={date}
       flex={flex}
       onClick={onClick}>
-      <MovieImageBox
+      <S.MovieImageBox
         src={imageUrl}
         alt={title}
         flex={flex}
       />
-      <ContentBox flex={flex}>
-        <ContentTitle>{title}</ContentTitle>
-        <ContentDescription>{date}</ContentDescription>
-      </ContentBox>
-    </PosterBoxContainer>
+      <S.ContentBox flex={flex}>
+        <S.ContentTitle>{title}</S.ContentTitle>
+        <S.ContentDescription>{date}</S.ContentDescription>
+      </S.ContentBox>
+    </S.PosterBoxContainer>
   )
 }
