@@ -11,8 +11,8 @@ export const PosterBoxContainer = styled.div<PosterBoxContainerProps>`
   margin: var(--space-small);
 `
 export const MovieImageBox = styled.img<MovieImageBoxProps>`
-  width: ${props => (props.flex ? '100px' : '212px')};
-  height: ${props => (props.flex ? '150px' : '318px')};
+  width: ${props => (props.flex ? '150px' : '212px')};
+  height: ${props => (props.flex ? '240px' : '318px')};
   border-radius: var(--border-radius-small);
 `
 export const ContentBox = styled.div<ContentBoxProps>`
