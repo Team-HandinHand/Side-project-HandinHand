@@ -1,12 +1,14 @@
 import { Button, ActiveTab } from '@/components'
+import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
+
 import { useState } from 'react'
 
 const mockReviews = [
   {
     id: 1,
     poster: '/image.png',
-    rating: 5,
+    rating: 3,
     comment: '2024년 가장 기억에 남는 영화'
   },
   {
@@ -14,14 +16,13 @@ const mockReviews = [
     poster: '/image.png',
     rating: 4,
     comment:
-      "긴텍스트 test : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets conLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets con"
+      '긴텍스트 test : Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the   .'
   },
   {
     id: 3,
     poster: '/image.png',
     rating: 3,
-    comment:
-      '긴텍스트 tests :  xt oLorem Ipsum is simply dummy text oLorem Ipsum is simply dummy text oply dummy text oy dummy text orem Ipsum is simply dummy text omy text o'
+    comment: '긴텍스트 tests : Lorem Ipsum is simply dummy text.'
   },
   {
     id: 4,
@@ -30,8 +31,10 @@ const mockReviews = [
     comment: '완벽한 작품이었어요!'
   }
 ]
+
 export const ReviewedList = () => {
   const [activeTab, setActiveTab] = useState<'영화' | '시리즈'>('영화')
+  const [reviews] = useState(mockReviews)
   const username = '홍길동' // 예시 이름
 
   return (
@@ -42,7 +45,7 @@ export const ReviewedList = () => {
         onTabChange={setActiveTab}
       />
 
-      {mockReviews.map(review => (
+      {reviews.map(review => (
         <S.ReviewItem key={review.id}>
           <S.Poster>
             <img
@@ -54,7 +57,11 @@ export const ReviewedList = () => {
             <S.RatingWrapper>
               <S.Rating>
                 <span>별점</span>
-                <S.Stars>{'★'.repeat(review.rating)}</S.Stars>
+                <StarRating
+                  size={28}
+                  initialRating={review.rating}
+                  isReadOnly={true}
+                />
               </S.Rating>
               <S.Actions>
                 <Button
