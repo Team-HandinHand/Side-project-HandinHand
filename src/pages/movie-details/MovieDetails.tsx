@@ -1,8 +1,8 @@
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from './MovieDetails.styled'
-import Profile from '@/components/common-ui/Profile/Profile'
-import Input from '@/components/common-ui/Input/Input'
-import Button from '@/components/common-ui/Button/Button'
+import { Profile } from '@/components/common-ui/profile/Profile'
+import { Input } from '@/components/common-ui/input/Input'
+import { Button } from '@/components/common-ui/button/Button'
 
 export default function MovieDetails() {
   return (
@@ -26,7 +26,7 @@ export default function MovieDetails() {
             가장 빛나는 순간 만난 두 사람은 미완성인 서로의 무대를 만들어가기
             시작한다.
           </S.MovieDescription>
-          <StarRating size={36} />
+          <StarRating size={48} />
         </S.MovieInfo>
 
         <S.MoviePoster
@@ -62,9 +62,10 @@ export default function MovieDetails() {
             type="textarea"
             value=""
             onChange={profile}
+            width="100%"
             placeholder="의견을 남겨주세요"
           />
-          <Button />
+          <Button padding="36px">등록</Button>
         </S.UserCommentContainer>
       </S.UserRateContainer>
       <S.CommentContainer>
