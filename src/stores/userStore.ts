@@ -1,7 +1,7 @@
 import { create } from 'zustand'
-import { TUserState } from '@/types/user'
+import { UserState } from '@/types/user'
 
-export const useUserStore = create<TUserState>(set => ({
+export const useUserStore = create<UserState>(set => ({
   user: null,
   setUser: user => set(() => ({ user })),
   clearUser: () => set(() => ({ user: null }))

@@ -1,20 +1,22 @@
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import DefaultLayout from '@/layout/DefaultLayout'
-import { ErrorBoundary } from 'react-error-boundary'
-import { ErrorFallback } from '@/components'
 import {
   HomePage,
-  SignUpPage,
-  SignInPage,
-  EditProfilePage,
   MoviesPage,
   SeriesPage,
+  SignInPage,
+  SignUpPage,
+  EditProfilePage,
   NotFoundPage
 } from '@/pages'
-import { useFetchUser } from '@/hooks/queries/useFetchUser'
+//OtherUserProfilePage 추가 사용 예정
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorFallback } from '@/components'
+import { useUserStore } from '@/stores/userStore'
+import { useAuthStateChange } from '@/hooks/useAuthStateChange'
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { data: user } = useFetchUser()
+  const { user } = useUserStore()
 
   if (!user) {
     return (
@@ -28,12 +30,19 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return children
 }
 
+const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  useAuthStateChange()
+  return <>{children}</>
+}
+
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <DefaultLayout />
+        <AuthProvider>
+          <DefaultLayout />
+        </AuthProvider>
       </ErrorBoundary>
     ),
     errorElement: <NotFoundPage />,
