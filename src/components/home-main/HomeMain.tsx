@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import * as S from './HomeMain.styles'
 
-const Home = () => {
+export const HomeMain = () => {
   const NOW_PLAYING = [
     { id: 1, name: '조명가게1', rating: '3.5' },
     { id: 2, name: '조명가게2', rating: '3.5' },
@@ -228,5 +228,3 @@ const Home = () => {
     </S.HomeMainWrapper>
   )
 }
-
-export default Home

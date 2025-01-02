@@ -1,4 +1,4 @@
-import OtherUserProfile from '@/components/OtherUserProfile/OtherUserProfile'
+import { OtherUserProfile } from '@/components'
 export const OtherUserProfilePage = () => {
   return <OtherUserProfile />
 }

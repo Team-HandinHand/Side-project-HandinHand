@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-query'
 import { ErrorBoundary } from 'react-error-boundary'
 import toast, { Toaster } from 'react-hot-toast'
-import { DeferredLoader, ErrorFallback } from '@/components'
+import { DeferredLoader, ErrorFallback } from './components'
 import Router from './routes/router'
 import GlobalStyle from './GlobalStyle'
 
