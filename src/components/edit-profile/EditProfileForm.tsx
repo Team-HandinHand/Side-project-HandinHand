@@ -1,6 +1,5 @@
 import * as S from './EditProfileForm.styles'
 import { useRef, useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
@@ -12,9 +11,9 @@ import { useCheckDuplicate } from '@/hooks/queries/useCheckDuplicate'
 import { useEditProfile } from '@/hooks/mutations/useEditProfile'
 import { useDeactivateAccount } from '@/hooks/mutations/usedeactivateAccount'
 import { useUserStore } from '@/stores/userStore'
+import { Button } from '@/components'
 
 export const EditProfileForm = () => {
-  const navigate = useNavigate()
   const { user } = useUserStore()
   const { editProfile, isPending: isEditProfilePending } = useEditProfile()
   const { deactivateAccount, isPending: isDeactivateAccountPending } =
@@ -26,10 +25,13 @@ export const EditProfileForm = () => {
     user?.profilePicturePath ?? ''
   )
 
+  // 중복 확인 해야하는 필드 valid 여부
+  const [validNickname, setValidNickname] = useState<boolean>(false)
+
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, errors, touchedFields },
     setValue,
     setError,
     reset,
@@ -59,9 +61,11 @@ export const EditProfileForm = () => {
   }
 
   // 닉네임 중복 체크
+  const nicknameValue = watch('nickname')
+
   const { checkDuplicate: checkNickname } = useCheckDuplicate(
     'nickname',
-    watch('nickname') ?? ''
+    nicknameValue ?? ''
   )
 
   const checkDuplicateNickname = useCallback(async () => {
@@ -70,6 +74,9 @@ export const EditProfileForm = () => {
       setError('nickname', {
         message: '이미 사용 중인 닉네임입니다'
       })
+      setValidNickname(false)
+    } else {
+      setValidNickname(true)
     }
   }, [checkNickname, setError])
 
@@ -109,17 +116,40 @@ export const EditProfileForm = () => {
 
   // 계정 해지
   const handleDeactiveAccount = () => {
+    toast.dismiss() // 이미 존재하는 토스트 모두 제거
+
     toast(
       <S.ToastDAContainer>
         <p>⚠️ 정말 계정을 해지하시겠습니까?</p>
         <S.ToastDABtnContainer>
-          <S.ToastDACancleBtn onClick={() => toast.dismiss()}>
+          <S.ToastDACancleBtn
+            type="button"
+            color="gray"
+            size="small"
+            padding="var(--space-xsmall) var(--space-small)"
+            onClick={() => toast.dismiss()}>
             취소
           </S.ToastDACancleBtn>
           <S.ToastDAAcceptBtn
+            type="button"
+            color="pink"
+            size="small"
+            padding="var(--space-xsmall) var(--space-small)"
             onClick={async () => {
               toast.dismiss()
-              await deactivateAccount()
+              toast.promise(
+                deactivateAccount(),
+                {
+                  loading: '해지 중...',
+                  success: '계정이 성공적으로 해지되었습니다.',
+                  error: '계정 해지 중 오류가 발생했습니다.'
+                },
+                {
+                  id: 'deactivate-process',
+                  duration: 3000, // success, error 표시
+                  position: 'top-center'
+                }
+              )
             }}>
             해지
           </S.ToastDAAcceptBtn>
@@ -127,7 +157,11 @@ export const EditProfileForm = () => {
       </S.ToastDAContainer>,
       {
         position: 'top-center',
-        duration: Infinity
+        duration: Infinity,
+        id: 'deactivate-account', // 토스트 중복 방지를 위한 id
+        style: {
+          background: 'var(--color-pale-gray)'
+        }
       }
     )
   }
@@ -139,98 +173,113 @@ export const EditProfileForm = () => {
   })
 
   return (
-    <>
-      <S.BackIcon onClick={() => navigate(-1)} />
-      <S.EditProfileFormContainer>
-        <S.EditProfileFormTitle>프로필 수정</S.EditProfileFormTitle>
-        <S.EditProfileForm onSubmit={handleSubmit(onSubmit)}>
-          <S.ProfileImg
-            src={imgPreview ?? user?.profilePicturePath}
-            alt="profileImg"
-          />
-          <S.PictureInput
-            type="file"
-            id="profilePicturePath"
-            {...register('profilePicturePath')}
-            // error={ errors.profilePicturePath }
-            ref={imgRef}
-            onChange={handleImageChange}
-          />
-          {errors.profilePicturePath && (
-            <S.ErrorMessage>
-              {errors.profilePicturePath?.message}
-            </S.ErrorMessage>
-          )}
-          <S.FormField>
-            <S.ChangeImageButton
-              type="button"
-              onClick={() => imgRef.current?.click()}>
-              이미지 변경
-            </S.ChangeImageButton>
-          </S.FormField>
-          <S.FormField>
-            <S.Input
-              type="nickname"
-              id="nickname"
-              {...register('nickname')}
-              placeholder="닉네임을 입력해주세요"
-              // error={ errors.nickname }
-              onBlur={() => checkDuplicateNickname()} // 닉네임 중복 체크
-            />
-            {errors.nickname && (
-              <S.ErrorMessage>{errors.nickname?.message}</S.ErrorMessage>
-            )}
-          </S.FormField>
-          <S.FormField>
-            <S.Input
-              type="password"
-              id="password"
-              {...register('password')}
-              placeholder="비밀번호를 입력해주세요 (6자 이상)"
-              // error={ errors.password }
-            />
-            {errors.password && (
-              <S.ErrorMessage>{errors.password?.message}</S.ErrorMessage>
-            )}
-          </S.FormField>
-          <S.FormField>
-            <S.Input
-              type="password"
-              id="confirmPassword"
-              {...register('confirmPassword')}
-              placeholder="비밀번호를 다시 입력해주세요"
-              // error={ errors.confirmPassword }
-            />
-            {errors.confirmPassword && (
-              <S.ErrorMessage>{errors.confirmPassword?.message}</S.ErrorMessage>
-            )}
-          </S.FormField>
-
-          <S.FormButtonContainer>
-            {isFormChanged && (
-              <S.CancleButton
-                type="button"
-                onClick={handleCancel}>
-                변경 되돌리기
-              </S.CancleButton>
-            )}
-            <S.SubmitButton
-              disabled={
-                isSubmitting ||
-                Object.keys(errors).length > 0 ||
-                isEditProfilePending
-              }>
-              {isEditProfilePending ? '저장 중...' : '변경 저장'}
-            </S.SubmitButton>
-          </S.FormButtonContainer>
-
-          <S.DeactivateAccountButton
+    <S.EditProfileFormContainer>
+      <S.EditProfileFormTitle>프로필 수정</S.EditProfileFormTitle>
+      <S.EditProfileForm onSubmit={handleSubmit(onSubmit)}>
+        <S.ProfileImg
+          src={imgPreview ?? user?.profilePicturePath}
+          alt="profileImg"
+        />
+        <S.PictureInput
+          type="file"
+          id="profilePicturePath"
+          {...register('profilePicturePath')}
+          ref={imgRef}
+          onChange={handleImageChange}
+        />
+        {touchedFields.profilePicturePath && errors.profilePicturePath && (
+          <S.ErrorMessage>{errors.profilePicturePath?.message}</S.ErrorMessage>
+        )}
+        <S.FormField>
+          <Button
             type="button"
-            onClick={handleDeactiveAccount}>
-            {isDeactivateAccountPending ? '해지 중...' : '계정 해지'}
-          </S.DeactivateAccountButton>
-        </S.EditProfileForm>
-      </S.EditProfileFormContainer>
-    </>
+            color="transparent"
+            padding="var(--space-xsmall) var(--space-small)"
+            onClick={() => imgRef.current?.click()}>
+            이미지 변경
+          </Button>
+        </S.FormField>
+        <S.FormField>
+          <S.InputwithDuplicateBtn>
+            <S.FormInput
+              type="text"
+              id="nickname"
+              {...register('nickname', {
+                onChange: () => setValidNickname(false)
+              })}
+              placeholder="닉네임을 입력해주세요"
+              error={touchedFields.nickname && !!errors.nickname}
+            />
+            <Button
+              type="button"
+              color="transparent"
+              disabled={!nicknameValue}
+              onClick={() => checkDuplicateNickname()}>
+              중복 확인
+            </Button>
+          </S.InputwithDuplicateBtn>
+          {touchedFields.nickname && errors.nickname && (
+            <S.ErrorMessage>{errors.nickname?.message}</S.ErrorMessage>
+          )}
+          {validNickname && (
+            <S.SuccessMessage>사용 가능한 닉네임입니다</S.SuccessMessage>
+          )}
+        </S.FormField>
+        <S.FormField>
+          <S.FormInput
+            type="password"
+            id="password"
+            {...register('password')}
+            placeholder="비밀번호를 입력해주세요 (6자 이상)"
+            error={touchedFields.password && !!errors.password}
+          />
+          {touchedFields.password && errors.password && (
+            <S.ErrorMessage>{errors.password?.message}</S.ErrorMessage>
+          )}
+        </S.FormField>
+        <S.FormField>
+          <S.FormInput
+            type="password"
+            id="confirmPassword"
+            {...register('confirmPassword')}
+            placeholder="비밀번호를 다시 입력해주세요"
+            error={touchedFields.confirmPassword && !!errors.confirmPassword}
+          />
+          {touchedFields.confirmPassword && errors.confirmPassword && (
+            <S.ErrorMessage>{errors.confirmPassword?.message}</S.ErrorMessage>
+          )}
+        </S.FormField>
+
+        <S.FormButtonContainer>
+          {isFormChanged && (
+            <S.CancleButton
+              type="button"
+              color="gray"
+              onClick={handleCancel}>
+              변경 되돌리기
+            </S.CancleButton>
+          )}
+          <S.SubmitButton
+            color="pink"
+            disabled={
+              !isFormChanged ||
+              isSubmitting ||
+              Object.keys(errors).length > 0 ||
+              isEditProfilePending ||
+              !validNickname
+            }>
+            {isEditProfilePending ? '저장 중...' : '변경 저장'}
+          </S.SubmitButton>
+        </S.FormButtonContainer>
+
+        <S.DeactivateAccountButton
+          type="button"
+          color="gray"
+          padding="var(--space-xsmall) var(--space-large)"
+          onClick={handleDeactiveAccount}>
+          {isDeactivateAccountPending ? '해지 중...' : '계정 해지'}
+        </S.DeactivateAccountButton>
+      </S.EditProfileForm>
+    </S.EditProfileFormContainer>
   )
 }

@@ -1,19 +1,27 @@
-import styled from 'styled-components'
+// import styled from 'styled-components'
+import {
+  FormContainer,
+  FormTitle,
+  Form,
+  FormField,
+  InputwithDuplicateBtn,
+  FormInput,
+  ErrorMessage,
+  SuccessMessage,
+  SubmitButton
+} from '../common-ui/styles/Form.styles'
 
-export const SignUpFormContainer = styled.section``
+export const SignUpFormContainer = FormContainer
 
-export const SignUpFormTitle = styled.h1``
+export const SignUpFormTitle = FormTitle
 
-export const SignUpForm = styled.form``
+export const SignUpForm = Form
 
-export const FormField = styled.div``
-
-export const Input = styled.input`
-  //컴포넌트로 교체 필요
-`
-
-export const ErrorMessage = styled.p``
-
-export const SubmitButton = styled.button`
-  //컴포넌트로 교체 필요
-`
+export {
+  FormField,
+  InputwithDuplicateBtn,
+  FormInput,
+  ErrorMessage,
+  SuccessMessage,
+  SubmitButton
+}

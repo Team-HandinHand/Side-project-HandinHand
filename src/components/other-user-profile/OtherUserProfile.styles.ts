@@ -5,7 +5,7 @@ import { RiMovieLine as SeriesIcon } from 'react-icons/ri'
 export const ProfileWrapper = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: var(--color-profile-background);
+  background-color: var(--color-pale-gray);
   color: var(--color-black);
   display: flex;
   align-items: center;
@@ -157,7 +157,7 @@ export const ProfileSubImg = styled.div`
   width: 20%;
   height: 50%;
   border-radius: 50%;
-  background-color: var(--color-profile-background);
+  background-color: var(--color-pale-gray);
   position: relative;
   display: flex;
   justify-content: center;
