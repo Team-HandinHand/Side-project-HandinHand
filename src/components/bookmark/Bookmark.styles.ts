@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const BookmarkContainer = styled.section`
   padding: var(--space-large);
   padding: 0 var(--space-xlarge);
+  width: 1400px;
 `
 
 export const PosterGrid = styled.div`

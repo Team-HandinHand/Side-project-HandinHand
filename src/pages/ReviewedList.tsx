@@ -1,7 +1,7 @@
 import { Button, ActiveTab } from '@/components'
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
-
+import { useUserStore } from '@/stores/userStore'
 import { useState } from 'react'
 
 const mockReviews = [
@@ -35,7 +35,8 @@ const mockReviews = [
 export const ReviewedList = () => {
   const [activeTab, setActiveTab] = useState<'영화' | '시리즈'>('영화')
   const [reviews] = useState(mockReviews)
-  const username = '홍길동' // 예시 이름
+  const { user } = useUserStore()
+  const username = user?.nickname
 
   return (
     <S.ReviewListContainer>

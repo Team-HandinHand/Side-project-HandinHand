@@ -1,6 +1,7 @@
 import { ActiveTab } from '@/components'
 import { useState } from 'react'
 import * as S from '@/components/bookmark/bookmark.styles'
+import { useUserStore } from '@/stores/userStore'
 
 const mockPosters = Array.from({ length: 15 }, (_, index) => ({
   id: index + 1,
@@ -11,8 +12,8 @@ const mockPosters = Array.from({ length: 15 }, (_, index) => ({
 
 export const Bookmark = () => {
   const [activeTab, setActiveTab] = useState<'영화' | '시리즈'>('영화')
-  const username = '홍길동' // 예시 이름
-
+  const { user } = useUserStore()
+  const username = user?.nickname
   return (
     <S.BookmarkContainer>
       <ActiveTab

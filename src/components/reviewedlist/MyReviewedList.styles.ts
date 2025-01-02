@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ReviewListContainer = styled.section`
   padding: var(--space-large);
   padding: 0 var(--space-xlarge);
-  max-width: 1200px;
+  width: 1400px;
 `
 
 export const ReviewItem = styled.div`
