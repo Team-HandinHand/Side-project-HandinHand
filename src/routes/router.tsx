@@ -4,10 +4,12 @@ import {
   HomePage,
   MoviesPage,
   SeriesPage,
-  SignInPage,
+  ReviewedList,
+  Bookmark,
   SignUpPage,
   EditProfilePage,
-  NotFoundPage
+  NotFoundPage,
+  SignInPage
 } from '@/pages'
 //OtherUserProfilePage 추가 사용 예정
 import { ErrorBoundary } from 'react-error-boundary'
@@ -86,6 +88,14 @@ const router = createBrowserRouter([
             <EditProfilePage />
           </ProtectedRoute>
         )
+      },
+      {
+        path: '/reviewedlist',
+        element: <ReviewedList />
+      },
+      {
+        path: '/bookmark',
+        element: <Bookmark />
       }
     ]
   }
