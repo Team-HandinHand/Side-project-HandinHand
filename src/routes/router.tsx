@@ -9,7 +9,8 @@ import {
   SignUpPage,
   EditProfilePage,
   NotFoundPage,
-  SignInPage
+  SignInPage,
+  CommentDetailPage
 } from '@/pages'
 //OtherUserProfilePage 추가 사용 예정
 import { ErrorBoundary } from 'react-error-boundary'
@@ -70,6 +71,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <SeriesPage />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/comments/detail',
+        element: (
+          <ProtectedRoute>
+            <CommentDetailPage />
           </ProtectedRoute>
         )
       },

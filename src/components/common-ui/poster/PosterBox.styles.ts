@@ -1,4 +1,4 @@
-import {
+import type {
   ContentBoxProps,
   MovieImageBoxProps,
   PosterBoxContainerProps
@@ -6,12 +6,12 @@ import {
 import styled from 'styled-components'
 
 export const PosterBoxContainer = styled.div<PosterBoxContainerProps>`
-  width: ${props => (props.flex ? '100%' : '212px')};
+  width: ${props => (props.flex ? '70%' : '212px')};
   display: ${props => (props.flex ? 'flex' : 'inline-block')};
 `
 export const MovieImageBox = styled.img<MovieImageBoxProps>`
-  width: ${props => (props.flex ? '100px' : '212px')};
-  height: ${props => (props.flex ? '150px' : '318px')};
+  width: ${props => (props.flex ? '150px' : '212px')};
+  height: ${props => (props.flex ? '240px' : '318px')};
   border-radius: var(--border-radius-small);
 `
 export const ContentBox = styled.div<ContentBoxProps>`
