@@ -9,7 +9,7 @@ export const useGoogleSignIn = () => {
   const { mutateAsync: googleSignIn, isPending } = useMutation({
     mutationFn: async () => {
       // Supabase 구글 로그인
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${getURL()}/auth/callback`,
@@ -22,8 +22,6 @@ export const useGoogleSignIn = () => {
       })
 
       if (error) throw error
-
-      return data
     },
     onError: error => {
       handleError('구글 로그인', error)

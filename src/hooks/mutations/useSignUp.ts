@@ -12,7 +12,7 @@ export const useSignUp = (
   const { mutateAsync: signUp, isPending } = useMutation({
     mutationFn: async ({ email, password, nickname }: TSignUpFormValues) => {
       // Supabase 회원가입
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -23,8 +23,6 @@ export const useSignUp = (
       })
 
       if (error) throw error // onError에서 처리
-
-      return data // 성공시 데이터 반환
     },
     onError: error => {
       if (isApiError(error) && error.status >= 400 && error.status < 500) {
