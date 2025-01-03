@@ -3,10 +3,12 @@ import * as S from './MovieDetails.styled'
 import { Profile } from '@/components/common-ui/profile/Profile'
 import { Input } from '@/components/common-ui/input/Input'
 import { Button } from '@/components/common-ui/button/Button'
+import { Header } from '@/components'
 
 export default function MovieDetails() {
   return (
     <S.Container>
+      <Header $backgroundColor="black" />
       {/* 첫번째 박스 */}
       <S.MovieHeaderContainer>
         <S.MovieInfo>
