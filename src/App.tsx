@@ -9,7 +9,9 @@ import { ErrorBoundary } from 'react-error-boundary'
 import toast, { Toaster } from 'react-hot-toast'
 import { DeferredLoader, ErrorFallback } from './components'
 import Router from './routes/router'
-import GlobalStyle from './GlobalStyle'
+import GlobalStyle from '@/styles/GlobalStyle'
+import '@/styles/fonts.css'
+import '@/styles/designToken.css'
 
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({

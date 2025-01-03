@@ -10,7 +10,7 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
   const { user } = useUserStore()
   const { pathname } = useLocation()
 
-  console.log(user)
+  console.log(user?.profilePicturePath)
 
   return (
     <S.HeaderContainer $backgroundColor={$backgroundColor}>

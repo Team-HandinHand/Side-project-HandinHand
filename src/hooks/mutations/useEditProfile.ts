@@ -30,7 +30,7 @@ export const useEditProfile = () => {
 
       if (error) throw error
 
-      return data // 성공시 데이터 반환
+      return data
     },
     onError: error => handleError('프로필 수정', error)
   })

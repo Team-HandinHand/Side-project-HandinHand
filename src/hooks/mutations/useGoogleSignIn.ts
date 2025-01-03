@@ -12,7 +12,7 @@ export const useGoogleSignIn = () => {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: getURL(),
+          redirectTo: `${getURL()}/auth/callback`,
           // 매번 새롭게 로그인하게
           queryParams: {
             access_type: 'offline', // refresh token을 받아서 사용자가 로그아웃해도 앱은 Google API 에 액세스 가능
@@ -23,10 +23,10 @@ export const useGoogleSignIn = () => {
 
       if (error) throw error
 
-      return data // 성공시 데이터 반환
+      return data
     },
     onError: error => {
-      handleError('소셜 로그인', error)
+      handleError('구글 로그인', error)
     }
   })
 

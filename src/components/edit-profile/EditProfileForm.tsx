@@ -182,6 +182,9 @@ export const EditProfileForm = () => {
         <S.ProfileImg
           src={imgPreview ?? user?.profilePicturePath}
           alt="profileImg"
+          onError={e => {
+            e.currentTarget.src = DEFAULT_PROFILE_PATH // 폴백 이미지
+          }}
         />
         <S.PictureInput
           type="file"
