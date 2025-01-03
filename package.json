@@ -30,6 +30,7 @@
     "@commitlint/config-conventional": "^19.6.0",
     "@eslint/js": "^9.13.0",
     "@hookform/resolvers": "^3.9.1",
+    "@tanstack/react-query-devtools": "^5.62.12",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^8.13.0",
