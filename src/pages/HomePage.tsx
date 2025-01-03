@@ -1,4 +1,5 @@
-import HomeMain from '@/components/home-main/HomeMain'
+import { HomeMain } from '@/components'
+
 export const HomePage = () => {
   return <HomeMain />
 }

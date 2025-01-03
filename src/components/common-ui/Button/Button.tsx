@@ -12,7 +12,7 @@ import { ButtonProps } from '@/types/button'
       </Button>
 */
 
-const Button = ({
+export const Button = ({
   color = 'pink',
   size = 'medium',
   fontSize,
@@ -22,14 +22,12 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <StyledButton
-      color={color}
-      size={size}
-      fontSize={fontSize}
-      padding={padding}
+      $color={color}
+      $size={size}
+      $fontSize={fontSize}
+      $padding={padding}
       {...props}>
       {children}
     </StyledButton>
   )
 }
-
-export default Button

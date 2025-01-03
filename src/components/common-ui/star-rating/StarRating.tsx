@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import * as S from './StarRating.styled'
+import * as S from './StarRating.styles'
 
 /* <Stars size={50} />  이런식으로 사이즈만 지정해서 사용. */
 
@@ -13,14 +13,22 @@ interface Star {
 
 interface StarSize {
   size: number
+  initialRating?: number
+  isReadOnly?: boolean
 }
 
-export default function StarRating({ size }: StarSize) {
-  const [rating, setRating] = useState(0)
+export default function StarRating({
+  size,
+  initialRating = 0,
+  isReadOnly = false
+}: StarSize) {
+  const [rating, setRating] = useState(initialRating)
   const [tempRating, setTempRating] = useState(0)
 
   function handleRating(rating: number) {
-    setRating(rating)
+    if (!isReadOnly) {
+      setRating(rating)
+    }
   }
 
   return (
@@ -28,9 +36,10 @@ export default function StarRating({ size }: StarSize) {
       <S.StarContainer>
         {Array.from({ length: 5 }, (_, i) => (
           <Star
+            key={i}
             onRate={() => handleRating(i + 1)}
-            onHoverIn={() => setTempRating(i + 1)}
-            onHoverOut={() => setTempRating(0)}
+            onHoverIn={() => !isReadOnly && setTempRating(i + 1)}
+            onHoverOut={() => !isReadOnly && setTempRating(0)}
             full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
             size={size}
           />
@@ -59,9 +68,9 @@ export function Star({ onRate, onHoverIn, onHoverOut, full, size }: Star) {
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          fill="var( --color-dark-gray)"
+          fill="var(--color-dark-gray)"
           viewBox="0 0 24 24"
-          stroke="var( --color-dark-gray)">
+          stroke="var(--color-dark-gray)">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
