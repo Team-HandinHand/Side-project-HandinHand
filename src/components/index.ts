@@ -1,6 +1,6 @@
 export { ErrorFallback } from './common-ui/error/Error'
 export { DeferredLoader } from './common-ui/loader/Loader'
-export { Header } from './common-ui/Header/Header'
+export { Header } from './common-ui/header/Header'
 export { Button } from './common-ui/Button/Button'
 export { Back } from './common-ui/back/Back'
 export { Input } from './common-ui/Input/Input'
