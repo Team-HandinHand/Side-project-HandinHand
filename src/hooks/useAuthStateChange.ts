@@ -25,6 +25,8 @@ export const useAuthStateChange = () => {
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth event:', event)
+      console.log('session', session)
       switch (event) {
         case 'SIGNED_IN':
           if (session?.user?.user_metadata) {

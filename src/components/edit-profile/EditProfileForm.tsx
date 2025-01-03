@@ -12,6 +12,7 @@ import { useEditProfile } from '@/hooks/mutations/useEditProfile'
 import { useDeactivateAccount } from '@/hooks/mutations/usedeactivateAccount'
 import { useUserStore } from '@/stores/userStore'
 import { Button } from '@/components'
+import { DEFAULT_PROFILE_PATH } from '@/constants/user'
 
 export const EditProfileForm = () => {
   const { user } = useUserStore()
@@ -22,7 +23,7 @@ export const EditProfileForm = () => {
   // 사집 업로드
   const imgRef = useRef<HTMLInputElement>(null)
   const [imgPreview, setImgPreview] = useState<string>(
-    user?.profilePicturePath ?? ''
+    user?.profilePicturePath ?? DEFAULT_PROFILE_PATH
   )
 
   // 중복 확인 해야하는 필드 valid 여부
@@ -101,6 +102,7 @@ export const EditProfileForm = () => {
       confirmPassword: '',
       profilePicturePath: user?.profilePicturePath
     })
+  const isNicknameChanged = formData.nickname !== user?.nickname
 
   // 변경 사항 되돌리기
   const handleCancel = () => {
@@ -169,7 +171,8 @@ export const EditProfileForm = () => {
   // 디버깅용
   console.log('current edit profile form', {
     errors: errors,
-    data: watch()
+    data: watch(),
+    validNickname: validNickname
   })
 
   return (
@@ -263,10 +266,10 @@ export const EditProfileForm = () => {
             color="pink"
             disabled={
               !isFormChanged ||
+              (isNicknameChanged && !validNickname) ||
               isSubmitting ||
               Object.keys(errors).length > 0 ||
-              isEditProfilePending ||
-              !validNickname
+              isEditProfilePending
             }>
             {isEditProfilePending ? '저장 중...' : '변경 저장'}
           </S.SubmitButton>

@@ -29,13 +29,13 @@ const GlobalStyle = createGlobalStyle`
 
     /** font-size **/
     /* Headlines */
-    --font-xxlarge: clamp(4rem, 5rem, 6rem);
-    --font-xlarge: clamp(2rem, 3rem, 4rem);
-    --font-large: clamp(1.25rem, 1.5rem, 2rem);
+    --font-xxlarge: clamp(4rem, 4.5vw, 6rem);
+    --font-xlarge: clamp(2rem, 4vw, 4rem);
+    --font-large: clamp(1.25rem, 1.5vw, 2rem);
     
     /* Paragraph */
-    --font-medium: clamp(0.75rem, 1rem, 1.25rem);
-    --font-small: clamp(0.25rem, 0.5rem, 0.75rem);
+    --font-medium: clamp(0.75rem, 1.3vw, 1.25rem); 
+    --font-small: clamp(0.5rem, 0.8vw, 0.75rem); 
 
     /** border radius **/
     --border-radius-small: 5px;

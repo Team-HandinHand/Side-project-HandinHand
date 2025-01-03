@@ -10,6 +10,8 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
   const { user } = useUserStore()
   const { pathname } = useLocation()
 
+  console.log(user)
+
   return (
     <S.HeaderContainer $backgroundColor={$backgroundColor}>
       <S.LogoWrapper>

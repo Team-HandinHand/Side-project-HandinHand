@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { supabase } from '../../../supabaseConfig'
 import { TSignUpFormValues } from '@/schemas/user/signUpSchema'
-import { DEFAULT_PROFILE_PATH } from '@/constants/user'
 import { useErrorHandler } from '@/hooks/useErrorHandler'
 import { isApiError } from '@/utils/isApiError'
 
@@ -18,8 +17,7 @@ export const useSignUp = (
         password,
         options: {
           data: {
-            nickname,
-            profile_picture_path: DEFAULT_PROFILE_PATH
+            nickname
           }
         }
       })

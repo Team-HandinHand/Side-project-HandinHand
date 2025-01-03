@@ -181,6 +181,9 @@ export const SignUpForm = () => {
           }>
           {isPending ? '가입 중...' : '가입하기'}
         </S.SubmitButton>
+        <S.ToOtherPageText href="/signin">
+          회원가입이 되어 있으신가요?
+        </S.ToOtherPageText>
       </S.SignUpForm>
     </S.SignUpFormContainer>
   )
