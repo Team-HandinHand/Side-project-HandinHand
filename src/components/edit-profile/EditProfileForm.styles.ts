@@ -1,51 +1,58 @@
 import styled from 'styled-components'
-import { IoArrowBack } from 'react-icons/io5'
+import {
+  FormContainer,
+  FormTitle,
+  Form,
+  FormField,
+  InputwithDuplicateBtn,
+  FormInput,
+  ErrorMessage,
+  SuccessMessage
+} from '../common-ui/styles/Form.styles'
+import { Button } from '@/components'
 
-export const BackIcon = styled(IoArrowBack)`
-  cursor: pointer;
-`
+export const EditProfileFormContainer = FormContainer
 
-export const EditProfileFormContainer = styled.section``
+export const EditProfileFormTitle = FormTitle
 
-export const EditProfileFormTitle = styled.h1``
-
-export const EditProfileForm = styled.form``
+export const EditProfileForm = Form
 
 export const ProfileImg = styled.img`
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  border-radius: var(--border-radius-xlarge);
+  width: 150px;
+  object-fit: contain;
+  margin-bottom: calc(var(--space-medium) * -1);
 `
 
 export const PictureInput = styled.input`
   display: none;
 `
 
-export const ChangeImageButton = styled.button``
+export const ChangeImageButton = styled(Button)``
 
-export const FormField = styled.div``
-
-export const Input = styled.input`
-  //컴포넌트로 교체 필요
-`
-
-export const ErrorMessage = styled.p``
+export {
+  FormField,
+  InputwithDuplicateBtn,
+  FormInput,
+  ErrorMessage,
+  SuccessMessage
+}
 
 export const FormButtonContainer = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: var(--space-small);
+  width: 100%;
 `
 
-export const CancleButton = styled.button`
-  //컴포넌트로 교체 필요
+export const CancleButton = styled(Button)`
+  flex: 1;
+`
+export const SubmitButton = styled(Button)`
+  flex: 1;
 `
 
-export const SubmitButton = styled.button`
-  //컴포넌트로 교체 필요
-`
-
-export const DeactivateAccountButton = styled.button`
-  //컴포넌트로 교체 필요
+export const DeactivateAccountButton = styled(Button)`
+  margin-top: var(--space-large);
 `
 
 // 계정 해지 확인 토스트
@@ -62,10 +69,6 @@ export const ToastDABtnContainer = styled.div`
   gap: var(--space-medium);
 `
 
-export const ToastDACancleBtn = styled.button`
-  //컴포넌트로 교체 필요
-`
+export const ToastDACancleBtn = styled(Button)``
 
-export const ToastDAAcceptBtn = styled.button`
-  //컴포넌트로 교체 필요
-`
+export const ToastDAAcceptBtn = styled(Button)``

@@ -1,12 +1,12 @@
-export interface TUser {
+export interface User {
   userId?: string
   nickname: string
   email: string
   profilePicturePath: string
 }
 
-export interface TUserState {
-  user: TUser | null
-  setUser: (user: TUser) => void
+export interface UserState {
+  user: User | null
+  setUser: (user: User) => void
   clearUser: () => void
 }

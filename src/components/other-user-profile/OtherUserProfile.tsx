@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import * as S from './OtherUserProfile.styles'
 
-const OtherUserProfile = () => {
+export const OtherUserProfile = () => {
   const [isFollow, setIsFollow] = useState(false)
 
   function handleFollow() {
@@ -100,5 +100,3 @@ const OtherUserProfile = () => {
     </S.ProfileWrapper>
   )
 }
-
-export default OtherUserProfile

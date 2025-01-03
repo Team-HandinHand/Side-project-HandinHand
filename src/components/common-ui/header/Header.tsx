@@ -1,55 +1,101 @@
 import * as S from './header.styles'
-// import { useSignOut } from '@/hooks/mutations/useSignOut'
-// import { useUserStore } from '@/stores/userStore'
+import { useLocation } from 'react-router-dom'
+import { HeaderProps } from '@/types/commonUi'
+import { Button, Profile } from '@/components'
+import { useSignOut } from '@/hooks/mutations/useSignOut'
+import { useUserStore } from '@/stores/userStore'
 
-interface Container {
-  backgroundColor: string
-}
-
-export function Header({ backgroundColor }: Container) {
-  // const { signOut, isPending } = useSignOut()
-  // const { user } = useUserStore()
+export const Header = ({ $backgroundColor }: HeaderProps) => {
+  const { signOut, isPending } = useSignOut()
+  const { user } = useUserStore()
+  const { pathname } = useLocation()
 
   return (
-    <S.Header backgroundColor={backgroundColor}>
-      <S.Container>
-        <S.Logo>로고</S.Logo>
+    <S.HeaderContainer $backgroundColor={$backgroundColor}>
+      <S.LogoWrapper>
+        <S.RestrictedLink to="/">
+          <S.Logo src="/assets/img/logo/logo.webp" />
+        </S.RestrictedLink>
+      </S.LogoWrapper>
 
-        <S.NavUl>
-          <S.Link to="/">
-            <S.Li>홈</S.Li>
-          </S.Link>
-          <S.Link to="/movies">
-            <S.Li>영화</S.Li>
-          </S.Link>
-          <S.Link to="/series">
-            <S.Li>드라마</S.Li>
-          </S.Link>
-          {/* NavLink 필요시 타 컴포넌트로 대체 가능 */}
-        </S.NavUl>
-      </S.Container>
-    </S.Header>
+      <S.NavUL>
+        <S.RestrictedLink
+          $signedUp={!!user}
+          to="/">
+          <S.Li
+            $signedUp={!!user}
+            $active={pathname === '/'}>
+            홈
+          </S.Li>
+        </S.RestrictedLink>
+        <S.RestrictedLink
+          $signedUp={!!user}
+          to="/movies">
+          <S.Li
+            $signedUp={!!user}
+            $active={pathname.startsWith('/movies')}>
+            영화
+          </S.Li>
+        </S.RestrictedLink>
+        <S.RestrictedLink
+          $signedUp={!!user}
+          to="/series">
+          <S.Li
+            $signedUp={!!user}
+            $active={pathname.startsWith('/series')}>
+            드라마
+          </S.Li>
+        </S.RestrictedLink>
+      </S.NavUL>
+
+      <S.AuthContainer>
+        {!user ? (
+          <>
+            <S.BaseLink to="/signin">
+              <Button
+                type="button"
+                color="transparent"
+                size="small">
+                로그인
+              </Button>
+            </S.BaseLink>
+            <S.BaseLink to="/signup">
+              <Button
+                type="button"
+                color="transparent"
+                size="small">
+                회원가입
+              </Button>
+            </S.BaseLink>
+          </>
+        ) : (
+          <>
+            <S.BaseLink to="/">
+              {/* 즐겨찾기 */}
+              <S.FavoriteIcon $active={pathname === '/'} />
+            </S.BaseLink>
+            <S.BaseLink to="/">
+              {/* 보관함 */}
+              <S.StorageIcon $active={pathname === '/'} />
+            </S.BaseLink>
+            <S.BaseLink to="/edit-profile">
+              <Profile
+                imageUrl={user?.profilePicturePath}
+                size="small"
+              />
+            </S.BaseLink>
+            <S.UserNickname>{user?.nickname}</S.UserNickname>
+            <Button
+              type="button"
+              color="transparent"
+              size="small"
+              onClick={() => signOut()}
+              disabled={isPending}>
+              {isPending ? '로그아웃 중...' : '로그아웃'}
+            </Button>
+          </>
+        )}
+      </S.AuthContainer>
+    </S.HeaderContainer>
   )
 }
-
-//  <header>
-//    <nav>
-//      <a href="/">Home</a>
-//      <a href="/movies">Movies</a>
-//      <a href="/series">Series</a>
-//      {!user && <a href="/signin">로그인</a>}
-//      {!user && <a href="/signup">회원가입</a>}
-//      {user && (
-//        <a href="/edit-profile">
-//          <S.ProfileImg src={user?.profilePicturePath}></S.ProfileImg>
-//        </a>
-//      )}
-//      {user && (
-//        <button
-//          onClick={() => signOut()}
-//          disabled={isPending}>
-//          {isPending ? '로그아웃 중...' : '로그아웃'}
-//        </button>
-//      )}
-//    </nav>
-//  </header>

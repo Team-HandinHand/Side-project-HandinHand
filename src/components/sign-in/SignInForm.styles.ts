@@ -1,32 +1,30 @@
 import styled from 'styled-components'
+import {
+  FormContainer,
+  FormTitle,
+  Form,
+  FormField,
+  FormInput,
+  ErrorMessage,
+  SubmitButton
+} from '../common-ui/styles/Form.styles'
 
-export const SignInFormContainer = styled.section``
+export const SignInFormContainer = FormContainer
 
-export const SignInFormTitle = styled.h1``
+export const SignInFormTitle = FormTitle
 
-export const SignInForm = styled.form``
+export const SignInForm = Form
 
-export const FormField = styled.div``
-
-export const Input = styled.input`
-  //컴포넌트로 교체 필요
-`
-
-export const ErrorMessage = styled.p``
-
-export const SubmitButton = styled.button`
-  //컴포넌트로 교체 필요
-`
-
-export const OtherTextWrapper = styled.div``
+export { FormField, FormInput, ErrorMessage, SubmitButton }
 
 export const ToSignUpText = styled.a`
+  margin-top: var(--space-large);
   display: block;
   color: var(--color-text-gray);
   text-decoration: underline;
   transition: color 0.3s;
 
   &:hover {
-    color: var(--color-light-gray);
+    color: var(--color-white);
   }
 `

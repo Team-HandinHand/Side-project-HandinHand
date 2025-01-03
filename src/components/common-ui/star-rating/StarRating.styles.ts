@@ -12,6 +12,6 @@ export const StarContainer = styled.div`
 export const Stars = styled.span<{ size: number }>`
   display: block;
   cursor: pointer;
-  width: ${props => `${props.size}px`};
-  height: ${props => `${props.size}px`};
+  width: ${({ size }) => (size ? `${size}px` : '36px')};
+  height: ${({ size }) => (size ? `${size}px` : '36px')};
 `

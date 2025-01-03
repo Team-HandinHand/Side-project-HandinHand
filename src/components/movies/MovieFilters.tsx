@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import Button from '../common-ui/Button/Button'
+import { Button } from '../common-ui/Button/Button'
 import * as S from './MovieFilters.styles'
+
 type labelValues = {
   labelValues: string[]
 }
