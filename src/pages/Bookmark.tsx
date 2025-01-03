@@ -1,6 +1,6 @@
 import { ActiveTab } from '@/components'
 import { useState } from 'react'
-import * as S from '@/components/bookmark/bookmark.styles'
+import * as S from '@/components/bookmark/Bookmark.styles'
 import { useUserStore } from '@/stores/userStore'
 
 const mockPosters = Array.from({ length: 15 }, (_, index) => ({

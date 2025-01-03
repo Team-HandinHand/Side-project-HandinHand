@@ -30,12 +30,13 @@ export const MoviePoster = styled.img`
 `
 
 export const MovieDetailBox = styled.div`
-  padding: var(--space-medium) var(--space-xlarge)  var(--space-xlarge) var(--space-medium);
+  padding: var(--space-medium) var(--space-xlarge) var(--space-xlarge)
+    var(--space-medium);
 `
 
 export const MovieTitle = styled.div`
   color: white;
-  margin-bottom:var(var(--space-medium));
+  margin-bottom: var(--space-medium);
 `
 
 export const MovieDate = styled.span`
@@ -44,5 +45,5 @@ export const MovieDate = styled.span`
 
 export const MovieInfo = styled.span`
   color: var(--color-dark-gray);
-  margin-left:var(--space-medium);
+  margin-left: var(--space-medium);
 `

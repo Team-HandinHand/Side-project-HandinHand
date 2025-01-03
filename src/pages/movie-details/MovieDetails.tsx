@@ -1,9 +1,6 @@
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from './MovieDetails.styled'
-import { Profile } from '@/components/common-ui/profile/Profile'
-import { Input } from '@/components/common-ui/input/Input'
-import { Button } from '@/components/common-ui/button/Button'
-import { Header } from '@/components'
+import { Button, Input, Profile } from '@/components'
 
 export default function MovieDetails() {
   return (

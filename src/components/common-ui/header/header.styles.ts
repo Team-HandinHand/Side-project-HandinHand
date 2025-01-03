@@ -27,7 +27,6 @@ export const HeaderContainer = styled.header<HeaderProps>`
 export const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
-
   @media (width <= 576px) {
     display: none;
   }
@@ -61,12 +60,10 @@ export const Li = styled.li<HeaderLiProps>`
   font-size: var(--font-large);
   color: ${({ $active }) =>
     $active ? 'var(--color-white)' : 'var(--color-light-gray)'};
-
   &:hover {
     color: ${({ $signedUp }) =>
       $signedUp ? 'var(--color-white)' : 'var(--color-light-gray)'};
   }
-
   @media (width <= 576px) {
     font-size: var(--font-medium);
   }
@@ -84,11 +81,9 @@ const iconStyles = css<HeaderIconProps>`
   color: ${({ $active }) =>
     $active ? 'var(--color-white)' : 'var(--color-light-gray)'};
   cursor: pointer;
-
   &:hover {
     color: var(--color-white);
   }
-
   @media (width <= 576px) {
     font-size: var(--font-medium);
   }
