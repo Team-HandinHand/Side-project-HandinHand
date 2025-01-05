@@ -150,3 +150,13 @@ export interface DramaDetail {
   vote_average: number // 평균 투표 점수
   vote_count: number // 투표 수
 }
+
+// URL 관련 파라미터 type
+
+export type MediaProps = {
+  mediaType: 'movie' | 'tv'
+  movieCategory?: 'now_playing' | 'popular' | 'upcoming' | 'top_rated'
+  dramaCategory?: 'airing_today' | 'on_the_air' | 'top_rated' | 'popular'
+  movieId?: number
+  dramaName?: string
+}
