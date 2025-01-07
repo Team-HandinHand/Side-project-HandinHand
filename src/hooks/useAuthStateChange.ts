@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../supabaseConfig'
 import { useUserStore } from '@/stores/userStore'
-import { queryClient } from '../App'
+import queryClient from '@/services/react-query'
 
 // 프로필 쿼리 함수
 const fetchUserProfile = async (userId: string) => {
