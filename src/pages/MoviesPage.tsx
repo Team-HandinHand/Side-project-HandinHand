@@ -89,7 +89,6 @@ export const MoviesPage = () => {
       date: '2021-01-27',
       isLoading: false
     }
-    // 더 많은 영화 데이터를 추가할 수 있습니다.
   ]
   return (
     <S.MoviesContainer>
