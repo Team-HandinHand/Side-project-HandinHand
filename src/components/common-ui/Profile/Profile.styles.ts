@@ -3,9 +3,6 @@ import styled from 'styled-components'
 
 export const ProfileButtonWrapper = styled.button<{ size?: ProfileButtonSize }>`
   background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
   display: flex;
   align-items: center;
   width: ${({ size }) => {

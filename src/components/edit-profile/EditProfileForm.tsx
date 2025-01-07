@@ -83,7 +83,7 @@ export const EditProfileForm = () => {
     } else {
       setValidNickname(true)
     }
-  }, [setError, user?.nickname])
+  }, [setError, user?.nickname, checkNickname, getValues])
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<TEditProfileFormValues> = async formData => {

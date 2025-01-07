@@ -25,6 +25,14 @@ const GlobalStyle = createGlobalStyle`
     word-break: keep-all;
   }
 
+  button {
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: var(--font-medium);
+  }
+
   a {
     cursor: pointer;
     text-decoration: none;

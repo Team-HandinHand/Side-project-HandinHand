@@ -1,6 +1,5 @@
 import * as S from './Error.styles'
 import { useErrorBoundary } from 'react-error-boundary'
-import { Button } from '@/components'
 
 export function ErrorFallback({ error }: { error: Error }) {
   const { resetBoundary } = useErrorBoundary()
@@ -9,12 +8,7 @@ export function ErrorFallback({ error }: { error: Error }) {
     <S.ErrorContainer>
       <S.ErrorText>에러가 발생했습니다</S.ErrorText>
       <S.ErrorDetailText>{error.message}</S.ErrorDetailText>
-      <Button
-        color="transparent"
-        size="small"
-        onClick={resetBoundary}>
-        다시 시도
-      </Button>
+      <S.RetryBtn onClick={resetBoundary}>다시 시도</S.RetryBtn>
     </S.ErrorContainer>
   )
 }
