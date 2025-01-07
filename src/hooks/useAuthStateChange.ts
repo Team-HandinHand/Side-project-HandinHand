@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../supabaseConfig'
 import { useUserStore } from '@/stores/userStore'
@@ -19,11 +19,11 @@ export const useAuthStateChange = () => {
   const { setUser, clearUser } = useUserStore()
 
   // 로그아웃 처리 함수
-  const handleSignOut = () => {
+  const handleSignOut = useCallback(() => {
     clearUser()
     queryClient.clear()
     navigate('/signin')
-  }
+  }, [clearUser, navigate])
 
   useEffect(() => {
     // 초기 세션 체크
@@ -91,5 +91,5 @@ export const useAuthStateChange = () => {
     return () => {
       subscription.unsubscribe()
     }
-  }, [])
+  }, [handleSignOut, navigate, setUser])
 }
