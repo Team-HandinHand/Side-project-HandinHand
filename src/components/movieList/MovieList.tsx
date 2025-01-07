@@ -1,13 +1,6 @@
 import { PosterBox } from '@/components/common-ui/poster/PosterBox'
-
-interface MovieListProps {
-  movies: {
-    title: string
-    imageUrl: string
-    date: string
-    isLoading: boolean
-  }[]
-}
+import { MovieListProps } from '@/types/movieList'
+import styled from 'styled-components'
 
 export const MovieList = ({ movies }: MovieListProps) => {
   return (
@@ -24,7 +17,6 @@ export const MovieList = ({ movies }: MovieListProps) => {
     </PosterContainer>
   )
 }
-import styled from 'styled-components'
 
 export const MoviesContainer = styled.div`
   display: flex;

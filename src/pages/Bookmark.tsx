@@ -2,8 +2,8 @@ import { ActiveTab } from '@/components'
 import { useState } from 'react'
 import { useUserStore } from '@/stores/userStore'
 import { MovieList } from '@/components/movieList/MovieList'
-import * as L from '@/components/movies/Movies.styles'
-import styled from 'styled-components'
+import { MoviesContainer } from '@/components/movies/Movies.styles'
+import { ActiveTabWrapper } from '@/components/bookmark/Bookmark.styles'
 const movies = [
   {
     title: '어벤져스: 인피니티 워',
@@ -84,7 +84,7 @@ export const Bookmark = () => {
   const { user } = useUserStore()
   const username = user?.nickname
   return (
-    <L.MoviesContainer>
+    <MoviesContainer>
       <ActiveTabWrapper>
         <ActiveTab
           title={`${username}의 즐겨찾기 목록`}
@@ -93,9 +93,6 @@ export const Bookmark = () => {
         />
       </ActiveTabWrapper>
       <MovieList movies={movies} />
-    </L.MoviesContainer>
+    </MoviesContainer>
   )
 }
-export const ActiveTabWrapper = styled.div`
-  margin-bottom: var(--space-medium);
-`
