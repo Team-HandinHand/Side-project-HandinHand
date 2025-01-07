@@ -155,8 +155,14 @@ export interface DramaDetail {
 
 export type MediaProps = {
   mediaType: 'movie' | 'tv'
-  movieCategory?: 'now_playing' | 'popular' | 'upcoming' | 'top_rated'
-  dramaCategory?: 'airing_today' | 'on_the_air' | 'top_rated' | 'popular'
+  category:
+    | 'now_playing'
+    | 'popular'
+    | 'upcoming'
+    | 'top_rated'
+    | 'airing_today'
+    | 'on_the_air'
   movieId?: number
   dramaName?: string
+  page: number
 }
