@@ -4,10 +4,13 @@ import {
   HomePage,
   MoviesPage,
   SeriesPage,
-  SignInPage,
+  ReviewedList,
+  Bookmark,
   SignUpPage,
   EditProfilePage,
-  NotFoundPage
+  NotFoundPage,
+  SignInPage,
+  CommentDetailPage
 } from '@/pages'
 //OtherUserProfilePage 추가 사용 예정
 import { ErrorBoundary } from 'react-error-boundary'
@@ -76,6 +79,14 @@ const router = createBrowserRouter([
         )
       },
       {
+        path: '/comments/detail',
+        element: (
+          <ProtectedRoute>
+            <CommentDetailPage />
+          </ProtectedRoute>
+        )
+      },
+      {
         path: '/signup',
         element: <SignUpPage />
       },
@@ -90,6 +101,14 @@ const router = createBrowserRouter([
             <EditProfilePage />
           </ProtectedRoute>
         )
+      },
+      {
+        path: '/reviewedlist',
+        element: <ReviewedList />
+      },
+      {
+        path: '/bookmark',
+        element: <Bookmark />
       }
     ]
   }
