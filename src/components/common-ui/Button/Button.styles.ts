@@ -54,8 +54,6 @@ export const sizeStyles = {
 }
 
 export const StyledButton = styled.button<StyledButtonProps>`
-  display: inline-block;
-  border: none;
   border-radius: var(--border-radius-medium);
   cursor: pointer;
   transition: background-color 0.3s ease;

@@ -21,3 +21,15 @@ export const ErrorDetailText = styled.p`
   font-size: var(--font-large);
   word-break: keep-all;
 `
+
+export const RetryBtn = styled.button`
+  position: relative;
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  padding: var(--space-small);
+  border-radius: var(--border-radius-medium);
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: var(--color-pink-dark);
+  }
+`

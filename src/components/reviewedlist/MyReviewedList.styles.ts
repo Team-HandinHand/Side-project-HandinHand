@@ -2,8 +2,11 @@ import styled from 'styled-components'
 
 export const ReviewListContainer = styled.section`
   padding: var(--space-large);
-  padding: 0 var(--space-xlarge);
-  width: 1400px;
+  padding: 0 var(--space-small);
+  @media (min-width: 1441px) {
+    width: 1440px;
+  }
+  padding: var(--space-large);
 `
 
 export const ReviewItem = styled.div`
