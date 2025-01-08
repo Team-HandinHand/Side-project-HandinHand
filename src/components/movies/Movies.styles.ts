@@ -3,8 +3,8 @@ import styled from 'styled-components'
 export const MoviesContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: var(--space-medium);
+  align-items: flex-start;
+  padding: var(--space-large);
 `
 
 export const PosterContainer = styled.div`

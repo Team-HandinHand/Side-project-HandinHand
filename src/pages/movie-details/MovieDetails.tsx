@@ -1,10 +1,11 @@
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from './MovieDetails.styled'
-import { Button, Input, Profile } from '@/components'
+import { Button, Input, Profile, Header } from '@/components'
 
 export default function MovieDetails() {
   return (
     <S.Container>
+      <Header $backgroundColor="black" />
       {/* 첫번째 박스 */}
       <S.MovieHeaderContainer>
         <S.MovieInfo>

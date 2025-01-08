@@ -1,4 +1,5 @@
 import { Button, ActiveTab } from '@/components'
+import { ActiveTabWrapper } from '@/components/bookmark/Bookmark.styles'
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
 import { useUserStore } from '@/stores/userStore'
@@ -40,12 +41,13 @@ export const ReviewedList = () => {
 
   return (
     <S.ReviewListContainer>
-      <ActiveTab
-        title={`${username}의 평가 목록`}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
-
+      <ActiveTabWrapper>
+        <ActiveTab
+          title={`${username}의 평가 목록`}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
+      </ActiveTabWrapper>
       {reviews.map(review => (
         <S.ReviewItem key={review.id}>
           <S.Poster>
