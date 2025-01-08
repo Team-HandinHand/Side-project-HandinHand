@@ -8,26 +8,26 @@ import { useState } from 'react'
 const mockReviews = [
   {
     id: 1,
-    poster: '/image.png',
+    poster: '/assets/img/test/image.png',
     rating: 3,
     comment: '2024년 가장 기억에 남는 영화'
   },
   {
     id: 2,
-    poster: '/image.png',
+    poster: '/assets/img/test/image.png',
     rating: 4,
     comment:
       '긴텍스트 test : Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the   .'
   },
   {
     id: 3,
-    poster: '/image.png',
+    poster: '/assets/img/test/image.png',
     rating: 3,
     comment: '긴텍스트 tests : Lorem Ipsum is simply dummy text.'
   },
   {
     id: 4,
-    poster: '/image.png',
+    poster: '/assets/img/test/image.png',
     rating: 5,
     comment: '완벽한 작품이었어요!'
   }

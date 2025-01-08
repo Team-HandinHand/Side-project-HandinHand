@@ -1,99 +1,44 @@
-import * as S from '../components/movies/Movies.styles'
-import { MovieFilters } from '@/components/movies/MovieFilters'
-import { MovieList } from '@/components/movieList/MovieList'
+import * as S from '../components/media/Media.styles'
+import { useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
+import { MediaFilter, MediaList } from '@/components'
+import useFetchInfiniteMedias from '@/hooks/queries/useFetchInfiniteMedias'
+import { useQueryState } from 'nuqs'
+import { MediaResult, MovieCategory } from '@/types/media'
 
 export const MoviesPage = () => {
-  const labelValues = ['인기', '높은 평점', '현재 상영 중', '개봉 예정작']
-  const movies = [
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
-    },
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
-    },
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
-    },
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
-    },
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
-    },
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
-    },
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
-    },
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
-    },
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
-    },
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
-    },
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
-    },
-    {
-      title: '어벤져스: 인피니티 워',
-      imageUrl:
-        'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',
-      date: '2021-01-27',
-      isLoading: false
+  const { ref, inView } = useInView()
+  const [category, setCategory] = useQueryState('category', {
+    defaultValue: 'popular'
+  })
+
+  const { data, error, fetchNextPage, hasNextPage, isFetching } =
+    useFetchInfiniteMedias<'movie'>({
+      type: 'movie',
+      category: category as unknown as MovieCategory
+    })
+
+  useEffect(() => {
+    if (!category) {
+      setCategory('popular')
+    } else if (inView && hasNextPage) {
+      fetchNextPage()
     }
-  ]
+  }, [category, inView, hasNextPage, setCategory, fetchNextPage])
+
+  if (error) throw new Error(error.message) // 에러 바운더리로 던짐
+
   return (
-    <S.MoviesContainer>
-      <MovieFilters labelValues={labelValues} />
-      <MovieList movies={movies} />
-    </S.MoviesContainer>
+    <S.MediaContainer>
+      <MediaFilter type="movie" />
+      <MediaList
+        medias={data?.pages.flatMap((page): MediaResult[] => page.results)}
+        isLoading={isFetching}
+      />
+      <div
+        ref={ref}
+        style={{ height: '2px' }}
+      />
+    </S.MediaContainer>
   )
 }

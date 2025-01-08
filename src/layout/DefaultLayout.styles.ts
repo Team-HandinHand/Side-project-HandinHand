@@ -9,8 +9,5 @@ export const ContentContainer = styled.section`
 export const OutletContainer = styled.section`
   flex: 1;
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: var(--space-medium); // 헤더 패딩과 같음
 `

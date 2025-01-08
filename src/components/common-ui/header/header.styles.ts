@@ -69,11 +69,32 @@ export const Li = styled.li<HeaderLiProps>`
   }
 `
 
-// 유저 관련 nav
+// 로그인 됐을때 nav
 export const AuthContainer = styled.div`
   display: flex;
   gap: var(--space-medium);
   align-items: center;
+`
+export const SearchWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const SearchInput = styled.input`
+  font-size: var(--font-medium);
+  background-color: var(--color-dark-gray);
+  border-radius: var(--border-radius-small);
+  transition: background-color 0.3s;
+  outline: none;
+  border: none;
+  &::placeholder {
+    color: var(--color-light-gray);
+  }
+  &:focus {
+    background-color: var(--color-pale-gray);
+  }
+  padding: var(--space-small) var(--space-medium);
 `
 
 const iconStyles = css<HeaderIconProps>`

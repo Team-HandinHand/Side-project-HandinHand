@@ -1,5 +1,7 @@
 import * as S from './header.styles'
-import { useLocation } from 'react-router-dom'
+import { useRef, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useQueryState } from 'nuqs'
 import { HeaderProps } from '@/types/commonUi'
 import { Button, Profile } from '@/components'
 import { useSignOut } from '@/hooks/mutations/useSignOut'
@@ -9,7 +11,34 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
   const { signOut, isPending } = useSignOut()
   const { user } = useUserStore()
   const { pathname } = useLocation()
+  const navigate = useNavigate()
+  // 검색 관련
+  const [query, setQuery] = useQueryState('search', {
+    defaultValue: ''
+  })
+  const [type] = useQueryState('type', {
+    defaultValue: 'movie'
+  })
+  const [inputValue, setInputValue] = useState(query ?? '')
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null)
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setInputValue(value) //input은 즉시 업데이트
+
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current)
+    }
+
+    debounceTimer.current = setTimeout(() => {
+      setQuery(value) // 쿼리 업데이트
+
+      // 검색어가 있을 때만 라우팅
+      if (value) {
+        navigate(`/media-search?type=${type}&search=${value}`)
+      }
+    }, 300)
+  }
   return (
     <S.HeaderContainer $backgroundColor={$backgroundColor}>
       <S.LogoWrapper>
@@ -70,6 +99,15 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
           </>
         ) : (
           <>
+            <S.SearchWrapper>
+              <S.SearchInput
+                id="search-input"
+                value={inputValue}
+                onChange={handleChange}
+                placeholder="콘텐츠를 검색해보세요  🔍"
+                autoComplete="off"
+              />
+            </S.SearchWrapper>
             <S.BaseLink to="/bookmark">
               <S.FavoriteIcon $active={pathname === '/bookmark'} />
             </S.BaseLink>

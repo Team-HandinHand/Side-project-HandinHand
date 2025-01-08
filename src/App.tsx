@@ -3,10 +3,11 @@ import {
   QueryClientProvider,
   QueryErrorResetBoundary
 } from '@tanstack/react-query'
-import queryClient from './services/react-query'
+import queryClient from './lib/queryClient'
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Toaster } from 'react-hot-toast'
+import { NuqsAdapter } from 'nuqs/adapters/react-router/v7'
 import { DeferredLoader, ErrorFallback } from '@/components'
 import Router from './routes/router'
 import GlobalStyle from '@/styles/GlobalStyle'
@@ -36,7 +37,9 @@ const App = () => {
             onReset={reset}
             FallbackComponent={ErrorFallback}>
             <Suspense fallback={<DeferredLoader />}>
-              <Router />
+              <NuqsAdapter>
+                <Router />
+              </NuqsAdapter>
             </Suspense>
           </ErrorBoundary>
         )}

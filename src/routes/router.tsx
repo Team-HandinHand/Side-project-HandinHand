@@ -10,7 +10,9 @@ import {
   EditProfilePage,
   NotFoundPage,
   SignInPage,
-  CommentDetailPage
+  CommentDetailPage,
+  MediaDetailsPage,
+  MediaSearchPage
 } from '@/pages'
 //OtherUserProfilePage 추가 사용 예정
 import { ErrorBoundary } from 'react-error-boundary'
@@ -75,6 +77,22 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <SeriesPage />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/media-details/:type/:mediaId',
+        element: (
+          <ProtectedRoute>
+            <MediaDetailsPage />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/media-search',
+        element: (
+          <ProtectedRoute>
+            <MediaSearchPage />
           </ProtectedRoute>
         )
       },

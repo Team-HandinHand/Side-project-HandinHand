@@ -1,4 +1,4 @@
-import { StyledButtonProps } from '@/types/button'
+import { StyledButtonProps } from '@/types/commonUi'
 import styled, { css } from 'styled-components'
 
 // 공동 disabled 스타일
@@ -69,6 +69,13 @@ export const StyledButton = styled.button<StyledButtonProps>`
   ${({ $size }) => $size && sizeStyles[$size]}
   ${({ $fontSize }) => $fontSize && `font-size: ${$fontSize};`}
   ${({ $padding }) => $padding && `padding: ${$padding};`}
+
+  ${({ $isActive }) =>
+    $isActive &&
+    `color: var(--color-black);
+    background-color: var(--color-white);
+    border-color: var(--color-white);
+    &:hover {background-color: var(--color-white);}`}
 
   @media (max-width: 576px) {
     font-size: var(--font-small);

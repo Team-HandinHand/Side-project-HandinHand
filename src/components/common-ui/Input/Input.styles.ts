@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { StyledInputProps } from '@/types/input'
+import { StyledInputProps } from '@/types/commonUi'
 
 export const StyledInput = styled.input<StyledInputProps>`
   padding: 10px;
