@@ -6,7 +6,7 @@ export const FormContainer = styled.section`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 200px;
+  min-width: 300px;
   max-width: 700px;
   text-align: center;
 `

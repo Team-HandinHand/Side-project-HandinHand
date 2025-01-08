@@ -36,7 +36,6 @@ export const MediaSearch = () => {
           <MediaList
             medias={medias}
             isLoading={isFetching}
-            flex={true}
           />
           <div
             ref={ref}

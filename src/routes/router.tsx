@@ -122,11 +122,19 @@ const router = createBrowserRouter([
       },
       {
         path: '/reviewedlist',
-        element: <ReviewedList />
+        element: (
+          <ProtectedRoute>
+            <ReviewedList />
+          </ProtectedRoute>
+        )
       },
       {
         path: '/bookmark',
-        element: <Bookmark />
+        element: (
+          <ProtectedRoute>
+            <Bookmark />
+          </ProtectedRoute>
+        )
       }
     ]
   }
@@ -135,3 +143,68 @@ const router = createBrowserRouter([
 export default function Router() {
   return <RouterProvider router={router} />
 }
+
+// 개발용 - 로그인 생랼
+// const router = createBrowserRouter([
+//   {
+//     path: '/',
+//     element: (
+//       <ErrorBoundary FallbackComponent={ErrorFallback}>
+//         <AuthProvider>
+//           <DefaultLayout />
+//         </AuthProvider>
+//       </ErrorBoundary>
+//     ),
+//     errorElement: <NotFoundPage />,
+//     children: [
+//       {
+//         index: true,
+//         element: <HomePage />
+//       },
+//       {
+//         path: '/auth/callback',
+//         element: <HomePage />
+//       },
+//       {
+//         path: '/movies',
+//         element: <MoviesPage />
+//       },
+//       {
+//         path: '/series',
+//         element: <SeriesPage />
+//       },
+//       {
+//         path: '/media-details/:type/:mediaId',
+//         element: <MediaDetailsPage />
+//       },
+//       {
+//         path: '/media-search',
+//         element: <MediaSearchPage />
+//       },
+//       {
+//         path: '/comments/detail',
+//         element: <CommentDetailPage />
+//       },
+//       {
+//         path: '/signup',
+//         element: <SignUpPage />
+//       },
+//       {
+//         path: '/signin',
+//         element: <SignInPage />
+//       },
+//       {
+//         path: '/edit-profile',
+//         element: <EditProfilePage />
+//       },
+//       {
+//         path: '/reviewedlist',
+//         element: <ReviewedList />
+//       },
+//       {
+//         path: '/bookmark',
+//         element: <Bookmark />
+//       }
+//     ]
+//   }
+// ])

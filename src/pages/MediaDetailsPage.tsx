@@ -1,6 +1,6 @@
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Button, Input, Profile, Header, PosterBox } from '@/components'
+import { Button, Input, Profile, PosterBox } from '@/components'
 import { MediaType, MovieDetails, TvDetails } from '@/types/media'
 import useFetchMovieMoreInfo from '@/hooks/queries/useFetchMediaMoreInfo'
 import extractYear from '@/utils/extractYear'
@@ -30,7 +30,6 @@ export const MediaDetailsPage = () => {
 
   return (
     <Container>
-      <Header $backgroundColor="black" />
       {/* 첫번째 박스 */}
       <MovieHeaderContainer>
         <MovieInfo>
@@ -69,11 +68,11 @@ export const MediaDetailsPage = () => {
         {recommendations?.data?.results?.slice(0, 10).map(recommend => (
           <PosterBox
             key={recommend.id}
-            onClick={() =>
-              navigate(
-                `/media-details/${isMovie ? 'movie' : 'tv'}/${recommend.id}`
-              )
-            }
+            onClick={() => {
+              // 현재 URL의 쿼리 파라미터를 제거하고 새로운 경로로 이동
+              const newPath = `/media-details/${isMovie ? 'movie' : 'tv'}/${recommend.id}`
+              navigate(newPath, { replace: true })
+            }}
             imageUrl={`${import.meta.env.VITE_TMDB_IMG_URL}${recommend.poster_path}`}
             title={title}
             date={releaseYear}

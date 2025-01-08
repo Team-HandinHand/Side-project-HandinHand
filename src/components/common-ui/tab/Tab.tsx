@@ -15,7 +15,6 @@ export const Tab = () => {
     setActiveTab(value)
     // 현재 경로가 media-search일 때만 라우팅 업데이트
     if (location.pathname.includes('media-search')) {
-      console.log(value)
       navigate(
         `/media-search${search ? `?type=${value}&search=${search}` : `?type=${value}`}`
       )

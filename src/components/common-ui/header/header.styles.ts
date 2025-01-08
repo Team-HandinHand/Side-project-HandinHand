@@ -43,10 +43,18 @@ export const BaseLink = styled(NavLink)`
   color: inherit;
 `
 // 로그인 안됐을때 막을 링크
+// 개발용
 export const RestrictedLink = styled(BaseLink)<HeaderLinkProps>`
-  cursor: ${({ $signedUp = false }) => ($signedUp ? 'pointer' : 'not-allowed')};
-  pointer-events: ${({ $signedUp = false }) => ($signedUp ? 'auto' : 'none')};
+  /* cursor: ${({ $signedUp = false }) =>
+    $signedUp ? 'pointer' : 'not-allowed'}; */
+  /* pointer-events: ${({ $signedUp = false }) =>
+    $signedUp ? 'auto' : 'none'}; */
 `
+
+// export const RestrictedLink = styled(BaseLink)<HeaderLinkProps>`
+//   cursor: ${({ $signedUp = false }) => ($signedUp ? 'pointer' : 'not-allowed')};
+//   pointer-events: ${({ $signedUp = false }) => ($signedUp ? 'auto' : 'none')};
+// `
 
 // 홈, 영화, 드라마 nav
 export const NavUL = styled.ul`
