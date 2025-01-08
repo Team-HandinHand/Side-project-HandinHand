@@ -10,21 +10,22 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    /** colors **/
-    --color-black: #000000;
-    --color-white: #ffffff;
-    --color-dark-gray: #555555;
-    --color-gray: #777777;
-    --color-light-gray: #999999;
-    --color-pink: #FC1287;
-    --color-pink-dark: #E21079;
-    --color-red: #FF2A2A;
-
-    /** text-colors **/
-    --color-text-dark: #292a32;
-    --color-text-gray: #747474;
-    --color-text-pink: #FF2F62;
-    --color-text-warning: #FF5454;
+        /** colors **/
+        --color-black: #000000;
+        --color-white: #ffffff;
+        --color-dark-gray: #555555;
+        --color-gray: #777777;
+        --color-light-gray: #999999;
+        --color-pale-gray: #D9D9D9;
+        --color-pink: #FC1287;
+        --color-pink-dark: #E21079;
+        --color-red: #FF2A2A;
+       
+        /** text-colors **/
+        --color-text-dark: #292A32;
+        --color-text-gray: #747474;
+        --color-text-pink: #FF2F62;
+        --color-text-warning: #FF5454;
 
     /** font-size **/
     /* Headlines */
@@ -51,6 +52,10 @@ const GlobalStyle = createGlobalStyle`
     --space-xxlarge: 128px;
   }
 
+  * {
+    box-sizing: border-box;
+  }
+
   html {
     font-size: 100%; /* 16px */
   }
@@ -73,6 +78,10 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     text-decoration: none;
     color: var(--color-white);
+  }
+
+  img {
+    display: block;
   }
 
   @media (max-width: 768px) {

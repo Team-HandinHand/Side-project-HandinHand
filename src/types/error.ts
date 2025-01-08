@@ -1,3 +1,3 @@
-export interface TApiError extends Error {
+export interface ApiError extends Error {
   status: number
 }

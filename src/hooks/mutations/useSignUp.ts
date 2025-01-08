@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../../supabaseConfig'
 import { TSignUpFormValues } from '@/schemas/user/signUpSchema'
-import { queryClient } from '../../App'
 import { DEFAULT_PROFILE_PATH } from '@/constants/user'
 import { useErrorHandler } from '@/hooks/useErrorHandler'
+import { isApiError } from '@/utils/isApiError'
 
-export const useSignUp = () => {
-  const navigate = useNavigate()
+export const useSignUp = (
+  onError: (field: keyof TSignUpFormValues, message: string) => void
+) => {
   const handleError = useErrorHandler()
 
   const { mutateAsync: signUp, isPending } = useMutation({
@@ -28,13 +28,14 @@ export const useSignUp = () => {
 
       return data // 성공시 데이터 반환
     },
-    onSuccess: data => {
-      console.log('회원가입 성공:', data)
-      queryClient.invalidateQueries({ queryKey: ['fetchUser'] }) // 회원가입 후 사용자 정보를 다시 가져옴
-      // 성공 시 홈으로 이동
-      navigate('/')
-    },
-    onError: error => handleError('회원가입', error)
+    onError: error => {
+      if (isApiError(error) && error.status >= 400 && error.status < 500) {
+        // 400번재 에러는 폼에 에러 메시지 표시
+        onError('email', '이메일을 다시 확인해주세요')
+        return
+      }
+      handleError('회원가입', error)
+    }
   })
 
   return { signUp, isPending }

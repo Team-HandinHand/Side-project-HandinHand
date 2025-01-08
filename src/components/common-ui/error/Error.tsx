@@ -1,6 +1,5 @@
 import * as S from './Error.styles'
 import { useErrorBoundary } from 'react-error-boundary'
-// import { Button } from '@/components';
 
 export function ErrorFallback({ error }: { error: Error }) {
   const { resetBoundary } = useErrorBoundary()
