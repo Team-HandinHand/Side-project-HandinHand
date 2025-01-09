@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const Container = styled.section`
-  margin: var(--space-medium) auto;
   position: relative;
 `
 

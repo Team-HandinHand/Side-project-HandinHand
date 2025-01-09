@@ -1,9 +1,18 @@
 import styled from 'styled-components'
 
+export const TabContainer = styled.div`
+  margin-bottom: var(--space-medium);
+`
+
+export const Title = styled.h1`
+  margin-bottom: var(--space-small);
+  font-size: var(--font-large);
+  font-weight: 700;
+`
+
 export const Tabs = styled.div`
   display: flex;
-  border-bottom: 0.5px solid var(--color-light-gray);
-  margin-bottom: var(--space-medium);
+  height: 40px; // 고정 높이 할당
 `
 
 export const Tab = styled.button<{ $isActive: boolean }>`
@@ -13,7 +22,7 @@ export const Tab = styled.button<{ $isActive: boolean }>`
   background-color: transparent;
   font-weight: ${({ $isActive }) => $isActive && 700};
   border-bottom: ${({ $isActive }) =>
-    $isActive && `3px solid var(--color-white)`};
+    $isActive ? `2px solid var(--color-pink)` : 'none'};
 
   &:hover {
     font-weight: 700;

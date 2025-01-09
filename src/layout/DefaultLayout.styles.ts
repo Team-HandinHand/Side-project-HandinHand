@@ -9,5 +9,6 @@ export const ContentContainer = styled.section`
 export const OutletContainer = styled.section`
   flex: 1;
   position: relative;
-  padding: var(--space-medium); // 헤더 패딩과 같음
+  padding: var(--space-large); // 헤더 패딩보다 조금 크게
+  padding-top: var(--space-small); // 위쪽 패딩은 작게
 `

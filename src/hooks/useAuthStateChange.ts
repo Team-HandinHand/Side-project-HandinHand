@@ -74,8 +74,7 @@ export const useAuthStateChange = () => {
           break
 
         case 'SIGNED_OUT':
-        case 'TOKEN_REFRESHED':
-          if (!session) handleSignOut()
+          handleSignOut()
           break
 
         case 'USER_UPDATED':

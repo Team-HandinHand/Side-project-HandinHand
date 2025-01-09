@@ -7,5 +7,5 @@ export const HEADER_COLORS = {
 // Tab
 export const TABS = {
   영화: 'movie',
-  시리즈: 'tv'
+  드라마: 'tv'
 } as const

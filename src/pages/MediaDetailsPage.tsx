@@ -69,9 +69,9 @@ export const MediaDetailsPage = () => {
           <PosterBox
             key={recommend.id}
             onClick={() => {
-              // 현재 URL의 쿼리 파라미터를 제거하고 새로운 경로로 이동
-              const newPath = `/media-details/${isMovie ? 'movie' : 'tv'}/${recommend.id}`
-              navigate(newPath, { replace: true })
+              navigate(
+                `/media-details/${isMovie ? 'movie' : 'tv'}/${recommend.id}`
+              )
             }}
             imageUrl={`${import.meta.env.VITE_TMDB_IMG_URL}${recommend.poster_path}`}
             title={title}

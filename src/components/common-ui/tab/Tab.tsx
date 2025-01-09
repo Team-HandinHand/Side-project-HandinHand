@@ -3,11 +3,11 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useQueryState } from 'nuqs'
 import { TABS } from '@/constants/commonUi'
 
-export const Tab = () => {
+export const Tab = ({ title }: { title: string }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const [activeTab, setActiveTab] = useQueryState('type', {
-    defaultValue: 'popular'
+    defaultValue: 'movie'
   })
   const [search] = useQueryState('search')
 
@@ -22,7 +22,8 @@ export const Tab = () => {
   }
 
   return (
-    <S.Tabs>
+    <S.TabContainer>
+      <S.Title>{title}</S.Title>
       {Object.entries(TABS).map(([label, value]) => (
         <S.Tab
           key={value}
@@ -31,6 +32,10 @@ export const Tab = () => {
           {label}
         </S.Tab>
       ))}
-    </S.Tabs>
+    </S.TabContainer>
   )
 }
+
+/** 사용 예시
+ *  <Tab title={`${username}의 평가 목록`} />
+ */

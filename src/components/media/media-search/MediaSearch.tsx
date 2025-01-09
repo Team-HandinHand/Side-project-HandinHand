@@ -30,7 +30,7 @@ export const MediaSearch = () => {
 
   return (
     <S.Container>
-      <Tab />
+      <Tab title={'검색 결과'} />
       {(medias?.length ?? 0) > 0 ? (
         <Fragment>
           <MediaList

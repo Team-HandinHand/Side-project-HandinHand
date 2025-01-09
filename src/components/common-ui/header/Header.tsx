@@ -12,6 +12,7 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
   const { user } = useUserStore()
   const { pathname } = useLocation()
   const navigate = useNavigate()
+
   // 검색 관련
   const [query, setQuery] = useQueryState('search', {
     defaultValue: ''
@@ -33,12 +34,29 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
     debounceTimer.current = setTimeout(() => {
       setQuery(value) // 쿼리 업데이트
 
-      // 검색어가 있을 때만 라우팅
       if (value) {
+        // 검색어가 있을 때만 media-search로 이동
         navigate(`/media-search?type=${type}&search=${value}`)
+      } else if (pathname.includes('media-search')) {
+        // 검색어가 없고 현재 media-search 페이지에 있을 때는 홈으로 이동
+        navigate('/')
       }
     }, 300)
   }
+
+  const handleNavigate = (path: string) => {
+    setInputValue('') // 검색 창 내용 없앰
+
+    // 쿼리 파라미터 초기화
+    setQuery('') // search 쿼리 파라미터 제거
+    // type 쿼리 파라미터 제거
+    const params = new URLSearchParams(window.location.search)
+    params.delete('type')
+
+    // 쿼리 없이 순수 경로로 이동
+    navigate(`${path}${params.toString() ? `?${params.toString()}` : ''}`)
+  }
+
   return (
     <S.HeaderContainer $backgroundColor={$backgroundColor}>
       <S.LogoWrapper>
@@ -50,7 +68,11 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
       <S.NavUL>
         <S.RestrictedLink
           $signedUp={!!user}
-          to="/">
+          to="/"
+          onClick={e => {
+            e.preventDefault()
+            handleNavigate('/')
+          }}>
           <S.Li
             $signedUp={!!user}
             $active={pathname === '/'}>
@@ -59,7 +81,11 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
         </S.RestrictedLink>
         <S.RestrictedLink
           $signedUp={!!user}
-          to="/movies">
+          to="/movies"
+          onClick={e => {
+            e.preventDefault()
+            handleNavigate('/movies')
+          }}>
           <S.Li
             $signedUp={!!user}
             $active={pathname.startsWith('/movies')}>
@@ -68,7 +94,11 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
         </S.RestrictedLink>
         <S.RestrictedLink
           $signedUp={!!user}
-          to="/series">
+          to="/series"
+          onClick={e => {
+            e.preventDefault()
+            handleNavigate('/series')
+          }}>
           <S.Li
             $signedUp={!!user}
             $active={pathname.startsWith('/series')}>

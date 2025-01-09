@@ -4,7 +4,6 @@ export const MediaContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: var(--space-large);
 `
 
 export const PosterContainer = styled.div`

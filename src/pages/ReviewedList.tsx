@@ -1,5 +1,4 @@
-import { Button, ActiveTab } from '@/components'
-import { ActiveTabWrapper } from '@/components/bookmark/Bookmark.styles'
+import { Button, Tab } from '@/components'
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
 import { useUserStore } from '@/stores/userStore'
@@ -34,20 +33,13 @@ const mockReviews = [
 ]
 
 export const ReviewedList = () => {
-  const [activeTab, setActiveTab] = useState<'영화' | '시리즈'>('영화')
   const [reviews] = useState(mockReviews)
   const { user } = useUserStore()
   const username = user?.nickname
 
   return (
     <S.ReviewListContainer>
-      <ActiveTabWrapper>
-        <ActiveTab
-          title={`${username}의 평가 목록`}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
-      </ActiveTabWrapper>
+      <Tab title={`${username}의 평가 목록`} />
       {reviews.map(review => (
         <S.ReviewItem key={review.id}>
           <S.Poster>
