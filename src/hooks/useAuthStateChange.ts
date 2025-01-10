@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../supabaseConfig'
 import { useUserStore } from '@/stores/userStore'
 import queryClient from '@/lib/queryClient'
+import { SupabaseUserData } from '@/types/user'
 
 // 프로필 쿼리 함수
 const fetchUserProfile = async (userId: string) => {
@@ -36,11 +37,14 @@ export const useAuthStateChange = () => {
       })
 
       if (userData) {
-        setUser({
-          email: userData.email,
-          nickname: userData.nickname || '',
-          profilePicturePath: userData.profile_picture_path || ''
-        })
+        const userInfo = {
+          email: (userData as unknown as SupabaseUserData)?.email ?? '',
+          nickname: (userData as unknown as SupabaseUserData)?.nickname ?? '',
+          profilePicturePath:
+            (userData as unknown as SupabaseUserData)?.profile_picture_path ??
+            ''
+        }
+        setUser(userInfo)
       }
     })
 
@@ -61,11 +65,15 @@ export const useAuthStateChange = () => {
 
             if (userData) {
               setTimeout(() => {
-                setUser({
-                  email: userData.email,
-                  nickname: userData.nickname || '',
-                  profilePicturePath: userData.profile_picture_path || ''
-                })
+                const userInfo = {
+                  email: (userData as unknown as SupabaseUserData)?.email ?? '',
+                  nickname:
+                    (userData as unknown as SupabaseUserData)?.nickname ?? '',
+                  profilePicturePath:
+                    (userData as unknown as SupabaseUserData)
+                      ?.profile_picture_path ?? ''
+                }
+                setUser(userInfo)
                 queryClient.invalidateQueries({ queryKey: ['userProfile'] })
                 navigate('/')
               }, 0)
