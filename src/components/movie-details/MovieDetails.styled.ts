@@ -72,7 +72,7 @@ export const SeparatingBox = styled.div`
   border-top: 1px solid var(--color-dark-gray);
   padding: var(--space-medium);
 `
-export const ShowTypes = styled.div`
+export const ShowTypes = styled.div<{ isActive: boolean }>`
   color: var(--color-dark-gray);
   cursor: pointer;
   padding-bottom: var(--space-medium);
@@ -80,6 +80,13 @@ export const ShowTypes = styled.div`
     color: var(--color-white);
     border-bottom: 1.5px solid var(--color-white);
   }
+
+  ${props =>
+    props.isActive &&
+    `
+    color: var(--color-white);
+    border-bottom: 1.5px solid var(--color-white);
+  `}
 `
 
 export const ListsTitle = styled.div`

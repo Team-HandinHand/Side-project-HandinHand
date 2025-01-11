@@ -1,6 +1,6 @@
-import * as S from './MovieSearch.styled'
+import * as S from '@/components/movie-search/MovieSearch.styled'
 
-const App = () => {
+export const MovieSearch = () => {
   return (
     <S.Container>
       <S.MainContent>
@@ -24,5 +24,3 @@ const App = () => {
     </S.Container>
   )
 }
-
-export default App
