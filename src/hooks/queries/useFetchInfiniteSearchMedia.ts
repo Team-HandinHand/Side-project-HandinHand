@@ -1,6 +1,11 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import fetchSearchMedias from '@/service/media/fetchSearchMedias'
-import { MediaSerchResults, MediaType } from '@/types/media'
+import {
+  MediaSerchResults,
+  InfiniteData,
+  MediaType,
+  MediaSearchQKType
+} from '@/types/media'
 
 const useFetchInfiniteSearchMedia = (type: MediaType, searchValue: string) => {
   const {
@@ -10,8 +15,14 @@ const useFetchInfiniteSearchMedia = (type: MediaType, searchValue: string) => {
     hasNextPage,
     isFetching,
     isFetchingNextPage
-  } = useInfiniteQuery<MediaSerchResults>({
-    queryKey: ['MediaSearchResult', type, searchValue], // 쿼리 키가 변경될 때 자동으로 리패치가 발생
+  } = useInfiniteQuery<
+    MediaSerchResults,
+    Error,
+    InfiniteData<MediaSerchResults>,
+    MediaSearchQKType,
+    number
+  >({
+    queryKey: ['MediasSearch', type, searchValue], // 쿼리 키가 변경될 때 자동으로 리패치가 발생
     queryFn: ({ pageParam = 1 }) =>
       fetchSearchMedias({
         type,

@@ -28,6 +28,8 @@ export const Movies = () => {
 
   if (error) throw new Error(error.message) // 에러 바운더리로 던짐
 
+  console.log(data)
+
   return (
     <S.MediaContainer>
       <MediaFilter type="movie" />

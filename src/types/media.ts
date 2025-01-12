@@ -332,3 +332,13 @@ export interface TvSearchResults {
 export type MediaDetails = MovieDetails | TvDetails
 export type MediaCredits = MovieCredits | TvCredits
 export type MediaSerchResults = MovieSearchResults | TvSearchResults
+
+export interface InfiniteData<T> {
+  pages: T[]
+  pageParams: number[]
+}
+
+// 쿼리 제네릭 타입
+export type MediaMoreInfoQKType = readonly [string, MediaType, number]
+
+export type MediaSearchQKType = [string, MediaType, string]

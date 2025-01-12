@@ -1,12 +1,17 @@
 import { MediaResponse, MediaType } from '@/types/media'
 import { useQuery } from '@tanstack/react-query'
-import { MediaDetails, MediaCredits } from '@/types/media'
+import { MediaDetails, MediaCredits, MediaMoreInfoQKType } from '@/types/media'
 import fetchMediaDetails from '@/service/media/fetchMediaDetails'
 import fetchMediaCredits from '@/service/media/fetchMediaCredits'
 import fetchRecommendMedia from '@/service/media/fetchRecommendMedia'
 
 const useFetchMovieMoreInfo = (type: MediaType, mediaId: number) => {
-  const details = useQuery<MediaDetails>({
+  const details = useQuery<
+    MediaDetails,
+    Error,
+    MediaDetails,
+    MediaMoreInfoQKType
+  >({
     queryKey: ['mediaDetails', type, mediaId],
     queryFn: () => fetchMediaDetails({ type, mediaId }),
     enabled: !!mediaId,
@@ -14,7 +19,12 @@ const useFetchMovieMoreInfo = (type: MediaType, mediaId: number) => {
     throwOnError: true // 에러 바운더리로 에러 던지기
   })
 
-  const credits = useQuery<MediaCredits>({
+  const credits = useQuery<
+    MediaCredits,
+    Error,
+    MediaCredits,
+    MediaMoreInfoQKType
+  >({
     queryKey: ['mediaCredits', type, mediaId],
     queryFn: () => fetchMediaCredits({ type, mediaId }),
     enabled: !!mediaId,
@@ -22,7 +32,12 @@ const useFetchMovieMoreInfo = (type: MediaType, mediaId: number) => {
     throwOnError: true
   })
 
-  const recommendations = useQuery<MediaResponse>({
+  const recommendations = useQuery<
+    MediaResponse,
+    Error,
+    MediaResponse,
+    MediaMoreInfoQKType
+  >({
     queryKey: ['recommendMedias', type, mediaId],
     queryFn: () => fetchRecommendMedia({ type, mediaId }),
     enabled: !!mediaId,
