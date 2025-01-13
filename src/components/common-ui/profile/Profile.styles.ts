@@ -9,13 +9,13 @@ export const ProfileButtonWrapper = styled.button<{ size?: ProfileButtonSize }>`
     if (size === 'small') return '40px'
     if (size === 'medium') return '65px'
     if (size === 'large') return '200px'
-    return size ?? '65px'
+    return size || '65px'
   }};
   height: ${({ size }) => {
     if (size === 'small') return '40px'
     if (size === 'medium') return '65px'
     if (size === 'large') return '200px'
-    return size ?? '65px'
+    return size || '65px'
   }};
   border-radius: var(--border-radius-xlarge);
   overflow: hidden;
