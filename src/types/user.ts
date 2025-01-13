@@ -10,3 +10,8 @@ export interface SupabaseUserData {
   nickname: string
   profile_picture_path: string
 }
+
+export interface CheckDuplicateProps {
+  field: 'nickname' | 'email'
+  value: string
+}

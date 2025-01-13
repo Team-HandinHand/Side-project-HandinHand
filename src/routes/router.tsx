@@ -24,34 +24,30 @@ import { ErrorFallback } from '@/components'
 import useAuthStateChange from '@/hooks/useAuthStateChange'
 import { PROTECTED_PATHS } from '@/constants/path'
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { session } = useAuthStateChange()
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const { user, session } = useAuthStateChange()
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
   console.log({
+    user,
     session,
-    pathname,
-    'session?.user': session?.user,
-    lastPath: localStorage.getItem('lastPath')
+    pathname
   })
 
   useEffect(() => {
-    const lastPath = localStorage.getItem('lastPath')
-    if (session && lastPath) {
-      navigate(lastPath, { replace: true })
-      localStorage.removeItem('lastPath')
-    }
-    if (!session && pathname !== '/signin') {
-      localStorage.setItem('lastPath', pathname)
-    }
     if (
-      !session &&
+      !user &&
       PROTECTED_PATHS.includes(pathname as (typeof PROTECTED_PATHS)[number])
     ) {
       navigate('/signin', { replace: true })
+    } else if (
+      user &&
+      !PROTECTED_PATHS.includes(pathname as (typeof PROTECTED_PATHS)[number])
+    ) {
+      navigate('/', { replace: true })
     }
-  }, [session, pathname, navigate])
+  }, [user, pathname, navigate])
 
   return children
 }

@@ -2,30 +2,43 @@ import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../../supabaseConfig'
 import queryClient from '@/services/react-query'
 import { Session } from '@supabase/supabase-js'
-import { User, SupabaseUserData } from '@/types/user'
+import { User } from '@/types/user'
 import fetchUserProfile from '@/services/auth/fetchUserProfile'
 
 const useAuthStateChange = () => {
-  // localStorage.clear()
   const [session, setSession] = useState<Session | null>(null)
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(() => {
+    // 초기값을 localStorage에서 가져오기
+    const storedUSer = localStorage.getItem('user')
+    return storedUSer ? JSON.parse(storedUSer) : null
+  })
 
-  const updateUser = (session: Session | null, userData?: SupabaseUserData) => {
+  const updateUser = useCallback(async (session: Session | null) => {
     if (!session) {
       setUser(null)
+      localStorage.removeItem('user')
       return
     }
 
-    const userInfo = {
-      userId: session.user.id,
-      email: session.user.email ?? '',
-      nickname: userData?.nickname ?? '',
-      profilePicturePath: userData?.profile_picture_path ?? ''
+    try {
+      const userData = await queryClient.fetchQuery({
+        queryKey: ['userProfile', session.user.id],
+        queryFn: () => fetchUserProfile(session.user.id)
+      })
+      if ('error' in userData) throw userData.error
+      const userInfo = {
+        userId: session.user.id,
+        email: session.user.email ?? '',
+        nickname: userData.nickname ?? '',
+        profilePicturePath: userData.profile_picture_path ?? ''
+      }
+
+      localStorage.setItem('user', JSON.stringify(userInfo))
+      setUser(userInfo)
+    } catch (error) {
+      console.error('Failed to update user:', error)
     }
-    // user 정보를 로컬 스토리지에 저장
-    localStorage.setItem('user', JSON.stringify(userInfo))
-    setUser(userInfo)
-  }
+  }, [])
 
   const handleAuthChange = useCallback(
     async (event: string, currSession: Session | null) => {
@@ -33,76 +46,34 @@ const useAuthStateChange = () => {
       setSession(() => currSession)
       switch (event) {
         case 'SIGNED_IN':
+        case 'INITIAL_SESSION':
         case 'USER_UPDATED':
         case 'TOKEN_REFRESHED': {
           // 프로필 데이터 새로 가져오기
           if (!currSession?.user) return
-          const userData = await queryClient.fetchQuery({
-            queryKey: ['userProfile', currSession.user.id],
-            queryFn: () => fetchUserProfile(currSession.user.id),
-            staleTime: Infinity
-          })
-          if ('error' in userData) {
-            console.error('user data 가져오기 실패:', userData)
-            return
-          }
-          updateUser(currSession, userData as SupabaseUserData)
+          updateUser(currSession)
           break
         }
 
         case 'SIGNED_OUT': {
+          localStorage.removeItem('user')
           updateUser(null)
           queryClient.clear()
-          localStorage.removeItem('user')
           break
         }
       }
     },
-    []
+    [updateUser]
   )
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user')
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
-    }
     // 로컬 스토리지에서 세션 복원
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session)
       if (session?.user) {
-        const userData = await queryClient.fetchQuery({
-          queryKey: ['userProfile', session.user.id],
-          queryFn: () => fetchUserProfile(session.user.id)
-        })
-        if ('error' in userData) {
-          console.error('user data 가져오기 실패:', userData)
-          return
-        }
-        updateUser(session, userData as SupabaseUserData)
+        updateUser(session)
       }
     })
-
-    // const initAuth = async () => {
-    //   try {
-    //     const {
-    //       data: { session }
-    //     } = await supabase.auth.getSession()
-    //     console.log('Initial session:', session)
-
-    //     if (session?.user) {
-    //       setSession(session)
-    //       const userData = await queryClient.fetchQuery({
-    //         queryKey: ['userProfile', session.user.id],
-    //         queryFn: () => fetchUserProfile(session.user.id)
-    //       })
-    //       updateUser(session, userData as SupabaseUserData)
-    //     }
-    //   } catch (error) {
-    //     console.error('Auth initialization error:', error)
-    //   }
-    // }
-
-    // initAuth()
 
     // 세션 변경 구독
     const {
@@ -110,7 +81,7 @@ const useAuthStateChange = () => {
     } = supabase.auth.onAuthStateChange(handleAuthChange)
 
     return () => subscription.unsubscribe()
-  }, [handleAuthChange])
+  }, [handleAuthChange, updateUser])
 
   return { session, user }
 }

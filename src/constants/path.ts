@@ -1,4 +1,5 @@
 export const PROTECTED_PATHS = [
+  '/',
   '/movies',
   '/series',
   '/bookmark',

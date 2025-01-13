@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { signUpSchema, TSignUpFormValues } from '@/schemas/user/signUpSchema'
-import { useCheckDuplicate } from '@/hooks/useCheckDuplicate'
+import { useCheckDuplicate } from '@/hooks/mutations/useCheckDuplicate'
 import { useSignUp } from '@/hooks/mutations/useSignUp'
 import { Button } from '@/components'
 
@@ -46,17 +46,18 @@ export const SignUpForm = () => {
   }, [trigger])
 
   // 닉네임, 이메일 중복 체크
-  const { checkDuplicate } = useCheckDuplicate()
+  const { checkDuplicate, isPending: isCheckDuplcatePending } =
+    useCheckDuplicate()
 
   const checkDuplicateNicknameOrEmail = useCallback(
     async (field: 'nickname' | 'email') => {
       const currNickname = getValues('nickname')
       const currEmail = getValues('email')
 
-      const result = await (field === 'nickname'
-        ? checkDuplicate('nickname', currNickname)
-        : checkDuplicate('email', currEmail))
-      if (result.data) {
+      const isDuplicate = await (field === 'nickname'
+        ? checkDuplicate({ field: 'nickname', value: currNickname })
+        : checkDuplicate({ field: 'email', value: currEmail }))
+      if (isDuplicate) {
         setError(field, {
           message:
             field === 'nickname'
@@ -68,7 +69,7 @@ export const SignUpForm = () => {
         setValidFields(prev => ({ ...prev, [field]: true }))
       }
     },
-    [setError]
+    [setError, checkDuplicate, getValues]
   )
 
   // 폼 제출 핸들러
@@ -104,7 +105,7 @@ export const SignUpForm = () => {
               size="small"
               disabled={!getValues('nickname')}
               onClick={() => checkDuplicateNicknameOrEmail('nickname')}>
-              중복 확인
+              {isCheckDuplcatePending ? '확인 중... ' : '중복 확인'}
             </Button>
           </S.InputwithDuplicateBtn>
           {touchedFields.nickname && errors.nickname && (
@@ -132,7 +133,7 @@ export const SignUpForm = () => {
               size="small"
               disabled={!getValues('email')}
               onClick={() => checkDuplicateNicknameOrEmail('email')}>
-              중복 확인
+              {isCheckDuplcatePending ? '확인 중... ' : '중복 확인'}
             </Button>
           </S.InputwithDuplicateBtn>
           {touchedFields.email && errors.email && (

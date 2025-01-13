@@ -7,7 +7,7 @@ import {
   editProfileSchema,
   TEditProfileFormValues
 } from '@/schemas/user/editProfileSchema'
-import { useCheckDuplicate } from '@/hooks/useCheckDuplicate'
+import { useCheckDuplicate } from '@/hooks/mutations/useCheckDuplicate'
 import { useEditProfile } from '@/hooks/mutations/useEditProfile'
 import { useDeactivateAccount } from '@/hooks/mutations/usedeactivateAccount'
 import useAuthStateChange from '@/hooks/useAuthStateChange'
@@ -65,17 +65,21 @@ export const EditProfileForm = () => {
   }
 
   // 닉네임 중복 체크
-  const { checkDuplicate: checkNickname } = useCheckDuplicate()
+  const { checkDuplicate: checkNickname, isPending: isCheckNicknamePending } =
+    useCheckDuplicate()
 
   const checkDuplicateNickname = useCallback(async () => {
     const currNickname = getValues('nickname') // 중복 확인 버튼 클릭시점에 가져온 값
-    if (!currNickname || currNickname === user?.nickname) {
+    if (currNickname === user?.nickname) {
       return setError('nickname', { message: '현재 닉네임과 동일합니다' })
     }
 
-    const result = await checkNickname('nickname', currNickname)
+    const isDuplicate = await checkNickname({
+      field: 'nickname',
+      value: currNickname
+    })
 
-    if (result.data) {
+    if (isDuplicate) {
       setError('nickname', {
         message: '이미 사용 중인 닉네임입니다'
       })
@@ -193,7 +197,7 @@ export const EditProfileForm = () => {
         <S.ProfileImg
           src={imgPreview ?? user?.profilePicturePath}
           alt="profileImg"
-          onError={e => {
+          onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
             e.currentTarget.src = DEFAULT_PROFILE_PATH // 폴백 이미지
           }}
         />
@@ -204,9 +208,6 @@ export const EditProfileForm = () => {
           ref={imgRef}
           onChange={handleImageChange}
         />
-        {touchedFields.profilePicturePath && errors.profilePicturePath && (
-          <S.ErrorMessage>{errors.profilePicturePath?.message}</S.ErrorMessage>
-        )}
         <S.FormField>
           <Button
             type="button"
@@ -232,7 +233,7 @@ export const EditProfileForm = () => {
               color="transparent"
               disabled={!getValues('nickname')}
               onClick={checkDuplicateNickname}>
-              중복 확인
+              {isCheckNicknamePending ? '확인 중... ' : '중복 확인'}
             </Button>
           </S.InputwithDuplicateBtn>
           {touchedFields.nickname && errors.nickname && (

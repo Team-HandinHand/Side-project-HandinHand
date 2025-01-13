@@ -31,8 +31,8 @@ export const Profile = ({
       <S.ProfileImage
         src={imageUrl ?? DEFAULT_PROFILE_PATH}
         alt={altText}
-        onError={e => {
-          e.currentTarget.src = DEFAULT_PROFILE_PATH // 폴백 이미지
+        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+          e.currentTarget.src = DEFAULT_PROFILE_PATH
         }}
       />
     </S.ProfileButtonWrapper>
