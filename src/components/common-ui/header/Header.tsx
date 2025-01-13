@@ -2,13 +2,26 @@ import * as S from './header.styles'
 import { useLocation } from 'react-router-dom'
 import { HeaderProps } from '@/types/commonUi'
 import { Button, Profile } from '@/components'
+import { memo, useMemo } from 'react'
 import { useSignOut } from '@/hooks/mutations/useSignOut'
-import { useUserStore } from '@/stores/userStore'
+import useAuthStateChange from '@/hooks/useAuthStateChange'
 
-export const Header = ({ $backgroundColor }: HeaderProps) => {
+export const Header = memo(({ $backgroundColor }: HeaderProps) => {
   const { signOut, isPending } = useSignOut()
-  const { user } = useUserStore()
   const { pathname } = useLocation()
+  const { user } = useAuthStateChange()
+
+  // console.log('user', user)
+
+  const isHomeActive = useMemo(() => pathname === '/', [pathname])
+  const isMoviesActive = useMemo(
+    () => pathname.startsWith('/movies'),
+    [pathname]
+  )
+  const isSeriesActive = useMemo(
+    () => pathname.startsWith('/series'),
+    [pathname]
+  )
 
   return (
     <S.HeaderContainer $backgroundColor={$backgroundColor}>
@@ -24,7 +37,7 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
           to="/">
           <S.Li
             $signedUp={!!user}
-            $active={pathname === '/'}>
+            $active={isHomeActive}>
             홈
           </S.Li>
         </S.RestrictedLink>
@@ -33,7 +46,7 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
           to="/movies">
           <S.Li
             $signedUp={!!user}
-            $active={pathname.startsWith('/movies')}>
+            $active={isMoviesActive}>
             영화
           </S.Li>
         </S.RestrictedLink>
@@ -42,7 +55,7 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
           to="/series">
           <S.Li
             $signedUp={!!user}
-            $active={pathname.startsWith('/series')}>
+            $active={isSeriesActive}>
             드라마
           </S.Li>
         </S.RestrictedLink>
@@ -78,11 +91,15 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
             </S.BaseLink>
             <S.BaseLink to="/edit-profile">
               <Profile
+                // imageUrl={session?.user?.user_metadata?.avatar_url}
                 imageUrl={user?.profilePicturePath}
                 size="small"
               />
             </S.BaseLink>
-            <S.UserNickname>{user?.nickname}</S.UserNickname>
+            <S.UserNickname>
+              {/* {session?.user?.user_metadata?.name} */}
+              {user?.nickname}
+            </S.UserNickname>
             <Button
               type="button"
               color="transparent"
@@ -96,4 +113,4 @@ export const Header = ({ $backgroundColor }: HeaderProps) => {
       </S.AuthContainer>
     </S.HeaderContainer>
   )
-}
+})

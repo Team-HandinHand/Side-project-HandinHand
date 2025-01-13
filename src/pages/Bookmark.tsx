@@ -1,6 +1,6 @@
 import { ActiveTab } from '@/components'
 import { useState } from 'react'
-import { useUserStore } from '@/stores/userStore'
+import useAuthStateChange from '@/hooks/useAuthStateChange'
 import { MovieList } from '@/components/movieList/MovieList'
 import { MoviesContainer } from '@/components/movies/Movies.styles'
 import { ActiveTabWrapper } from '@/components/bookmark/Bookmark.styles'
@@ -81,7 +81,7 @@ const movies = [
 
 export const Bookmark = () => {
   const [activeTab, setActiveTab] = useState<'영화' | '시리즈'>('영화')
-  const { user } = useUserStore()
+  const { user } = useAuthStateChange()
   const username = user?.nickname
   return (
     <MoviesContainer>

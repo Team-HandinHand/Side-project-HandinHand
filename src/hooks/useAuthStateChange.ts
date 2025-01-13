@@ -1,95 +1,118 @@
-import { useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../../supabaseConfig'
-import { useUserStore } from '@/stores/userStore'
 import queryClient from '@/services/react-query'
+import { Session } from '@supabase/supabase-js'
+import { User, SupabaseUserData } from '@/types/user'
+import fetchUserProfile from '@/services/auth/fetchUserProfile'
 
-// 프로필 쿼리 함수
-const fetchUserProfile = async (userId: string) => {
-  const { data } = await supabase
-    .from('users')
-    .select('email, nickname, profile_picture_path')
-    .eq('user_id', userId)
-    .single()
-  return data
-}
+const useAuthStateChange = () => {
+  // localStorage.clear()
+  const [session, setSession] = useState<Session | null>(null)
+  const [user, setUser] = useState<User | null>(null)
 
-export const useAuthStateChange = () => {
-  const navigate = useNavigate()
-  const { setUser, clearUser } = useUserStore()
+  const updateUser = (session: Session | null, userData?: SupabaseUserData) => {
+    if (!session) {
+      setUser(null)
+      return
+    }
 
-  // 로그아웃 처리 함수
-  const handleSignOut = useCallback(() => {
-    clearUser()
-    queryClient.clear()
-    navigate('/signin')
-  }, [clearUser, navigate])
+    const userInfo = {
+      userId: session.user.id,
+      email: session.user.email ?? '',
+      nickname: userData?.nickname ?? '',
+      profilePicturePath: userData?.profile_picture_path ?? ''
+    }
+    // user 정보를 로컬 스토리지에 저장
+    localStorage.setItem('user', JSON.stringify(userInfo))
+    setUser(userInfo)
+  }
 
-  useEffect(() => {
-    // 초기 세션 체크
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (!session?.user) return
-
-      const userData = await queryClient.fetchQuery({
-        queryKey: ['userProfile', session.user.id],
-        queryFn: () => fetchUserProfile(session.user.id)
-      })
-
-      if (userData) {
-        setUser({
-          email: userData.email,
-          nickname: userData.nickname || '',
-          profilePicturePath: userData.profile_picture_path || ''
-        })
-      }
-    })
-
-    const {
-      data: { subscription }
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
-      // console.log('Event type:', event)
-      // console.log('Session:', session)
-
+  const handleAuthChange = useCallback(
+    async (event: string, currSession: Session | null) => {
+      console.log('Event type:', event)
+      setSession(() => currSession)
       switch (event) {
         case 'SIGNED_IN':
-          if (session?.user) {
-            if (!session?.user) return
-            const userData = await queryClient.fetchQuery({
-              queryKey: ['userProfile', session.user.id],
-              queryFn: () => fetchUserProfile(session.user.id)
-            })
-
-            if (userData) {
-              setTimeout(() => {
-                setUser({
-                  email: userData.email,
-                  nickname: userData.nickname || '',
-                  profilePicturePath: userData.profile_picture_path || ''
-                })
-                queryClient.invalidateQueries({ queryKey: ['userProfile'] })
-                navigate('/')
-              }, 0)
-            }
-          }
-          break
-
-        case 'SIGNED_OUT':
-        case 'TOKEN_REFRESHED':
-          if (!session) handleSignOut()
-          break
-
         case 'USER_UPDATED':
-          if (session?.user) {
-            queryClient.invalidateQueries({
-              queryKey: ['userProfile', session.user.id] // 프로필 쿼리 무효화
-            })
+        case 'TOKEN_REFRESHED': {
+          // 프로필 데이터 새로 가져오기
+          if (!currSession?.user) return
+          const userData = await queryClient.fetchQuery({
+            queryKey: ['userProfile', currSession.user.id],
+            queryFn: () => fetchUserProfile(currSession.user.id),
+            staleTime: Infinity
+          })
+          if ('error' in userData) {
+            console.error('user data 가져오기 실패:', userData)
+            return
           }
+          updateUser(currSession, userData as SupabaseUserData)
           break
+        }
+
+        case 'SIGNED_OUT': {
+          updateUser(null)
+          queryClient.clear()
+          localStorage.removeItem('user')
+          break
+        }
+      }
+    },
+    []
+  )
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
+    }
+    // 로컬 스토리지에서 세션 복원
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      setSession(session)
+      if (session?.user) {
+        const userData = await queryClient.fetchQuery({
+          queryKey: ['userProfile', session.user.id],
+          queryFn: () => fetchUserProfile(session.user.id)
+        })
+        if ('error' in userData) {
+          console.error('user data 가져오기 실패:', userData)
+          return
+        }
+        updateUser(session, userData as SupabaseUserData)
       }
     })
 
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [handleSignOut, navigate, setUser])
+    // const initAuth = async () => {
+    //   try {
+    //     const {
+    //       data: { session }
+    //     } = await supabase.auth.getSession()
+    //     console.log('Initial session:', session)
+
+    //     if (session?.user) {
+    //       setSession(session)
+    //       const userData = await queryClient.fetchQuery({
+    //         queryKey: ['userProfile', session.user.id],
+    //         queryFn: () => fetchUserProfile(session.user.id)
+    //       })
+    //       updateUser(session, userData as SupabaseUserData)
+    //     }
+    //   } catch (error) {
+    //     console.error('Auth initialization error:', error)
+    //   }
+    // }
+
+    // initAuth()
+
+    // 세션 변경 구독
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange(handleAuthChange)
+
+    return () => subscription.unsubscribe()
+  }, [handleAuthChange])
+
+  return { session, user }
 }
+
+export default useAuthStateChange

@@ -5,7 +5,7 @@ import { useErrorHandler } from '@/hooks/useErrorHandler'
 export const useSignOut = () => {
   const handleError = useErrorHandler()
 
-  const { mutateAsync: signOut, isPending } = useMutation({
+  const { mutateAsync: signOut, isPending } = useMutation<void, Error>({
     mutationFn: async () => {
       // Supabase 로그아웃
       const { error } = await supabase.auth.signOut()

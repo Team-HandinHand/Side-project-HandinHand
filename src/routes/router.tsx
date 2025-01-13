@@ -1,4 +1,9 @@
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+  useLocation
+} from 'react-router-dom'
 import DefaultLayout from '@/layout/DefaultLayout'
 import {
   HomePage,
@@ -13,29 +18,42 @@ import {
   CommentDetailPage
 } from '@/pages'
 //OtherUserProfilePage 추가 사용 예정
+import { useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorFallback } from '@/components'
-import { useUserStore } from '@/stores/userStore'
-import { useAuthStateChange } from '@/hooks/useAuthStateChange'
+import useAuthStateChange from '@/hooks/useAuthStateChange'
+import { PROTECTED_PATHS } from '@/constants/path'
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useUserStore()
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const { session } = useAuthStateChange()
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
 
-  if (!user) {
-    return (
-      <Navigate
-        to="/signin"
-        replace
-      />
-    ) // 인증되지 않은 경우 리다이렉트
-  }
+  console.log({
+    session,
+    pathname,
+    'session?.user': session?.user,
+    lastPath: localStorage.getItem('lastPath')
+  })
+
+  useEffect(() => {
+    const lastPath = localStorage.getItem('lastPath')
+    if (session && lastPath) {
+      navigate(lastPath, { replace: true })
+      localStorage.removeItem('lastPath')
+    }
+    if (!session && pathname !== '/signin') {
+      localStorage.setItem('lastPath', pathname)
+    }
+    if (
+      !session &&
+      PROTECTED_PATHS.includes(pathname as (typeof PROTECTED_PATHS)[number])
+    ) {
+      navigate('/signin', { replace: true })
+    }
+  }, [session, pathname, navigate])
 
   return children
-}
-
-const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  useAuthStateChange()
-  return <>{children}</>
 }
 
 const router = createBrowserRouter([
@@ -52,11 +70,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <ProtectedRoute>
-            <HomePage />
-          </ProtectedRoute>
-        )
+        element: <HomePage />
       },
       {
         path: '/auth/callback',
@@ -64,27 +78,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/movies',
-        element: (
-          <ProtectedRoute>
-            <MoviesPage />
-          </ProtectedRoute>
-        )
+        element: <MoviesPage />
       },
       {
         path: '/series',
-        element: (
-          <ProtectedRoute>
-            <SeriesPage />
-          </ProtectedRoute>
-        )
+        element: <SeriesPage />
       },
       {
         path: '/comments/detail',
-        element: (
-          <ProtectedRoute>
-            <CommentDetailPage />
-          </ProtectedRoute>
-        )
+        element: <CommentDetailPage />
       },
       {
         path: '/signup',
@@ -96,11 +98,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/edit-profile',
-        element: (
-          <ProtectedRoute>
-            <EditProfilePage />
-          </ProtectedRoute>
-        )
+        element: <EditProfilePage />
       },
       {
         path: '/reviewedlist',

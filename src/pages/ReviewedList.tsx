@@ -2,7 +2,7 @@ import { Button, ActiveTab } from '@/components'
 import { ActiveTabWrapper } from '@/components/bookmark/Bookmark.styles'
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
-import { useUserStore } from '@/stores/userStore'
+import useAuthStateChange from '@/hooks/useAuthStateChange'
 import { useState } from 'react'
 
 const mockReviews = [
@@ -36,7 +36,7 @@ const mockReviews = [
 export const ReviewedList = () => {
   const [activeTab, setActiveTab] = useState<'영화' | '시리즈'>('영화')
   const [reviews] = useState(mockReviews)
-  const { user } = useUserStore()
+  const { user } = useAuthStateChange()
   const username = user?.nickname
 
   return (

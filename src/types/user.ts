@@ -1,12 +1,12 @@
 export interface User {
-  userId?: string
-  nickname: string
+  userId: string
   email: string
+  nickname: string
   profilePicturePath: string
 }
 
-export interface UserState {
-  user: User | null
-  setUser: (user: User) => void
-  clearUser: () => void
+export interface SupabaseUserData {
+  email: string
+  nickname: string
+  profile_picture_path: string
 }

@@ -8,7 +8,11 @@ import { useErrorHandler } from '@/hooks/useErrorHandler'
 export const useSignIn = (setError: UseFormSetError<TSignInFormValues>) => {
   const handleError = useErrorHandler()
 
-  const { mutateAsync: signIn, isPending } = useMutation({
+  const { mutateAsync: signIn, isPending } = useMutation<
+    void,
+    Error,
+    TSignInFormValues
+  >({
     mutationFn: async ({ email, password }: TSignInFormValues) => {
       // Supabase 로그인
       const { error } = await supabase.auth.signInWithPassword({

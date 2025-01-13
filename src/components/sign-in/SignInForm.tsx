@@ -44,7 +44,8 @@ export const SignInForm = () => {
   // 디버깅용
   console.log('current sign in form', {
     errors,
-    data: watch()
+    data: watch(),
+    touchedFields
   })
 
   return (

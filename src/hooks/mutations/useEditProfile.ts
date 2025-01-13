@@ -9,7 +9,11 @@ import { useErrorHandler } from '@/hooks/useErrorHandler'
 export const useEditProfile = () => {
   const handleError = useErrorHandler()
 
-  const { mutateAsync: editProfile, isPending } = useMutation({
+  const { mutateAsync: editProfile, isPending } = useMutation<
+    void,
+    Error,
+    TEditProfileFormValues
+  >({
     mutationFn: async ({
       nickname,
       password,

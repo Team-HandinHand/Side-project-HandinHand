@@ -1,8 +1,8 @@
 import { supabase } from '../../supabaseConfig'
-import { useUserStore } from '@/stores/userStore'
+import useAuthStateChange from './useAuthStateChange'
 
 export const useCheckDuplicate = () => {
-  const { user } = useUserStore()
+  const { user } = useAuthStateChange()
 
   const checkDuplicate = async (field: string, value: string) => {
     try {
@@ -13,6 +13,7 @@ export const useCheckDuplicate = () => {
         .from('users')
         .select('*')
         .eq(field, value)
+      console.log('data', data)
 
       if (error) throw error
 

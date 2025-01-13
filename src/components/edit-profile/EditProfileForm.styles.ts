@@ -20,7 +20,8 @@ export const EditProfileForm = Form
 export const ProfileImg = styled.img`
   border-radius: var(--border-radius-xlarge);
   width: 150px;
-  object-fit: contain;
+  height: 150px;
+  object-fit: fill;
   margin-bottom: calc(var(--space-medium) * -1);
 `
 

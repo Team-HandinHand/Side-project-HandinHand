@@ -5,7 +5,7 @@ import {
   SkeletonDescription,
   SkeletonImage,
   SkeletonTitle
-} from '../Skeleton/Skeleton.tsx'
+} from '../skeleton/Skeleton.tsx'
 import * as S from './PosterBox.styles.ts'
 
 export const PosterBox = ({
