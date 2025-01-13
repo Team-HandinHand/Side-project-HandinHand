@@ -42,11 +42,11 @@ const useAuthStateChange = () => {
 
   const handleAuthChange = useCallback(
     async (event: string, currSession: Session | null) => {
-      console.log('Event type:', event)
+      // console.log('Event type:', event)
       setSession(() => currSession)
       switch (event) {
-        case 'SIGNED_IN':
         case 'INITIAL_SESSION':
+        case 'SIGNED_IN':
         case 'USER_UPDATED':
         case 'TOKEN_REFRESHED': {
           // 프로필 데이터 새로 가져오기

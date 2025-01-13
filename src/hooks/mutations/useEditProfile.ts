@@ -1,12 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
+import { UseFormSetError } from 'react-hook-form'
 import { supabase } from '../../../supabaseConfig'
 import {
   TEditProfileFormValues,
   TEditProfileRequestValues
 } from '@/schemas/user/editProfileSchema'
 import { useErrorHandler } from '@/hooks/useErrorHandler'
+import { isApiError } from '@/utils/isApiError'
+import toast from 'react-hot-toast'
 
-export const useEditProfile = () => {
+export const useEditProfile = (
+  setError: UseFormSetError<TEditProfileFormValues>
+) => {
   const handleError = useErrorHandler()
 
   const { mutateAsync: editProfile, isPending } = useMutation<
@@ -34,7 +39,23 @@ export const useEditProfile = () => {
 
       if (error) throw error
     },
-    onError: error => handleError('프로필 수정', error)
+    onSuccess: () => {
+      toast.success('프로필 수정이 완료되었어요')
+      // navigate('/')
+    },
+    onError: error => {
+      if (isApiError(error) && error.status === 422) {
+        // 폼에 에러 메시지 표시
+        setError('password', {
+          message: ''
+        })
+        setError('confirmPassword', {
+          message: '이전 비밀번호와 다른 비밀번호를 입력해주세요'
+        })
+        return
+      }
+      handleError('프로필 수정', error)
+    }
   })
 
   return { editProfile, isPending }

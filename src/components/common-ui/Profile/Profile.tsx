@@ -31,7 +31,7 @@ export const Profile = ({
       <S.ProfileImage
         src={imageUrl ?? DEFAULT_PROFILE_PATH}
         alt={altText}
-        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+        onError={e => {
           e.currentTarget.src = DEFAULT_PROFILE_PATH
         }}
       />

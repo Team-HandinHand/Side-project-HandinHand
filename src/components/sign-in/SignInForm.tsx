@@ -1,5 +1,4 @@
 import * as S from './SignInForm.styles'
-import { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { signInSchema, TSignInFormValues } from '@/schemas/user/signInSchema'
@@ -10,7 +9,6 @@ export const SignInForm = () => {
   const {
     register,
     handleSubmit,
-    trigger,
     formState: { isSubmitting, errors, touchedFields },
     setError,
     watch // 디버깅용
@@ -25,11 +23,6 @@ export const SignInForm = () => {
 
   const { signIn, isPending: isSignInPending } = useSignIn(setError)
   const { googleSignIn, isPending: isGoogleSignInPending } = useGoogleSignIn()
-
-  // 초기 유효성 검사
-  useEffect(() => {
-    trigger(['email', 'password'])
-  }, [trigger])
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<TSignInFormValues> = async formData => {

@@ -25,15 +25,14 @@ import useAuthStateChange from '@/hooks/useAuthStateChange'
 import { PROTECTED_PATHS } from '@/constants/path'
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { user, session } = useAuthStateChange()
+  const { user } = useAuthStateChange()
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
-  console.log({
-    user,
-    session,
-    pathname
-  })
+  // console.log({
+  //   user,
+  //   pathname
+  // })
 
   useEffect(() => {
     if (
