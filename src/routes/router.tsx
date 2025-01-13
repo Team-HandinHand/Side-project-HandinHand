@@ -15,7 +15,9 @@ import {
   EditProfilePage,
   NotFoundPage,
   SignInPage,
-  CommentDetailPage
+  CommentDetailPage,
+  MediaDetailsPage,
+  MediaSearchPage
 } from '@/pages'
 //OtherUserProfilePage 추가 사용 예정
 import { useEffect } from 'react'
@@ -78,6 +80,14 @@ const router = createBrowserRouter([
       {
         path: '/series',
         element: <SeriesPage />
+      },
+      {
+        path: '/media-details/:type/:mediaId',
+        element: <MediaDetailsPage />
+      },
+      {
+        path: '/media-search',
+        element: <MediaSearchPage />
       },
       {
         path: '/comments/detail',

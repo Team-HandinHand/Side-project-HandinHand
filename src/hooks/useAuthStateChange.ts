@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../supabaseConfig'
-import queryClient from '@/services/react-query'
+import queryClient from '@/lib/queryClient'
 import { Session } from '@supabase/supabase-js'
 import { User } from '@/types/user'
 import fetchUserProfile from '@/services/auth/fetchUserProfile'

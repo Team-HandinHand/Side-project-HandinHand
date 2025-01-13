@@ -43,10 +43,18 @@ export const BaseLink = styled(NavLink)`
   color: inherit;
 `
 // 로그인 안됐을때 막을 링크
+// 개발용
 export const RestrictedLink = styled(BaseLink)<HeaderLinkProps>`
-  cursor: ${({ $signedUp = false }) => ($signedUp ? 'pointer' : 'not-allowed')};
-  pointer-events: ${({ $signedUp = false }) => ($signedUp ? 'auto' : 'none')};
+  /* cursor: ${({ $signedUp = false }) =>
+    $signedUp ? 'pointer' : 'not-allowed'}; */
+  /* pointer-events: ${({ $signedUp = false }) =>
+    $signedUp ? 'auto' : 'none'}; */
 `
+
+// export const RestrictedLink = styled(BaseLink)<HeaderLinkProps>`
+//   cursor: ${({ $signedUp = false }) => ($signedUp ? 'pointer' : 'not-allowed')};
+//   pointer-events: ${({ $signedUp = false }) => ($signedUp ? 'auto' : 'none')};
+// `
 
 // 홈, 영화, 드라마 nav
 export const NavUL = styled.ul`
@@ -69,11 +77,32 @@ export const Li = styled.li<HeaderLiProps>`
   }
 `
 
-// 유저 관련 nav
+// 로그인 됐을때 nav
 export const AuthContainer = styled.div`
   display: flex;
   gap: var(--space-medium);
   align-items: center;
+`
+export const SearchWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const SearchInput = styled.input`
+  font-size: var(--font-medium);
+  background-color: var(--color-dark-gray);
+  border-radius: var(--border-radius-small);
+  transition: background-color 0.3s;
+  outline: none;
+  border: none;
+  &::placeholder {
+    color: var(--color-light-gray);
+  }
+  &:focus {
+    background-color: var(--color-pale-gray);
+  }
+  padding: var(--space-small) var(--space-medium);
 `
 
 const iconStyles = css<HeaderIconProps>`

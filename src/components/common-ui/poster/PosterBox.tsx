@@ -29,14 +29,11 @@ export const PosterBox = ({
   }
   return (
     <S.PosterBoxContainer
-      title={title}
-      imageUrl={imageUrl}
-      date={date}
       flex={flex}
       onClick={onClick}>
       <S.MovieImageBox
         src={imageUrl}
-        alt={title}
+        alt={`${title}-poster`}
         flex={flex}
       />
       <S.ContentBox flex={flex}>

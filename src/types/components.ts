@@ -7,14 +7,9 @@ interface PosterBoxProps {
   isLoading?: boolean
 }
 interface PosterBoxContainerProps {
-  title: string
-  imageUrl: string
-  date: string
   flex?: boolean
 }
 interface MovieImageBoxProps {
-  src: string
-  alt: string
   flex?: boolean
 }
 interface ContentBoxProps {

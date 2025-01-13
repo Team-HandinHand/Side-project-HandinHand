@@ -2,8 +2,12 @@ import styled from 'styled-components'
 import { Button, Input } from '@/components'
 
 export const FormContainer = styled.section`
-  width: 100%;
-  max-width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 300px;
+  max-width: 700px;
   text-align: center;
 `
 

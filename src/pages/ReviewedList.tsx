@@ -1,5 +1,4 @@
-import { Button, ActiveTab } from '@/components'
-import { ActiveTabWrapper } from '@/components/bookmark/Bookmark.styles'
+import { Button, Tab } from '@/components'
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
 import useAuthStateChange from '@/hooks/useAuthStateChange'
@@ -8,46 +7,39 @@ import { useState } from 'react'
 const mockReviews = [
   {
     id: 1,
-    poster: '/image.png',
+    poster: '/assets/img/test/image.png',
     rating: 3,
     comment: '2024년 가장 기억에 남는 영화'
   },
   {
     id: 2,
-    poster: '/image.png',
+    poster: '/assets/img/test/image.png',
     rating: 4,
     comment:
       '긴텍스트 test : Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the   .'
   },
   {
     id: 3,
-    poster: '/image.png',
+    poster: '/assets/img/test/image.png',
     rating: 3,
     comment: '긴텍스트 tests : Lorem Ipsum is simply dummy text.'
   },
   {
     id: 4,
-    poster: '/image.png',
+    poster: '/assets/img/test/image.png',
     rating: 5,
     comment: '완벽한 작품이었어요!'
   }
 ]
 
 export const ReviewedList = () => {
-  const [activeTab, setActiveTab] = useState<'영화' | '시리즈'>('영화')
   const [reviews] = useState(mockReviews)
   const { user } = useAuthStateChange()
   const username = user?.nickname
 
   return (
     <S.ReviewListContainer>
-      <ActiveTabWrapper>
-        <ActiveTab
-          title={`${username}의 평가 목록`}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
-      </ActiveTabWrapper>
+      <Tab title={`${username}의 평가 목록`} />
       {reviews.map(review => (
         <S.ReviewItem key={review.id}>
           <S.Poster>
