@@ -1,6 +1,6 @@
 import * as S from './Input.styles'
 import { forwardRef } from 'react'
-import { InputProps } from '@/types/input'
+import { InputProps } from '@/types/commonUi'
 
 /*
 사용예시 - PR 예시 화면 참고해주세요
@@ -17,10 +17,9 @@ export const Input = forwardRef<
   HTMLInputElement | HTMLTextAreaElement,
   InputProps
 >((props, ref) => {
-  const { type, width, fontSize, register, error, ...rest } = props
+  const { type, width, fontSize, error, ...rest } = props
 
   const commonProps = {
-    ...register,
     $width: width,
     $fontSize: fontSize,
     $error: error,

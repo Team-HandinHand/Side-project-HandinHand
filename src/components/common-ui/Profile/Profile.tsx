@@ -1,5 +1,5 @@
 import * as S from './Profile.styles'
-import { ProfileButtonProps } from '@/types/profile'
+import { ProfileButtonProps } from '@/types/commonUi'
 import { DEFAULT_PROFILE_PATH } from '@/constants/user'
 
 /* 사용예시 

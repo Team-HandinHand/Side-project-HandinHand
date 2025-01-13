@@ -1,5 +1,5 @@
 import { StyledButton } from './Button.styles'
-import { ButtonProps } from '@/types/button'
+import { ButtonProps } from '@/types/commonUi'
 
 /*
 사용예시 - PR 예시 화면 참고해주세요
@@ -18,6 +18,7 @@ export const Button = ({
   fontSize,
   padding,
   children,
+  isActive,
   ...props
 }: ButtonProps) => {
   return (
@@ -26,6 +27,7 @@ export const Button = ({
       $size={size}
       $fontSize={fontSize}
       $padding={padding}
+      $isActive={isActive}
       {...props}>
       {children}
     </StyledButton>
