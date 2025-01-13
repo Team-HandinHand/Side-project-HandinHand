@@ -25,13 +25,13 @@ export const useEditProfile = (
       profilePicturePath
     }: TEditProfileFormValues) => {
       const updateData: TEditProfileRequestValues = {
-        data: {
-          nickname,
-          profile_picture_path: profilePicturePath
-        }
+        data: {}
       }
 
-      // password를 바꿀 때만 요청에 추가
+      // 데이터를 바꿀 때만 요청에 추가
+      if (nickname) updateData.data.nickname = nickname
+      if (profilePicturePath)
+        updateData.data.profile_picture_path = profilePicturePath
       if (password) updateData.password = password
 
       // Supabase 프로필 수정
@@ -41,7 +41,6 @@ export const useEditProfile = (
     },
     onSuccess: () => {
       toast.success('프로필 수정이 완료되었어요')
-      // navigate('/')
     },
     onError: error => {
       if (isApiError(error) && error.status === 422) {

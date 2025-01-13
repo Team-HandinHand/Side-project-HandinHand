@@ -81,7 +81,7 @@ export const EditProfileForm = () => {
 
     const isDuplicate = await checkNickname({
       field: 'nickname',
-      value: currNickname
+      value: currNickname ?? ''
     })
 
     if (isDuplicate) {
@@ -96,17 +96,8 @@ export const EditProfileForm = () => {
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<TEditProfileFormValues> = async formData => {
-    console.log('onSubmit click')
-
-    const mergedData = {
-      ...user,
-      ...formData
-    }
-
-    console.log(mergedData)
-
-    // 병합된 데이터를 서버로 전송
-    await editProfile(mergedData)
+    console.log('formData', formData)
+    await editProfile(formData)
   }
 
   // 변경 사항 유무 추적
