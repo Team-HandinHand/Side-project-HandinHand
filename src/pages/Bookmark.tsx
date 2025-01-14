@@ -1,10 +1,10 @@
 import { Tab } from '@/components'
 // import { MediaList } from '@/components'
 import { MediaContainer } from '@/components/media/Media.styles'
-import useAuthStateChange from '@/hooks/useAuthStateChange'
+import useAuth from '@/hooks/useAuth'
 
 export const Bookmark = () => {
-  const { user } = useAuthStateChange()
+  const { user } = useAuth()
   const username = user?.nickname
   return (
     <MediaContainer>

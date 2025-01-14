@@ -1,3 +1,15 @@
+import { Session } from '@supabase/supabase-js'
+import { ReactNode } from 'react'
+
+export interface AuthContextType {
+  session: Session | null
+  user: User | null
+}
+
+export interface AuthProviderProps {
+  children: ReactNode
+}
+
 export interface User {
   userId: string
   email: string

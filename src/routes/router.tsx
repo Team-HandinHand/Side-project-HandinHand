@@ -1,8 +1,8 @@
 import {
   createBrowserRouter,
   RouterProvider,
-  useNavigate,
-  useLocation
+  useLocation,
+  Navigate
 } from 'react-router-dom'
 import DefaultLayout from '@/layout/DefaultLayout'
 import {
@@ -20,36 +20,39 @@ import {
   MediaSearchPage
 } from '@/pages'
 //OtherUserProfilePage 추가 사용 예정
-import { useEffect } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorFallback } from '@/components'
-import useAuthStateChange from '@/hooks/useAuthStateChange'
+import useAuth from '@/hooks/useAuth'
 import { PUBLIC_PATHS } from '@/constants/path'
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuthStateChange()
+export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
+  const { user } = useAuth()
   const { pathname } = useLocation()
-  const navigate = useNavigate()
 
   // console.log({
   //   user,
   //   pathname
   // })
 
-  useEffect(() => {
-    if (
-      !user &&
-      !PUBLIC_PATHS.includes(pathname as (typeof PUBLIC_PATHS)[number])
-    ) {
-      navigate('/signin', { replace: true })
-    } else if (
-      user &&
-      PUBLIC_PATHS.includes(pathname as (typeof PUBLIC_PATHS)[number])
-    ) {
-      navigate('/', { replace: true })
-    }
-  }, [user, pathname, navigate])
-
+  const isPublicRoute = PUBLIC_PATHS.includes(
+    pathname as (typeof PUBLIC_PATHS)[number]
+  )
+  const AUTH_PATHS = ['/signin', '/signup']
+  const isAuthPath = AUTH_PATHS.includes(pathname)
+  if (!user && !isPublicRoute)
+    return (
+      <Navigate
+        to={'/signin'}
+        replace
+      />
+    )
+  if (user && isAuthPath) {
+    return (
+      <Navigate
+        to={'/'}
+        replace
+      />
+    )
+  }
   return children
 }
 
@@ -57,13 +60,11 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <AuthProvider>
-          <DefaultLayout />
-        </AuthProvider>
-      </ErrorBoundary>
+      <ProtectedPage>
+        <DefaultLayout />
+      </ProtectedPage>
     ),
-    errorElement: <NotFoundPage />,
+    errorElement: <ErrorFallback />,
     children: [
       {
         index: true,
@@ -114,7 +115,8 @@ const router = createBrowserRouter([
         element: <Bookmark />
       }
     ]
-  }
+  },
+  { path: '*', element: <NotFoundPage /> }
 ])
 
 export default function Router() {

@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { UseFormSetError } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../../supabaseConfig'
 import {
   TEditProfileFormValues,
@@ -13,6 +14,7 @@ export const useEditProfile = (
   setError: UseFormSetError<TEditProfileFormValues>
 ) => {
   const handleError = useErrorHandler()
+  const navigate = useNavigate()
 
   const { mutateAsync: editProfile, isPending } = useMutation<
     void,
@@ -43,6 +45,7 @@ export const useEditProfile = (
     },
     onSuccess: () => {
       toast.success('프로필 수정이 완료되었어요')
+      navigate('/')
     },
     onError: error => {
       if (isApiError(error) && error.status === 422) {

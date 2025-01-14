@@ -10,12 +10,12 @@ import {
 import { useCheckDuplicate } from '@/hooks/mutations/useCheckDuplicate'
 import { useEditProfile } from '@/hooks/mutations/useEditProfile'
 import { useDeactivateAccount } from '@/hooks/mutations/usedeactivateAccount'
-import useAuthStateChange from '@/hooks/useAuthStateChange'
+import useAuth from '@/hooks/useAuth'
 import { Button } from '@/components'
 import { DEFAULT_PROFILE_PATH } from '@/constants/user'
 
 export const EditProfileForm = () => {
-  const { user } = useAuthStateChange()
+  const { user } = useAuth()
 
   const { deactivateAccount, isPending: isDeactivateAccountPending } =
     useDeactivateAccount()

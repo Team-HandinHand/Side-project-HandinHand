@@ -6,13 +6,13 @@ import { HeaderProps } from '@/types/commonUi'
 import { Button, Profile } from '@/components'
 import { memo, useMemo } from 'react'
 import { useSignOut } from '@/hooks/mutations/useSignOut'
-import useAuthStateChange from '@/hooks/useAuthStateChange'
+import useAuth from '@/hooks/useAuth'
 
 export const Header = memo(({ $backgroundColor }: HeaderProps) => {
   const { signOut, isPending } = useSignOut()
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const { user } = useAuthStateChange()
+  const { user } = useAuth()
 
   // console.log('user', user)
 

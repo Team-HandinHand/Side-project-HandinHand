@@ -1,9 +1,8 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../supabaseConfig'
 import queryClient from '@/lib/queryClient'
 import { Session } from '@supabase/supabase-js'
-import { User } from '@/types/user'
+import { User } from '@/types/auth'
 import fetchUserProfile from '@/services/auth/fetchUserProfile'
 
 const useAuthStateChange = () => {
@@ -13,8 +12,6 @@ const useAuthStateChange = () => {
     const storedUSer = localStorage.getItem('user')
     return storedUSer ? JSON.parse(storedUSer) : null
   })
-
-  const navigate = useNavigate()
 
   const updateUser = useCallback(async (session: Session | null) => {
     if (!session) {
@@ -50,18 +47,11 @@ const useAuthStateChange = () => {
       switch (event) {
         case 'INITIAL_SESSION':
         case 'SIGNED_IN':
-        case 'TOKEN_REFRESHED': {
+        case 'TOKEN_REFRESHED':
+        case 'USER_UPDATED': {
           // 프로필 데이터 새로 가져오기
           if (!currSession?.user) return
           updateUser(currSession)
-          break
-        }
-
-        case 'USER_UPDATED': {
-          // 프로필 데이터 새로 가져오고 홈으로 이동
-          if (!currSession?.user) return
-          updateUser(currSession)
-          navigate('/')
           break
         }
 
@@ -73,7 +63,7 @@ const useAuthStateChange = () => {
         }
       }
     },
-    [updateUser, navigate]
+    [updateUser]
   )
 
   useEffect(() => {

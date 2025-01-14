@@ -1,7 +1,7 @@
 import { Button, Tab } from '@/components'
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
-import useAuthStateChange from '@/hooks/useAuthStateChange'
+import useAuth from '@/hooks/useAuth'
 import { useState } from 'react'
 
 const mockReviews = [
@@ -34,7 +34,7 @@ const mockReviews = [
 
 export const ReviewedList = () => {
   const [reviews] = useState(mockReviews)
-  const { user } = useAuthStateChange()
+  const { user } = useAuth()
   const username = user?.nickname
 
   return (
