@@ -22,8 +22,6 @@ export const useCheckDuplicate = () => {
         .select(field)
         .eq(field, value)
 
-      console.log('data', data)
-
       if (error) throw error
 
       return data.length > 0

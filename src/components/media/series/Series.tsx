@@ -1,16 +1,14 @@
 import * as S from '../Media.styles'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { useQueryState } from 'nuqs'
 import { MediaFilter, MediaList } from '@/components'
 import useFetchInfiniteMedias from '@/hooks/queries/useFetchInfiniteMedias'
-import { useQueryState } from 'nuqs'
 import { MediaResult, TVCategory } from '@/types/media'
-
+import { TV_CATEGORIES } from '@/constants/media'
 export const Series = () => {
   const { ref, inView } = useInView()
-  const [category, setCategory] = useQueryState('category', {
-    defaultValue: 'popular'
-  })
+  const [category, setCategory] = useQueryState('category')
 
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useFetchInfiniteMedias<'tv'>({
@@ -19,7 +17,7 @@ export const Series = () => {
     })
 
   useEffect(() => {
-    if (!category) {
+    if (!TV_CATEGORIES.includes(category as TVCategory)) {
       setCategory('popular')
     } else if (inView && hasNextPage) {
       fetchNextPage()

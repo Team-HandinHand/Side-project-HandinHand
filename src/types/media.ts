@@ -1,22 +1,10 @@
 export type MediaType = 'movie' | 'tv'
-
-export interface MovieCategory {
-  popular: 'popular'
-  top_rated: 'top_rated'
-  now_playing: 'now_playing'
-  upcoming: 'upcoming'
-}
-
-export interface TVCategory {
-  popular: 'popular'
-  top_rated: 'top_rated'
-  airing_today: 'airing_today'
-  on_the_air: 'on_the_air'
-}
+export type MovieCategory = 'popular' | 'top_rated' | 'now_playing' | 'upcoming'
+export type TVCategory = 'popular' | 'top_rated' | 'airing_today' | 'on_the_air'
 
 export type MediaCategory<T extends MediaType> = T extends 'movie'
-  ? keyof MovieCategory
-  : keyof TVCategory
+  ? MovieCategory
+  : TVCategory
 
 export interface FetchMediasParams {
   type: MediaType

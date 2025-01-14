@@ -34,6 +34,8 @@ export const useEditProfile = (
         updateData.data.profile_picture_path = profilePicturePath
       if (password) updateData.password = password
 
+      console.log('updateData', updateData)
+
       // Supabase 프로필 수정
       const { error } = await supabase.auth.updateUser(updateData)
 

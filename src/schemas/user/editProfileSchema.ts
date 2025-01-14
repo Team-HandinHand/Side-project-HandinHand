@@ -21,23 +21,38 @@ export const editProfileSchema = z
     confirmPassword: z.string().optional(),
     profilePicturePath: z.string().optional()
   })
-  .refine(
-    data => !data.password || data.password.length >= PASSWORD_MIN_LENGTH,
-    {
-      message: `비밀번호는 ${PASSWORD_MIN_LENGTH}자리 이상 입력해주세요`,
-      path: ['password']
+  .superRefine((data, ctx) => {
+    // password 길이 체크
+    if (data.password && data.password.length < PASSWORD_MIN_LENGTH) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `비밀번호는 ${PASSWORD_MIN_LENGTH}자리 이상 입력해주세요`,
+        path: ['password']
+      })
     }
-  )
-  .refine(
-    data =>
-      !data.password ||
-      !data.confirmPassword ||
-      data.password === data.confirmPassword,
-    {
-      message: '비밀번호가 일치하지 않습니다',
-      path: ['confirmPassword']
+
+    // password가 있을 때 confirmPassword 체크
+    if (data.password && !data.confirmPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: '비밀번호를 한번 더 입력해주세요',
+        path: ['confirmPassword']
+      })
     }
-  )
+
+    // password와 confirmPassword 일치 여부 체크
+    if (
+      data.password &&
+      data.confirmPassword &&
+      data.password !== data.confirmPassword
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: '비밀번호가 일치하지 않습니다',
+        path: ['confirmPassword']
+      })
+    }
+  })
 
 export type TEditProfileFormValues = z.infer<typeof editProfileSchema>
 

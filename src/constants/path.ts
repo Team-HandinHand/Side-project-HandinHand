@@ -1,8 +1,1 @@
-export const PROTECTED_PATHS = [
-  '/',
-  '/movies',
-  '/series',
-  '/bookmark',
-  '/reviewedlist',
-  '/edit-profile'
-] as const
+export const PUBLIC_PATHS = ['/auth/callback', '/signin', '/signup'] as const

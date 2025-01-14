@@ -96,7 +96,6 @@ export const EditProfileForm = () => {
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<TEditProfileFormValues> = async formData => {
-    console.log('formData', formData)
     await editProfile(formData)
   }
 

@@ -4,9 +4,7 @@ import { MediaFilterProps } from '@/types/mediaUi'
 import { TV_CATEGORY_MAP, MOVIE_CATEGORY_MAP } from '@/constants/media'
 
 export const MediaFilter = ({ type }: MediaFilterProps) => {
-  const [category, setCategory] = useQueryState('category', {
-    defaultValue: 'popular'
-  })
+  const [category, setCategory] = useQueryState('category')
   const categoryMap = type === 'tv' ? TV_CATEGORY_MAP : MOVIE_CATEGORY_MAP
 
   return (

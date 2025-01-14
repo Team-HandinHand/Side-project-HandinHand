@@ -24,7 +24,7 @@ import { useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorFallback } from '@/components'
 import useAuthStateChange from '@/hooks/useAuthStateChange'
-import { PROTECTED_PATHS } from '@/constants/path'
+import { PUBLIC_PATHS } from '@/constants/path'
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuthStateChange()
@@ -39,12 +39,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (
       !user &&
-      PROTECTED_PATHS.includes(pathname as (typeof PROTECTED_PATHS)[number])
+      !PUBLIC_PATHS.includes(pathname as (typeof PUBLIC_PATHS)[number])
     ) {
       navigate('/signin', { replace: true })
     } else if (
       user &&
-      !PROTECTED_PATHS.includes(pathname as (typeof PROTECTED_PATHS)[number])
+      PUBLIC_PATHS.includes(pathname as (typeof PUBLIC_PATHS)[number])
     ) {
       navigate('/', { replace: true })
     }
