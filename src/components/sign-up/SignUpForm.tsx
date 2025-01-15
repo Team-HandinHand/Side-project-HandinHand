@@ -1,5 +1,5 @@
 import * as S from './SignUpForm.styles'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { signUpSchema, TSignUpFormValues } from '@/schemas/user/signUpSchema'
@@ -20,6 +20,7 @@ export const SignUpForm = () => {
     formState: { isSubmitting, errors, touchedFields },
     setError,
     getValues,
+    trigger,
     watch // 디버깅용
   } = useForm<TSignUpFormValues>({
     resolver: zodResolver(signUpSchema),
@@ -31,6 +32,10 @@ export const SignUpForm = () => {
       confirmPassword: ''
     }
   })
+
+  useEffect(() => {
+    trigger()
+  }, [trigger])
 
   const { signUp, isPending } = useSignUp(
     (field: keyof TSignUpFormValues, message: string) => {

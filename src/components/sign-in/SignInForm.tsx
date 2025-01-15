@@ -1,4 +1,5 @@
 import * as S from './SignInForm.styles'
+import { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { signInSchema, TSignInFormValues } from '@/schemas/user/signInSchema'
@@ -11,6 +12,7 @@ export const SignInForm = () => {
     handleSubmit,
     formState: { isSubmitting, errors, touchedFields },
     setError,
+    trigger,
     watch // 디버깅용
   } = useForm<TSignInFormValues>({
     resolver: zodResolver(signInSchema),
@@ -20,6 +22,10 @@ export const SignInForm = () => {
       password: ''
     }
   })
+
+  useEffect(() => {
+    trigger()
+  }, [trigger])
 
   const { signIn, isPending: isSignInPending } = useSignIn(setError)
   const { googleSignIn, isPending: isGoogleSignInPending } = useGoogleSignIn()
