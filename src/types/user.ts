@@ -5,6 +5,12 @@ export interface User {
   profilePicturePath: string
 }
 
+export interface SupabaseUserData {
+  email: string
+  nickname: string
+  profile_picture_path: string
+}
+
 export interface UserState {
   user: User | null
   setUser: (user: User) => void

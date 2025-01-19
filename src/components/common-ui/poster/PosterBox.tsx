@@ -5,7 +5,7 @@ import {
   SkeletonDescription,
   SkeletonImage,
   SkeletonTitle
-} from '../Skeleton/Skeleton.tsx'
+} from '../skeleton/Skeleton.tsx'
 import * as S from './PosterBox.styles.ts'
 
 export const PosterBox = ({
@@ -29,14 +29,11 @@ export const PosterBox = ({
   }
   return (
     <S.PosterBoxContainer
-      title={title}
-      imageUrl={imageUrl}
-      date={date}
       flex={flex}
       onClick={onClick}>
       <S.MovieImageBox
         src={imageUrl}
-        alt={title}
+        alt={`${title}-poster`}
         flex={flex}
       />
       <S.ContentBox flex={flex}>

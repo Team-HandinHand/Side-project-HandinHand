@@ -68,7 +68,7 @@ export const SignUpForm = () => {
         setValidFields(prev => ({ ...prev, [field]: true }))
       }
     },
-    [setError]
+    [setError, checkDuplicate, getValues]
   )
 
   // 폼 제출 핸들러
