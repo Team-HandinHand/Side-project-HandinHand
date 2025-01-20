@@ -34,7 +34,7 @@ export const useFetchInfiniteMedias = <T extends MediaType>({
     queryFn: ({ pageParam }) =>
       fetchMedias({
         type,
-        category: category as unknown as MediaCategory<typeof type>,
+        category: category as MediaCategory<typeof type>,
         page: pageParam as number
       }),
     initialPageParam: 1,

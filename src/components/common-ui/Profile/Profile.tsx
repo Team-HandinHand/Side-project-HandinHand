@@ -32,7 +32,7 @@ export const Profile = ({
         src={imageUrl ?? DEFAULT_PROFILE_PATH}
         alt={altText}
         onError={e => {
-          e.currentTarget.src = DEFAULT_PROFILE_PATH // 폴백 이미지
+          e.currentTarget.src = DEFAULT_PROFILE_PATH
         }}
       />
     </S.ProfileButtonWrapper>

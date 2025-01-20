@@ -7,16 +7,16 @@ import {
   editProfileSchema,
   TEditProfileFormValues
 } from '@/schemas/user/editProfileSchema'
-import { useCheckDuplicate } from '@/hooks/useCheckDuplicate'
+import { useCheckDuplicate } from '@/hooks/mutations/useCheckDuplicate'
 import { useEditProfile } from '@/hooks/mutations/useEditProfile'
 import { useDeactivateAccount } from '@/hooks/mutations/usedeactivateAccount'
-import { useUserStore } from '@/stores/userStore'
+import useAuth from '@/hooks/useAuth'
 import { Button } from '@/components'
 import { DEFAULT_PROFILE_PATH } from '@/constants/user'
 
 export const EditProfileForm = () => {
-  const { user } = useUserStore()
-  const { editProfile, isPending: isEditProfilePending } = useEditProfile()
+  const { user } = useAuth()
+
   const { deactivateAccount, isPending: isDeactivateAccountPending } =
     useDeactivateAccount()
 
@@ -28,6 +28,16 @@ export const EditProfileForm = () => {
 
   // 중복 확인 해야하는 필드 valid 여부
   const [validNickname, setValidNickname] = useState<boolean>(false)
+
+  const defaultValues = useMemo(
+    () => ({
+      nickname: user?.nickname,
+      password: '',
+      confirmPassword: '',
+      profilePicturePath: user?.profilePicturePath
+    }),
+    [user]
+  )
 
   const {
     register,
@@ -43,13 +53,11 @@ export const EditProfileForm = () => {
   } = useForm<TEditProfileFormValues>({
     resolver: zodResolver(editProfileSchema),
     mode: 'onChange',
-    defaultValues: {
-      nickname: user?.nickname,
-      password: '',
-      confirmPassword: '',
-      profilePicturePath: user?.profilePicturePath
-    }
+    defaultValues
   })
+
+  const { editProfile, isPending: isEditProfilePending } =
+    useEditProfile(setError)
 
   // 이미지 변경 반영
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,17 +73,18 @@ export const EditProfileForm = () => {
   }
 
   // 닉네임 중복 체크
-  const { checkDuplicate: checkNickname } = useCheckDuplicate()
+  const { checkDuplicate: checkNickname, isPending: isCheckNicknamePending } =
+    useCheckDuplicate()
 
   const checkDuplicateNickname = useCallback(async () => {
     const currNickname = getValues('nickname') // 중복 확인 버튼 클릭시점에 가져온 값
-    if (!currNickname || currNickname === user?.nickname) {
-      return setError('nickname', { message: '현재 닉네임과 동일합니다' })
-    }
 
-    const result = await checkNickname('nickname', currNickname)
+    const isDuplicate = await checkNickname({
+      field: 'nickname',
+      value: currNickname ?? ''
+    })
 
-    if (result.data) {
+    if (isDuplicate) {
       setError('nickname', {
         message: '이미 사용 중인 닉네임입니다'
       })
@@ -83,36 +92,23 @@ export const EditProfileForm = () => {
     } else {
       setValidNickname(true)
     }
-  }, [setError, user?.nickname, checkNickname, getValues])
+  }, [setError, checkNickname, getValues])
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<TEditProfileFormValues> = async formData => {
-    const mergedData = {
-      ...user,
-      ...formData
-    }
-
-    // 병합된 데이터를 서버로 전송
-    await editProfile(mergedData)
+    await editProfile(formData)
   }
 
   // 변경 사항 유무 추적
   const formData = watch()
   const isFormChanged = useMemo(() => {
-    const defaultValues = {
-      nickname: user?.nickname,
-      password: '',
-      confirmPassword: '',
-      profilePicturePath: user?.profilePicturePath
-    }
-
     return (
-      formData.nickname !== defaultValues.nickname ||
-      (formData.password ?? '') !== defaultValues.password ||
-      (formData.confirmPassword ?? '') !== defaultValues.confirmPassword ||
-      formData.profilePicturePath !== defaultValues.profilePicturePath
-    )
-  }, [formData, user])
+      Object.keys(defaultValues) as Array<keyof typeof defaultValues>
+    ).some(key => formData[key] !== defaultValues[key])
+  }, [formData, defaultValues])
+  const isNicknameChanged = useMemo(() => {
+    return formData.nickname !== user?.nickname
+  }, [formData.nickname, user?.nickname])
 
   // 변경 사항 되돌리기
   const handleCancel = () => {
@@ -179,12 +175,12 @@ export const EditProfileForm = () => {
   }
 
   // 디버깅용
-  console.log('current edit profile form', {
-    errors: errors,
-    data: watch(),
-    validNickname: validNickname,
-    isFormChanged
-  })
+  // console.log('current edit profile form', {
+  //   errors: errors,
+  //   data: watch(),
+  //   validNickname: validNickname,
+  //   isFormChanged
+  // })
 
   return (
     <S.EditProfileFormContainer>
@@ -192,7 +188,7 @@ export const EditProfileForm = () => {
       <S.EditProfileForm onSubmit={handleSubmit(onSubmit)}>
         <S.ProfileImg
           src={imgPreview ?? user?.profilePicturePath}
-          alt="profileImg"
+          alt="user_profile_image"
           onError={e => {
             e.currentTarget.src = DEFAULT_PROFILE_PATH // 폴백 이미지
           }}
@@ -204,9 +200,6 @@ export const EditProfileForm = () => {
           ref={imgRef}
           onChange={handleImageChange}
         />
-        {touchedFields.profilePicturePath && errors.profilePicturePath && (
-          <S.ErrorMessage>{errors.profilePicturePath?.message}</S.ErrorMessage>
-        )}
         <S.FormField>
           <Button
             type="button"
@@ -230,9 +223,9 @@ export const EditProfileForm = () => {
             <Button
               type="button"
               color="transparent"
-              disabled={!getValues('nickname')}
+              disabled={!getValues('nickname') || !isNicknameChanged}
               onClick={checkDuplicateNickname}>
-              중복 확인
+              {isCheckNicknamePending ? '확인 중... ' : '중복 확인'}
             </Button>
           </S.InputwithDuplicateBtn>
           {touchedFields.nickname && errors.nickname && (
@@ -293,6 +286,7 @@ export const EditProfileForm = () => {
             color="pink"
             disabled={
               !isFormChanged ||
+              (isNicknameChanged && !validNickname) ||
               isSubmitting ||
               Object.keys(errors).length > 0 ||
               isEditProfilePending
