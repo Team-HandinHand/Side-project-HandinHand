@@ -1,6 +1,13 @@
-import { MediaResult, MovieResult } from '@/types/media'
+import {
+  MediaDetails,
+  MediaResult,
+  MovieDetails,
+  MovieResult
+} from '@/types/media'
 
-const checkIsMovie = (media: MediaResult): media is MovieResult => {
+const checkIsMovie = (
+  media: MediaResult | MediaDetails
+): media is MovieResult | MovieDetails => {
   return 'title' in media
 }
 

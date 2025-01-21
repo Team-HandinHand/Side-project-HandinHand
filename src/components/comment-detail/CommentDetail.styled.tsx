@@ -5,13 +5,6 @@ export const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  > svg {
-    color: var(--color-light-gray);
-    width: 20px;
-    height: 16px;
-    margin-right: auto;
-    margin-bottom: var(--space-xxlarge);
-  }
 `
 export const ContentsContainer = styled.div`
   width: 80%;
@@ -19,12 +12,16 @@ export const ContentsContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: var(--space-xxlarge);
 `
 export const ContentsHeader = styled.div`
   width: 80%;
   display: flex;
   justify-content: space-between;
   font-size: var(--font-small);
+  > a {
+    width: 70%;
+  }
 `
 export const WrittenDate = styled.div``
 
@@ -40,17 +37,23 @@ export const ReviewCommentContainer = styled.div`
 `
 export const RatingSection = styled.div`
   display: flex;
+  justify-content: space-between;
   gap: var(--space-small);
   margin-top: var(--space-medium);
-  div {
+  > div {
     font-weight: bold;
+    display: flex;
+    align-items:center;
+    gap: 5px;
+  }
+
   }
 `
 export const CommentSection = styled.div<{ readonly: boolean }>`
   display: flex;
   gap: var(--space-small);
   margin-top: var(--space-medium);
-  div:first-child {
+  p {
     font-weight: bold;
   }
   textarea {
@@ -60,12 +63,12 @@ export const CommentSection = styled.div<{ readonly: boolean }>`
     color: var(--color-white);
     font-size: var(--font-medium);
     font-weight: normal;
-    border: none;
     resize: none;
     padding: var(--space-small);
     ${({ readonly }) =>
       readonly &&
       `
+    height: auto;
     background-color: var(--color-black);
 
     &:focus {

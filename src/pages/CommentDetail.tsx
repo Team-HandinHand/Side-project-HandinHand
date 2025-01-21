@@ -1,28 +1,47 @@
+import { Back } from '@/components'
 import * as S from '@/components/comment-detail/CommentDetail.styled'
+import { CommentPosterBox } from '@/components/comment-detail/CommentPosterBox'
 import { ReviewComment } from '@/components/comment-detail/ReviewComment'
-import { PosterBox } from '@/components/common-ui/poster/PosterBox'
-import { IoArrowBack } from 'react-icons/io5'
+import useFetchComment from '@/hooks/queries/useFetchComment'
+import { useFetchMediaData } from '@/hooks/queries/useFetchMediaData'
+import { formatDateWithDateObject } from '@/utils/getTime'
+import { useParams } from 'react-router-dom'
 
 export const CommentDetailPage = () => {
+  const paramsData = useParams()
+
+  const mediaData = useFetchMediaData({
+    type: paramsData.type as 'movie' | 'tv',
+    mediaId: Number(paramsData.mediaId)
+  })
+
+  const { data: commentData, isLoading } = useFetchComment({
+    userId: paramsData.userId as string,
+    mediaId: paramsData.mediaId as string
+  })
+
+  const createdTime = formatDateWithDateObject(commentData?.created_at ?? '')
+  const updatedTime = formatDateWithDateObject(commentData?.updated_at ?? '')
+
+  if (mediaData.isLoading || isLoading) {
+    return <p>로딩중입니다.</p>
+  }
+
   return (
     <S.PageContainer>
-      <IoArrowBack />
+      <Back />
       <S.ContentsContainer>
-        <S.ContentsHeader>
-          <PosterBox
-            title="어벤져스: 인피니티 워"
-            imageUrl="https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg"
-            date="2021-01-27"
-            isLoading={false}
-            flex={true}
-          />
-          <S.WrittenDate>작성일: 2024.10.23</S.WrittenDate>
-        </S.ContentsHeader>
+        <CommentPosterBox
+          mediaData={mediaData.data}
+          isLoading={mediaData.isLoading}
+          created_at={
+            commentData?.created_at === commentData?.updated_at
+              ? createdTime
+              : `${updatedTime}(수정됨)`
+          }
+        />
         <S.ContentsMain>
-          <ReviewComment
-            readonly={false}
-            commentData={`2024년 가장 기억에 남는 영화\n2024년 가장 기억에 남는 영화\n2024년 가장 기억에 남는 영화\n2024년 가장 기억에 남는 영화\n2024년 가장 기억에 남는 영화\n2024년 가장 기억에 남는 영화`}
-          />
+          <ReviewComment commentData={commentData} />
         </S.ContentsMain>
       </S.ContentsContainer>
     </S.PageContainer>
