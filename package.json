@@ -12,7 +12,8 @@
     "update-types": "npx supabase gen types typescript --project-id \"$VITE_SUPABASE_PROJECT_REF\" > database.types.ts"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.47.10",
+    "@supabase/gotrue-js": "^2.43.1",
+    "@supabase/supabase-js": "2.39.0",
     "@tanstack/react-query": "^5.62.10",
     "axios": "^1.7.9",
     "nuqs": "^2.3.0",

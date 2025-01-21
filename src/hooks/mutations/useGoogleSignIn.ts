@@ -6,7 +6,7 @@ import { getURL } from '@/utils/getURL'
 export const useGoogleSignIn = () => {
   const handleError = useErrorHandler()
 
-  const { mutateAsync: googleSignIn, isPending } = useMutation({
+  const { mutateAsync: googleSignIn, isPending } = useMutation<void, Error>({
     mutationFn: async () => {
       // Supabase 구글 로그인
       const { error } = await supabase.auth.signInWithOAuth({

@@ -1,4 +1,9 @@
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useLocation,
+  Navigate
+} from 'react-router-dom'
 import DefaultLayout from '@/layout/DefaultLayout'
 import {
   HomePage,
@@ -15,50 +20,55 @@ import {
   MediaSearchPage
 } from '@/pages'
 //OtherUserProfilePage 추가 사용 예정
-import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorFallback } from '@/components'
-import { useUserStore } from '@/stores/userStore'
-import { useAuthStateChange } from '@/hooks/useAuthStateChange'
+import useAuth from '@/hooks/useAuth'
+import { PUBLIC_PATHS } from '@/constants/path'
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useUserStore()
+export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
+  const { user } = useAuth()
+  const { pathname } = useLocation()
 
-  if (!user) {
+  // console.log({
+  //   user,
+  //   pathname
+  // })
+
+  const isPublicRoute = PUBLIC_PATHS.includes(
+    pathname as (typeof PUBLIC_PATHS)[number]
+  )
+  const AUTH_PATHS = ['/signin', '/signup']
+  const isAuthPath = AUTH_PATHS.includes(pathname)
+  if (!user && !isPublicRoute)
     return (
       <Navigate
-        to="/signin"
+        to={'/signin'}
         replace
       />
-    ) // 인증되지 않은 경우 리다이렉트
+    )
+  if (user && isAuthPath) {
+    return (
+      <Navigate
+        to={'/'}
+        replace
+      />
+    )
   }
-
   return children
-}
-
-const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  useAuthStateChange()
-  return <>{children}</>
 }
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <AuthProvider>
-          <DefaultLayout />
-        </AuthProvider>
-      </ErrorBoundary>
+      <ProtectedPage>
+        <DefaultLayout />
+      </ProtectedPage>
     ),
-    errorElement: <NotFoundPage />,
+    errorElement: <ErrorFallback />,
     children: [
       {
         index: true,
-        element: (
-          <ProtectedRoute>
-            <HomePage />
-          </ProtectedRoute>
-        )
+        element: <HomePage />
       },
       {
         path: '/auth/callback',
@@ -66,43 +76,23 @@ const router = createBrowserRouter([
       },
       {
         path: '/movies',
-        element: (
-          <ProtectedRoute>
-            <MoviesPage />
-          </ProtectedRoute>
-        )
+        element: <MoviesPage />
       },
       {
         path: '/series',
-        element: (
-          <ProtectedRoute>
-            <SeriesPage />
-          </ProtectedRoute>
-        )
+        element: <SeriesPage />
       },
       {
         path: '/media-details/:type/:mediaId',
-        element: (
-          <ProtectedRoute>
-            <MediaDetailsPage />
-          </ProtectedRoute>
-        )
+        element: <MediaDetailsPage />
       },
       {
         path: '/media-search',
-        element: (
-          <ProtectedRoute>
-            <MediaSearchPage />
-          </ProtectedRoute>
-        )
+        element: <MediaSearchPage />
       },
       {
         path: '/comments/detail',
-        element: (
-          <ProtectedRoute>
-            <CommentDetailPage />
-          </ProtectedRoute>
-        )
+        element: <CommentDetailPage />
       },
       {
         path: '/signup',
@@ -114,97 +104,21 @@ const router = createBrowserRouter([
       },
       {
         path: '/edit-profile',
-        element: (
-          <ProtectedRoute>
-            <EditProfilePage />
-          </ProtectedRoute>
-        )
+        element: <EditProfilePage />
       },
       {
         path: '/reviewedlist',
-        element: (
-          <ProtectedRoute>
-            <ReviewedList />
-          </ProtectedRoute>
-        )
+        element: <ReviewedList />
       },
       {
         path: '/bookmark',
-        element: (
-          <ProtectedRoute>
-            <Bookmark />
-          </ProtectedRoute>
-        )
+        element: <Bookmark />
       }
     ]
-  }
+  },
+  { path: '*', element: <NotFoundPage /> }
 ])
 
 export default function Router() {
   return <RouterProvider router={router} />
 }
-
-// 개발용 - 로그인 생랼
-// const router = createBrowserRouter([
-//   {
-//     path: '/',
-//     element: (
-//       <ErrorBoundary FallbackComponent={ErrorFallback}>
-//         <AuthProvider>
-//           <DefaultLayout />
-//         </AuthProvider>
-//       </ErrorBoundary>
-//     ),
-//     errorElement: <NotFoundPage />,
-//     children: [
-//       {
-//         index: true,
-//         element: <HomePage />
-//       },
-//       {
-//         path: '/auth/callback',
-//         element: <HomePage />
-//       },
-//       {
-//         path: '/movies',
-//         element: <MoviesPage />
-//       },
-//       {
-//         path: '/series',
-//         element: <SeriesPage />
-//       },
-//       {
-//         path: '/media-details/:type/:mediaId',
-//         element: <MediaDetailsPage />
-//       },
-//       {
-//         path: '/media-search',
-//         element: <MediaSearchPage />
-//       },
-//       {
-//         path: '/comments/detail',
-//         element: <CommentDetailPage />
-//       },
-//       {
-//         path: '/signup',
-//         element: <SignUpPage />
-//       },
-//       {
-//         path: '/signin',
-//         element: <SignInPage />
-//       },
-//       {
-//         path: '/edit-profile',
-//         element: <EditProfilePage />
-//       },
-//       {
-//         path: '/reviewedlist',
-//         element: <ReviewedList />
-//       },
-//       {
-//         path: '/bookmark',
-//         element: <Bookmark />
-//       }
-//     ]
-//   }
-// ])

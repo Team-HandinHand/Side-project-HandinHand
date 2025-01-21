@@ -22,14 +22,29 @@ export const ErrorDetailText = styled.p`
   word-break: keep-all;
 `
 
-export const RetryBtn = styled.button`
+export const BtnWrapper = styled.div`
+  display: flex;
+  gap: var(--space-medium);
+`
+
+const BaseBtn = styled.button`
   position: relative;
-  background-color: var(--color-pink);
   color: var(--color-white);
   padding: var(--space-small);
   border-radius: var(--border-radius-medium);
   transition: background-color 0.3s;
+`
+
+export const RetryBtn = styled(BaseBtn)`
+  background-color: var(--color-pink);
   &:hover {
     background-color: var(--color-pink-dark);
+  }
+`
+
+export const HomeBtn = styled(BaseBtn)`
+  background-color: var(--color-light-gray);
+  &:hover {
+    background-color: var(--color-regular-gray);
   }
 `

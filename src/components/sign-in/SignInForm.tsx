@@ -10,9 +10,9 @@ export const SignInForm = () => {
   const {
     register,
     handleSubmit,
-    trigger,
     formState: { isSubmitting, errors, touchedFields },
     setError,
+    trigger,
     watch // 디버깅용
   } = useForm<TSignInFormValues>({
     resolver: zodResolver(signInSchema),
@@ -23,13 +23,12 @@ export const SignInForm = () => {
     }
   })
 
+  useEffect(() => {
+    trigger()
+  }, [trigger])
+
   const { signIn, isPending: isSignInPending } = useSignIn(setError)
   const { googleSignIn, isPending: isGoogleSignInPending } = useGoogleSignIn()
-
-  // 초기 유효성 검사
-  useEffect(() => {
-    trigger(['email', 'password'])
-  }, [trigger])
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<TSignInFormValues> = async formData => {
@@ -44,7 +43,8 @@ export const SignInForm = () => {
   // 디버깅용
   console.log('current sign in form', {
     errors,
-    data: watch()
+    data: watch(),
+    touchedFields
   })
 
   return (

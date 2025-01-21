@@ -8,7 +8,11 @@ import { useErrorHandler } from '@/hooks/useErrorHandler'
 export const useSignIn = (setError: UseFormSetError<TSignInFormValues>) => {
   const handleError = useErrorHandler()
 
-  const { mutateAsync: signIn, isPending } = useMutation({
+  const { mutateAsync: signIn, isPending } = useMutation<
+    void,
+    Error,
+    TSignInFormValues
+  >({
     mutationFn: async ({ email, password }: TSignInFormValues) => {
       // Supabase 로그인
       const { error } = await supabase.auth.signInWithPassword({
@@ -21,6 +25,9 @@ export const useSignIn = (setError: UseFormSetError<TSignInFormValues>) => {
     onError: error => {
       if (isApiError(error) && error.status >= 400 && error.status < 500) {
         // 400번재 에러는 폼에 에러 메시지 표시
+        setError('email', {
+          message: ''
+        })
         setError('password', {
           message: '이메일과 비밀번호를 다시 확인해주세요'
         })
