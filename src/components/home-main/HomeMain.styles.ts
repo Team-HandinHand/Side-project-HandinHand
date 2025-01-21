@@ -27,11 +27,12 @@ const fadeOut = keyframes`
 export const HomeMainWrapper = styled.div`
   width: 100%;
   height: auto;
-  background-color: var(--color-white);
+  background-color: var(--color-black);
   color: var(--color-black);
   display: flex;
   align-items: center;
   flex-direction: column;
+  color: var(--color-white);
 `
 
 export const HomeMainContainer = styled.div`
@@ -52,6 +53,7 @@ export const HomePoster = styled.div`
   border: 1px solid var(--color-black);
   border-radius: var(--border-radius-medium);
   margin-bottom: 1vh;
+  background-color: var(--color-white);
 `
 
 export const HomeName = styled.div`

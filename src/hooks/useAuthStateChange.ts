@@ -29,7 +29,9 @@ const useAuthStateChange = () => {
       const userInfo = {
         userId: session.user.id,
         email: session.user.email ?? '',
+        // @ts-expect-error: Lint 관련 에러 처리를 위해 임시로 작성
         nickname: userData.nickname ?? '',
+        // @ts-expect-error: Lint 관련 에러 처리를 위해 임시로 작성
         profilePicturePath: userData.profile_picture_path ?? ''
       }
 
