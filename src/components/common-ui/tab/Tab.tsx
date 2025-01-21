@@ -9,7 +9,9 @@ export const Tab = ({ title }: { title: string }) => {
   const [activeTab, setActiveTab] = useQueryState('type', {
     defaultValue: 'movie'
   })
-  const [search] = useQueryState('search')
+  const [search] = useQueryState('search', {
+    defaultValue: ''
+  })
 
   const handleTabChange = (value: string) => {
     setActiveTab(value)

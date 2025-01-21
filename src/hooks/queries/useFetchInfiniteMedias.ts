@@ -1,21 +1,18 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import fetchMedias from '@/service/media/fetchMedias'
 import {
+  FetchMediasParamsForQuery,
+  FetchMediasQKType,
   MediaResponse,
   InfiniteData,
   MediaType,
-  MediaCategory,
-  MovieCategory,
-  TVCategory
+  MediaCategory
 } from '@/types/media'
 
 export const useFetchInfiniteMedias = <T extends MediaType>({
   type,
   category
-}: {
-  type: T
-  category: T extends 'movie' ? MovieCategory : TVCategory
-}) => {
+}: FetchMediasParamsForQuery<T>) => {
   const {
     data,
     error,
@@ -27,7 +24,7 @@ export const useFetchInfiniteMedias = <T extends MediaType>({
     MediaResponse,
     Error,
     InfiniteData<MediaResponse>,
-    ['Medias', T, T extends 'movie' ? MovieCategory : TVCategory],
+    FetchMediasQKType<T>,
     number
   >({
     queryKey: ['Medias', type, category],

@@ -5,9 +5,11 @@ interface PosterBoxProps {
   flex?: boolean
   onClick?: () => void
   isLoading?: boolean
+  pointer?: boolean
 }
 interface PosterBoxContainerProps {
   flex?: boolean
+  $pointer?: boolean
 }
 interface MovieImageBoxProps {
   flex?: boolean
