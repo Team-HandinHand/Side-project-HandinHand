@@ -1,118 +1,111 @@
 import { useState } from 'react'
 import * as S from './HomeMain.styles'
+import { Button } from '@/components/common-ui/button/Button'
+import useFetchInfiniteMedias from '@/hooks/queries/useFetchInfiniteMedias'
+import { useNavigate } from 'react-router-dom'
+import checkIsMovie from '@/utils/checkIsMovie'
 
 export const HomeMain = () => {
-  const NOW_PLAYING = [
-    { id: 1, name: '조명가게1', rating: '3.5' },
-    { id: 2, name: '조명가게2', rating: '3.5' },
-    { id: 3, name: '조명가게3', rating: '3.5' },
-    { id: 4, name: '조명가게4', rating: '3.5' },
-    { id: 5, name: '조명가게5', rating: '3.5' },
-    { id: 6, name: '조명가게6', rating: '3.5' },
-    { id: 7, name: '조명가게7', rating: '3.5' },
-    { id: 8, name: '조명가게8', rating: '3.5' },
-    { id: 9, name: '조명가게9', rating: '3.5' },
-    { id: 10, name: '조명가게10', rating: '3.5' },
-    { id: 11, name: '조명가게11', rating: '3.5' },
-    { id: 12, name: '조명가게12', rating: '3.5' }
-  ]
-
-  const POPULAR = [
-    { id: 1, name: '야채가게1', rating: '3.5' },
-    { id: 2, name: '야채가게2', rating: '3.5' },
-    { id: 3, name: '야채가게3', rating: '3.5' },
-    { id: 4, name: '야채가게4', rating: '3.5' },
-    { id: 5, name: '야채가게5', rating: '3.5' },
-    { id: 6, name: '야채가게6', rating: '3.5' },
-    { id: 7, name: '야채가게7', rating: '3.5' },
-    { id: 8, name: '야채가게8', rating: '3.5' },
-    { id: 9, name: '야채가게9', rating: '3.5' },
-    { id: 10, name: '야채가게10', rating: '3.5' },
-    { id: 11, name: '야채가게11', rating: '3.5' },
-    { id: 12, name: '야채가게12', rating: '3.5' }
-  ]
-
-  const TOP_RATED = [
-    {
-      id: 1,
-      name: '행복가게1',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    },
-    {
-      id: 2,
-      name: '행복가게2',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    },
-    {
-      id: 3,
-      name: '행복가게3',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    },
-    {
-      id: 4,
-      name: '행복가게4',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    },
-    {
-      id: 5,
-      name: '행복가게5',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    },
-    {
-      id: 6,
-      name: '행복가게6',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    },
-    {
-      id: 7,
-      name: '행복가게7',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    },
-    {
-      id: 8,
-      name: '행복가게8',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    },
-    {
-      id: 9,
-      name: '행복가게9',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    },
-    {
-      id: 10,
-      name: '행복가게10',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    },
-    {
-      id: 11,
-      name: '행복가게11',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    },
-    {
-      id: 12,
-      name: '행복가게12',
-      rating: '3.5',
-      desc: '예매율 53% 누적 관객 2.5만명'
-    }
-  ]
-
   const [nowPlayingIndex, setNowPlayingIndex] = useState(0)
   const [popularIndex, setPopularIndex] = useState(0)
   const [topRatedIndex, setTopRatedIndex] = useState(0)
+  const [upcomingIndex, setUpcomingIndex] = useState(0)
+  const [airingTodayIndex, setAiringTodayIndex] = useState(0)
   const [isFadingNowPlaying, setIsFadingNowPlaying] = useState(false)
   const [isFadingTopRated, setIsFadingTopRated] = useState(false)
   const [isFadingPopular, setIsFadingPopular] = useState(false)
+  const [isFadingUpcoming, setIsFadingUpcoming] = useState(false)
+  const [isFadingAiringToday, setIsFadingAiringToday] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState<'movie' | 'tv'>(
+    'movie'
+  )
+
+  console.log(isFadingAiringToday) //임시로 작성
+  const navigate = useNavigate()
+
+  // 영화 데이터
+  const popularMovies = useFetchInfiniteMedias({
+    type: 'movie',
+    category: 'popular'
+  })
+
+  const topRatedMovies = useFetchInfiniteMedias({
+    type: 'movie',
+    category: 'top_rated'
+  })
+
+  const nowPlayingMovies = useFetchInfiniteMedias({
+    type: 'movie',
+    category: 'now_playing'
+  })
+
+  const upcomingMovies = useFetchInfiniteMedias({
+    type: 'movie',
+    category: 'upcoming'
+  })
+
+  // TV 시리즈 데이터
+  const popularTV = useFetchInfiniteMedias({
+    type: 'tv',
+    category: 'popular'
+  })
+
+  const topRatedTV = useFetchInfiniteMedias({
+    type: 'tv',
+    category: 'top_rated'
+  })
+
+  const onAirTV = useFetchInfiniteMedias({
+    type: 'tv',
+    category: 'on_the_air'
+  })
+
+  const airingTodayTV = useFetchInfiniteMedias({
+    type: 'tv',
+    category: 'airing_today'
+  })
+
+  // 현재 선택된 카테고리의 데이터 가져오기
+  const getCurrentData = (
+    section:
+      | 'popular'
+      | 'top_rated'
+      | 'now_playing'
+      | 'upcoming'
+      | 'airing_today'
+  ) => {
+    if (selectedCategory === 'movie') {
+      switch (section) {
+        case 'popular':
+          return popularMovies
+        case 'top_rated':
+          return topRatedMovies
+        case 'now_playing':
+          return nowPlayingMovies
+        case 'upcoming':
+          return upcomingMovies
+        default:
+          return popularMovies
+      }
+    } else {
+      switch (section) {
+        case 'popular':
+          return popularTV
+        case 'top_rated':
+          return topRatedTV
+        case 'now_playing':
+          return onAirTV
+        case 'airing_today':
+          return airingTodayTV
+        default:
+          return popularTV
+      }
+    }
+  }
+
+  const handleChangeCategory = (category: 'movie' | 'tv') => {
+    setSelectedCategory(category)
+  }
 
   const showMoreItems = (category: string) => {
     if (category === 'nowPlaying') {
@@ -132,6 +125,18 @@ export const HomeMain = () => {
       setTimeout(() => {
         setPopularIndex(popularIndex + 5)
         setIsFadingPopular(false)
+      }, 500)
+    } else if (category === 'upcoming') {
+      setIsFadingUpcoming(true)
+      setTimeout(() => {
+        setUpcomingIndex(upcomingIndex + 5)
+        setIsFadingUpcoming(false)
+      }, 500)
+    } else if (category === 'airing_today') {
+      setIsFadingAiringToday(true)
+      setTimeout(() => {
+        setAiringTodayIndex(airingTodayIndex + 5)
+        setIsFadingAiringToday(false)
       }, 500)
     }
   }
@@ -155,29 +160,78 @@ export const HomeMain = () => {
         setPopularIndex(popularIndex - 5)
         setIsFadingPopular(false)
       }, 500)
+    } else if (category === 'upcoming') {
+      setIsFadingUpcoming(true)
+      setTimeout(() => {
+        setUpcomingIndex(upcomingIndex - 5)
+        setIsFadingUpcoming(false)
+      }, 500)
+    } else if (category === 'airing_today') {
+      setIsFadingAiringToday(true)
+      setTimeout(() => {
+        setAiringTodayIndex(airingTodayIndex - 5)
+        setIsFadingAiringToday(false)
+      }, 500)
     }
   }
 
   return (
     <S.HomeMainWrapper>
       <S.HomeMainContainer>
-        <S.HomeTitle>Now Playing</S.HomeTitle>
+        <S.HomeGapRow>
+          <Button
+            type="button"
+            color="transparent"
+            size="medium"
+            onClick={() => handleChangeCategory('movie')}
+            isActive={selectedCategory === 'movie'}>
+            영화
+          </Button>
+          <Button
+            type="button"
+            color="transparent"
+            size="medium"
+            onClick={() => handleChangeCategory('tv')}
+            isActive={selectedCategory === 'tv'}>
+            드라마
+          </Button>
+        </S.HomeGapRow>
+
+        <S.HomeTitle>
+          {selectedCategory === 'movie' ? 'Now Playing' : 'On Air'}
+        </S.HomeTitle>
         <S.HomeRow className={isFadingNowPlaying ? 'fade-out' : ''}>
           {nowPlayingIndex > 0 && (
             <S.FaArrowAltCircleLeft
               onClick={() => showLessItems('nowPlaying')}
             />
           )}
-          {NOW_PLAYING.slice(nowPlayingIndex, nowPlayingIndex + 5).map(item => (
-            <S.HomeColumn
-              key={item.id}
-              className={isFadingNowPlaying ? 'fade-in' : ''}>
-              <S.HomePoster></S.HomePoster>
-              <S.HomeName>{item.name}</S.HomeName>
-              <S.HomeRating>평점 ★{item.rating}</S.HomeRating>
-            </S.HomeColumn>
-          ))}
-          {nowPlayingIndex + 5 < NOW_PLAYING.length && (
+          {getCurrentData('now_playing').data?.pages.map(page =>
+            page.results
+              .slice(nowPlayingIndex, nowPlayingIndex + 5)
+              .map(media => (
+                <S.HomeColumn
+                  key={media.id}
+                  className={isFadingNowPlaying ? 'fade-in' : ''}
+                  onClick={() => {
+                    navigate(`/media-details/${selectedCategory}/${media.id}`)
+                  }}>
+                  <S.HomePoster>
+                    <img
+                      src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
+                      alt={checkIsMovie(media) ? media.title : media.name}
+                    />
+                  </S.HomePoster>
+                  <S.HomeName>
+                    {checkIsMovie(media) ? media.title : media.name}
+                  </S.HomeName>
+                  <S.HomeRating>
+                    평점 ★{media.vote_average.toFixed(1)}
+                  </S.HomeRating>
+                </S.HomeColumn>
+              ))
+          )}
+          {getCurrentData('now_playing').hasNextPage && (
             <S.FaArrowAltCircleRight
               onClick={() => showMoreItems('nowPlaying')}
             />
@@ -189,17 +243,30 @@ export const HomeMain = () => {
           {topRatedIndex > 0 && (
             <S.FaArrowAltCircleLeft onClick={() => showLessItems('topRated')} />
           )}
-          {TOP_RATED.slice(topRatedIndex, topRatedIndex + 5).map(item => (
-            <S.HomeColumn
-              key={item.id}
-              className={isFadingTopRated ? 'fade-in' : ''}>
-              <S.HomePoster></S.HomePoster>
-              <S.HomeName>{item.name}</S.HomeName>
-              <S.HomeRating>평점 {item.rating}</S.HomeRating>
-              <S.HomeDescription>{item.desc}</S.HomeDescription>
-            </S.HomeColumn>
-          ))}
-          {topRatedIndex + 5 < TOP_RATED.length && (
+          {getCurrentData('top_rated').data?.pages.map(page =>
+            page.results.slice(topRatedIndex, topRatedIndex + 5).map(media => (
+              <S.HomeColumn
+                key={media.id}
+                className={isFadingTopRated ? 'fade-in' : ''}
+                onClick={() => {
+                  navigate(`/media-details/${selectedCategory}/${media.id}`)
+                }}>
+                <S.HomePoster>
+                  <img
+                    src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
+                    alt={checkIsMovie(media) ? media.title : media.name}
+                  />
+                </S.HomePoster>
+                <S.HomeName>
+                  {checkIsMovie(media) ? media.title : media.name}
+                </S.HomeName>
+                <S.HomeRating>
+                  평점 {media.vote_average.toFixed(1)}
+                </S.HomeRating>
+              </S.HomeColumn>
+            ))
+          )}
+          {getCurrentData('top_rated').hasNextPage && (
             <S.FaArrowAltCircleRight
               onClick={() => showMoreItems('topRated')}
             />
@@ -211,20 +278,96 @@ export const HomeMain = () => {
           {popularIndex > 0 && (
             <S.FaArrowAltCircleLeft onClick={() => showLessItems('popular')} />
           )}
-          {POPULAR.slice(popularIndex, popularIndex + 5).map(item => (
-            <S.HomeColumn
-              key={item.id}
-              className={isFadingPopular ? 'fade-in' : ''}>
-              <S.HomePoster></S.HomePoster>
-              <S.HomeName>{item.name}</S.HomeName>
-              <S.HomeRating>평점 ★{item.rating}</S.HomeRating>
-            </S.HomeColumn>
-          ))}
-          {popularIndex + 5 < POPULAR.length && (
+          {getCurrentData('popular').data?.pages.map(page =>
+            page.results.slice(popularIndex, popularIndex + 5).map(media => (
+              <S.HomeColumn
+                key={media.id}
+                className={isFadingPopular ? 'fade-in' : ''}
+                onClick={() => {
+                  navigate(`/media-details/${selectedCategory}/${media.id}`)
+                }}>
+                <S.HomePoster>
+                  <img
+                    src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
+                    alt={checkIsMovie(media) ? media.title : media.name}
+                  />
+                </S.HomePoster>
+                <S.HomeName>
+                  {checkIsMovie(media) ? media.title : media.name}
+                </S.HomeName>
+                <S.HomeRating>
+                  평점 ★{media.vote_average.toFixed(1)}
+                </S.HomeRating>
+              </S.HomeColumn>
+            ))
+          )}
+          {getCurrentData('popular').hasNextPage && (
             <S.FaArrowAltCircleRight onClick={() => showMoreItems('popular')} />
+          )}
+        </S.HomeRow>
+
+        <S.HomeTitle>
+          {selectedCategory === 'movie' ? 'Upcoming' : 'Airing Today'}
+        </S.HomeTitle>
+        <S.HomeRow className={isFadingUpcoming ? 'fade-out' : ''}>
+          {selectedCategory === 'movie'
+            ? upcomingIndex > 0 && (
+                <S.FaArrowAltCircleLeft
+                  onClick={() => showLessItems('upcoming')}
+                />
+              )
+            : airingTodayIndex > 0 && (
+                <S.FaArrowAltCircleLeft
+                  onClick={() => showLessItems('airing_today')}
+                />
+              )}
+          {getCurrentData(
+            selectedCategory === 'movie' ? 'upcoming' : 'airing_today'
+          ).data?.pages.map(page =>
+            page.results
+              .slice(
+                selectedCategory === 'movie' ? upcomingIndex : airingTodayIndex,
+                (selectedCategory === 'movie'
+                  ? upcomingIndex
+                  : airingTodayIndex) + 5
+              )
+              .map(media => (
+                <S.HomeColumn
+                  key={media.id}
+                  className={isFadingUpcoming ? 'fade-in' : ''}
+                  onClick={() => {
+                    navigate(`/media-details/${selectedCategory}/${media.id}`)
+                  }}>
+                  <S.HomePoster>
+                    <img
+                      src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
+                      alt={checkIsMovie(media) ? media.title : media.name}
+                    />
+                  </S.HomePoster>
+                  <S.HomeName>
+                    {checkIsMovie(media) ? media.title : media.name}
+                  </S.HomeName>
+                  <S.HomeRating>
+                    평점 ★{media.vote_average.toFixed(1)}
+                  </S.HomeRating>
+                </S.HomeColumn>
+              ))
+          )}
+          {getCurrentData(
+            selectedCategory === 'movie' ? 'upcoming' : 'airing_today'
+          ).hasNextPage && (
+            <S.FaArrowAltCircleRight
+              onClick={() =>
+                showMoreItems(
+                  selectedCategory === 'movie' ? 'upcoming' : 'airing_today'
+                )
+              }
+            />
           )}
         </S.HomeRow>
       </S.HomeMainContainer>
     </S.HomeMainWrapper>
   )
 }
+
+export default HomeMain

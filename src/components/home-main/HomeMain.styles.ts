@@ -54,6 +54,13 @@ export const HomePoster = styled.div`
   border-radius: var(--border-radius-medium);
   margin-bottom: 1vh;
   background-color: var(--color-white);
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `
 
 export const HomeName = styled.div`
@@ -78,9 +85,17 @@ export const HomeRow = styled.div`
   position: relative;
 `
 
+export const HomeGapRow = styled.div`
+  display: flex;
+  flex-wrap: row;
+  position: relative;
+  gap: 12px;
+`
+
 export const HomeColumn = styled.div`
   flex: 1 1 20%;
   max-width: 20%;
+  cursor: pointer;
 
   &.fade-in {
     animation: ${fadeIn} 0.5s ease-in forwards;
