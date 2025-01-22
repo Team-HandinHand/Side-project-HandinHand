@@ -67,18 +67,18 @@ export const HomeMain = () => {
     category: 'airing_today'
   })
 
-  if (
-    popularMovies.isFetching ||
-    topRatedMovies.isFetching ||
-    nowPlayingMovies.isFetching ||
-    upcomingMovies.isFetching ||
-    popularTV.isFetching ||
-    topRatedTV.isFetching ||
-    onAirTV.isFetching ||
-    airingTodayTV.isFetching
-  ) {
-    return null
-  }
+  // if (
+  //   popularMovies.isFetching ||
+  //   topRatedMovies.isFetching ||
+  //   nowPlayingMovies.isFetching ||
+  //   upcomingMovies.isFetching ||
+  //   popularTV.isFetching ||
+  //   topRatedTV.isFetching ||
+  //   onAirTV.isFetching ||
+  //   airingTodayTV.isFetching
+  // ) {
+  //   return null
+  // }
 
   // 현재 선택된 카테고리의 데이터 가져오기
   const getCurrentData = (
@@ -165,7 +165,7 @@ export const HomeMain = () => {
         setIsFadingPopular(false)
       }, 500)
     } else if (category === 'upcoming') {
-      if (upcomingIndex % 15 === 0 && upcomingIndex > 0) {
+      if (upcomingIndex % 15 === 0 && upcomingIndex >= 0) {
         upcomingMovies.fetchNextPage().catch(error => {
           console.error('Error fetching upcoming movies:', error)
         })
@@ -427,7 +427,7 @@ export const HomeMain = () => {
             ))}
           {getCurrentData(
             selectedCategory === 'movie' ? 'upcoming' : 'airing_today'
-          ).hasNextPage && (
+          ) && (
             <S.FaArrowAltCircleRight
               onClick={() =>
                 showMoreItems(
