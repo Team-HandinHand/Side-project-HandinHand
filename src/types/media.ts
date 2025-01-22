@@ -9,7 +9,7 @@ export type MediaCategory<T extends MediaType> = T extends 'movie'
 export interface FetchMediasParams {
   type: MediaType
   category: MediaCategory<MediaType>
-  page: number
+  page?: number
 }
 
 export interface FetchMediaMoreInfoParams {
@@ -326,7 +326,21 @@ export interface InfiniteData<T> {
   pageParams: number[]
 }
 
+// media infinite fetch 쿼리에서 쓰는 파라미터
+export interface FetchMediasParamsForQuery<T extends MediaType> {
+  type: T
+  category: T extends 'movie' ? MovieCategory : TVCategory
+}
+
 // 쿼리 제네릭 타입
+export type FetchMediasQKType<T extends MediaType> = [
+  'Medias',
+  T,
+  T extends 'movie' ? MovieCategory : TVCategory
+]
+
+export type FetchMediasForNoAuthHomeQKType = ['MediasForNoAuthHome', MediaType]
+
 export type MediaMoreInfoQKType = readonly [string, MediaType, number]
 
 export type MediaSearchQKType = [string, MediaType, string]

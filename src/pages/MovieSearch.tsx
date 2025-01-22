@@ -19,7 +19,7 @@ export const MovieSearch = () => {
       </S.ResultBox>
 
       <S.MainContent>
-        <S.SectionTitle>드라마</S.SectionTitle>
+        <S.SectionTitle>시리즈</S.SectionTitle>
       </S.MainContent>
     </S.Container>
   )

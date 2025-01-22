@@ -14,7 +14,8 @@ export const PosterBox = ({
   date,
   flex,
   onClick,
-  isLoading
+  isLoading,
+  pointer = true
 }: PosterBoxProps) => {
   if (isLoading) {
     return (
@@ -30,7 +31,8 @@ export const PosterBox = ({
   return (
     <S.PosterBoxContainer
       flex={flex}
-      onClick={onClick}>
+      onClick={onClick}
+      $pointer={pointer}>
       <S.MovieImageBox
         src={imageUrl}
         alt={`${title}-poster`}
