@@ -67,6 +67,19 @@ export const HomeMain = () => {
     category: 'airing_today'
   })
 
+  if (
+    popularMovies.isFetching ||
+    topRatedMovies.isFetching ||
+    nowPlayingMovies.isFetching ||
+    upcomingMovies.isFetching ||
+    popularTV.isFetching ||
+    topRatedTV.isFetching ||
+    onAirTV.isFetching ||
+    airingTodayTV.isFetching
+  ) {
+    return null
+  }
+
   // 현재 선택된 카테고리의 데이터 가져오기
   const getCurrentData = (
     section:
