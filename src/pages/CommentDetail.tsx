@@ -3,17 +3,17 @@ import * as S from '@/components/comment-detail/CommentDetail.styled'
 import { CommentPosterBox } from '@/components/comment-detail/CommentPosterBox'
 import { ReviewComment } from '@/components/comment-detail/ReviewComment'
 import useFetchComment from '@/hooks/queries/useFetchComment'
-import { useFetchMediaData } from '@/hooks/queries/useFetchMediaData'
+import useFetchMovieMoreInfo from '@/hooks/queries/useFetchMediaMoreInfo'
 import { formatDateWithDateObject } from '@/utils/getTime'
 import { useParams } from 'react-router-dom'
 
 export const CommentDetailPage = () => {
   const paramsData = useParams()
 
-  const mediaData = useFetchMediaData({
-    type: paramsData.type as 'movie' | 'tv',
-    mediaId: Number(paramsData.mediaId)
-  })
+  const { details: mediaData } = useFetchMovieMoreInfo(
+    paramsData.type as 'movie' | 'tv',
+    Number(paramsData.mediaId)
+  )
 
   const { data: commentData, isLoading } = useFetchComment({
     userId: paramsData.userId as string,
