@@ -5,6 +5,7 @@ import useFetchInfiniteMedias from '@/hooks/queries/useFetchInfiniteMedias'
 import { useNavigate } from 'react-router-dom'
 import checkIsMovie from '@/utils/checkIsMovie'
 import { MediaResult } from '@/types/media'
+import { motion } from 'framer-motion'
 
 export const HomeMain = () => {
   const [nowPlayingIndex, setNowPlayingIndex] = useState(0)
@@ -156,7 +157,6 @@ export const HomeMain = () => {
           console.error('Error fetching upcoming movies:', error)
         })
       }
-
       setIsFadingUpcoming(true)
       setTimeout(() => {
         setUpcomingIndex(upcomingIndex + 5)
@@ -249,22 +249,26 @@ export const HomeMain = () => {
             .map((media: MediaResult) => (
               <S.HomeColumn
                 key={media.id}
-                className={isFadingNowPlaying ? 'fade-in' : ''}
                 onClick={() => {
                   navigate(`/media-details/${selectedCategory}/${media.id}`)
                 }}>
-                <S.HomePoster>
-                  <img
-                    src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
-                    alt={checkIsMovie(media) ? media.title : media.name}
-                  />
-                </S.HomePoster>
-                <S.HomeName>
-                  {checkIsMovie(media) ? media.title : media.name}
-                </S.HomeName>
-                <S.HomeRating>
-                  평점 ★{media.vote_average.toFixed(1)}
-                </S.HomeRating>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={isFadingNowPlaying ? { opacity: 0 } : { opacity: 1 }}
+                  transition={{ duration: 0.5 }}>
+                  <S.HomePoster>
+                    <img
+                      src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
+                      alt={checkIsMovie(media) ? media.title : media.name}
+                    />
+                  </S.HomePoster>
+                  <S.HomeName>
+                    {checkIsMovie(media) ? media.title : media.name}
+                  </S.HomeName>
+                  <S.HomeRating>
+                    평점 ★{media.vote_average.toFixed(1)}
+                  </S.HomeRating>
+                </motion.div>
               </S.HomeColumn>
             ))}
           {getCurrentData('now_playing').hasNextPage && (
@@ -287,22 +291,26 @@ export const HomeMain = () => {
             .map((media: MediaResult) => (
               <S.HomeColumn
                 key={media.id}
-                className={isFadingTopRated ? 'fade-in' : ''}
                 onClick={() => {
                   navigate(`/media-details/${selectedCategory}/${media.id}`)
                 }}>
-                <S.HomePoster>
-                  <img
-                    src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
-                    alt={checkIsMovie(media) ? media.title : media.name}
-                  />
-                </S.HomePoster>
-                <S.HomeName>
-                  {checkIsMovie(media) ? media.title : media.name}
-                </S.HomeName>
-                <S.HomeRating>
-                  평점 ★{media.vote_average.toFixed(1)}
-                </S.HomeRating>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={isFadingTopRated ? { opacity: 0 } : { opacity: 1 }}
+                  transition={{ duration: 0.5 }}>
+                  <S.HomePoster>
+                    <img
+                      src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
+                      alt={checkIsMovie(media) ? media.title : media.name}
+                    />
+                  </S.HomePoster>
+                  <S.HomeName>
+                    {checkIsMovie(media) ? media.title : media.name}
+                  </S.HomeName>
+                  <S.HomeRating>
+                    평점 ★{media.vote_average.toFixed(1)}
+                  </S.HomeRating>
+                </motion.div>
               </S.HomeColumn>
             ))}
           {getCurrentData('top_rated').hasNextPage && (
@@ -325,22 +333,26 @@ export const HomeMain = () => {
             .map((media: MediaResult) => (
               <S.HomeColumn
                 key={media.id}
-                className={isFadingPopular ? 'fade-in' : ''}
                 onClick={() => {
                   navigate(`/media-details/${selectedCategory}/${media.id}`)
                 }}>
-                <S.HomePoster>
-                  <img
-                    src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
-                    alt={checkIsMovie(media) ? media.title : media.name}
-                  />
-                </S.HomePoster>
-                <S.HomeName>
-                  {checkIsMovie(media) ? media.title : media.name}
-                </S.HomeName>
-                <S.HomeRating>
-                  평점 ★{media.vote_average.toFixed(1)}
-                </S.HomeRating>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={isFadingPopular ? { opacity: 0 } : { opacity: 1 }}
+                  transition={{ duration: 0.5 }}>
+                  <S.HomePoster>
+                    <img
+                      src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
+                      alt={checkIsMovie(media) ? media.title : media.name}
+                    />
+                  </S.HomePoster>
+                  <S.HomeName>
+                    {checkIsMovie(media) ? media.title : media.name}
+                  </S.HomeName>
+                  <S.HomeRating>
+                    평점 ★{media.vote_average.toFixed(1)}
+                  </S.HomeRating>
+                </motion.div>
               </S.HomeColumn>
             ))}
           {getCurrentData('popular').hasNextPage && (
@@ -378,22 +390,26 @@ export const HomeMain = () => {
             .map((media: MediaResult) => (
               <S.HomeColumn
                 key={media.id}
-                className={isFadingUpcoming ? 'fade-in' : ''}
                 onClick={() => {
                   navigate(`/media-details/${selectedCategory}/${media.id}`)
                 }}>
-                <S.HomePoster>
-                  <img
-                    src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
-                    alt={checkIsMovie(media) ? media.title : media.name}
-                  />
-                </S.HomePoster>
-                <S.HomeName>
-                  {checkIsMovie(media) ? media.title : media.name}
-                </S.HomeName>
-                <S.HomeRating>
-                  평점 ★{media.vote_average.toFixed(1)}
-                </S.HomeRating>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={isFadingUpcoming ? { opacity: 0 } : { opacity: 1 }}
+                  transition={{ duration: 0.5 }}>
+                  <S.HomePoster>
+                    <img
+                      src={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}
+                      alt={checkIsMovie(media) ? media.title : media.name}
+                    />
+                  </S.HomePoster>
+                  <S.HomeName>
+                    {checkIsMovie(media) ? media.title : media.name}
+                  </S.HomeName>
+                  <S.HomeRating>
+                    평점 ★{media.vote_average.toFixed(1)}
+                  </S.HomeRating>
+                </motion.div>
               </S.HomeColumn>
             ))}
           {getCurrentData(
