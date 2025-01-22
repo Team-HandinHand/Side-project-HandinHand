@@ -91,7 +91,7 @@ const router = createBrowserRouter([
         element: <MediaSearchPage />
       },
       {
-        path: '/comments/detail',
+        path: '/comments/detail/:type/:mediaId/:userId',
         element: <CommentDetailPage />
       },
       {
