@@ -1,14 +1,14 @@
 import fetchUserProfile from '@/services/auth/fetchUserProfile'
 import { Profile } from '../common-ui/profile/Profile'
 import * as S from '../movie-details/MovieDetails.styled'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import getTimeAgo from '@/utils/getTimeAgo'
 import { AiFillEdit } from 'react-icons/ai'
 import { MdDelete } from 'react-icons/md'
-import { deleteComment } from '@/service/comments/deleteDetailsComment'
 import useAuthStateChange from '@/hooks/useAuthStateChange'
 import { useState } from 'react'
 import CommentEdit from './commentEdit'
+import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
 
 type TComment = {
   key: string
@@ -35,7 +35,7 @@ export default function CommentList({
 }: TComment) {
   const [modifier, setModifier] = useState(false)
   const { user } = useAuthStateChange()
-  const queryClient = useQueryClient()
+  // const queryClient = useQueryClient()
 
   const { data } = useQuery<UserProfile>({
     queryKey: ['user', commentUserId],
@@ -43,14 +43,7 @@ export default function CommentList({
   })
 
   //댓글삭제
-  const { mutate: deleteCommentMutation } = useMutation({
-    mutationFn: () => deleteComment(comment_id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['userComment']
-      })
-    }
-  })
+  const { deleteCommentMutation } = useCommentDelete(comment_id)
 
   function handleDelete() {
     deleteCommentMutation()

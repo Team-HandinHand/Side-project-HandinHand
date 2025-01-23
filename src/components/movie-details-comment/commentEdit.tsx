@@ -1,5 +1,4 @@
-import { UpdateComment } from '@/service/comments/putDetailsComment'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useCommentEdit } from '@/hooks/mutations/useCommentEdit'
 import { useState } from 'react'
 import styled from 'styled-components'
 
@@ -67,16 +66,10 @@ const CancelButton = styled.button`
 function CommentEdit({ comment_id, setModifier, comment }: CommentEditProps) {
   const [newComment, setNewComment] = useState(comment)
 
-  const queryClient = useQueryClient()
-
-  const { mutate: updateCommentMutation } = useMutation({
-    mutationFn: () => UpdateComment(comment_id, newComment),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['userComment']
-      })
-      setModifier(false)
-    }
+  const { updateCommentMutation } = useCommentEdit({
+    comment_id,
+    newComment,
+    setModifier
   })
 
   function handleEdit() {
