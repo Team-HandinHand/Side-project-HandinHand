@@ -68,12 +68,12 @@ function CommentEdit({ comment_id, setModifier, comment }: CommentEditProps) {
 
   const { updateCommentMutation } = useCommentEdit({
     comment_id,
-    newComment,
-    setModifier
+    newComment
   })
 
   function handleEdit() {
     updateCommentMutation()
+    setModifier(false)
   }
 
   function handleExit() {
