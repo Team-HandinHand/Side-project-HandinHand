@@ -4,24 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { PopularMediaSlider } from '../popular-media-slider/PopularMediaSlider'
 import { Button, DeferredLoader } from '@/components'
 import { Suspense } from 'react'
-import { supabase } from '../../../../supabaseConfig'
 
 export const HomeNoAuth = () => {
   const navigate = useNavigate()
-
-  async function getComments() {
-    const { data: comments, error } = await supabase
-      .from('comments')
-      .select('*')
-
-    if (error) {
-      console.error(error)
-      throw error
-      return
-    }
-
-    console.log(comments)
-  }
 
   return (
     <S.Container>
@@ -34,7 +19,6 @@ export const HomeNoAuth = () => {
         onClick={() => navigate('/signin')}>
         로그인하기
       </Button>
-      <button onClick={getComments}>댓글 가져오기</button>
 
       <S.PopularMediaSliderWrapper>
         <Suspense fallback={<DeferredLoader />}>
