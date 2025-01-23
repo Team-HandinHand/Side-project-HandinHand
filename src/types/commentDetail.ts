@@ -1,4 +1,4 @@
-export interface comment {
+export interface Comment {
   comment: string | null
   comment_id: string
   created_at: string
