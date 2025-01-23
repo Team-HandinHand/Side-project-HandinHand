@@ -1,3 +1,4 @@
+import { Comment } from '@/types/commentDetail'
 import { supabase } from '../../../supabaseConfig'
 
 export const fetchComments = async ({
@@ -6,7 +7,7 @@ export const fetchComments = async ({
 }: {
   userId: string
   mediaId: string
-}) => {
+}): Promise<Comment> => {
   const { data, error } = await supabase
     .from('comments')
     .select('*')
@@ -18,5 +19,5 @@ export const fetchComments = async ({
     throw new Error(error.message)
   }
 
-  return data
+  return data as unknown as Comment
 }
