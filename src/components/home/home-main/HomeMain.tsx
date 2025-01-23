@@ -26,10 +26,10 @@ export const HomeMain = () => {
   const [isFadingTopRated, setIsFadingTopRated] = useState(false)
   const [isFadingPopular, setIsFadingPopular] = useState(false)
   const [isFadingUpcoming, setIsFadingUpcoming] = useState(false)
-  const [isFadingAiringToday, setIsFadingAiringToday] = useState(false)
+  const [, setIsFadingAiringToday] = useState(false)
   const navigate = useNavigate()
 
-  console.log(isFadingAiringToday)
+  // console.log(isFadingAiringToday)
 
   const [activeType] = useQueryState<MediaType>('type', {
     parse: parseMediaType,

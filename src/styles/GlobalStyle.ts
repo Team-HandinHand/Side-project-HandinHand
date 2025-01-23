@@ -8,6 +8,11 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
   html {
     font-size: 100%; /* 16px */
   }
@@ -41,6 +46,19 @@ const GlobalStyle = createGlobalStyle`
 
   img {
     display: block;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-dark-gray);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--color-black);
   }
 
   @media (max-width: 768px) {

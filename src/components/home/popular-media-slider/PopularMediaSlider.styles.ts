@@ -16,13 +16,13 @@ export const Container = styled.div`
 
 const baseButtonStyle = css`
   position: fixed;
-  bottom: 200px;
+  bottom: 170px;
   font-size: var(--font-xlarge);
   cursor: pointer;
   z-index: 2;
 
   @media (width <= 1400px) {
-    bottom: 250px;
+    bottom: 200px;
   }
 `
 
@@ -45,7 +45,7 @@ export const RightButton = styled(RightIcon)`
 `
 
 export const PosterWrapper = styled.div`
-  margin-left: 70px;
+  margin-left: 85px;
   display: flex;
   align-items: center;
   gap: var(--space-xlarge);
@@ -57,7 +57,7 @@ export const PosterBoxWrapper = styled.div`
 export const Rank = styled.div<{ $isLast: boolean }>`
   position: absolute;
   top: -20px;
-  left: ${({ $isLast }) => ($isLast ? '-45px' : '-30px')};
+  left: ${({ $isLast }) => ($isLast ? '-50px' : '-40px')};
   font-size: var(--font-xlarge);
   font-weight: bold;
 `

@@ -79,7 +79,7 @@ export const ReviewComment = ({
           </div>
         )}
       </S.RatingSection>
-      <S.CommentSection readonly={isReadOnly}>
+      <S.CommentSection $readonly={isReadOnly}>
         <p>평가</p>
         <Input
           readOnly={isReadOnly}
