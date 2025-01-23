@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '../../supabaseConfig'
 import queryClient from '@/lib/queryClient'
 import { Session } from '@supabase/supabase-js'
-import { User } from '@/types/auth'
+import { SupabaseUserData, User } from '@/types/auth'
 import fetchUserProfile from '@/services/auth/fetchUserProfile'
 
 const useAuthStateChange = () => {
@@ -21,7 +21,7 @@ const useAuthStateChange = () => {
     }
 
     try {
-      const userData = await queryClient.fetchQuery({
+      const userData: SupabaseUserData = await queryClient.fetchQuery({
         queryKey: ['userProfile', session.user.id],
         queryFn: () => fetchUserProfile(session.user.id)
       })

@@ -8,7 +8,9 @@ import { MediaType, MediaResult } from '@/types/media'
 
 export const MediaSearch = () => {
   const { ref, inView } = useInView()
-  const [type, setType] = useQueryState('type')
+  const [type, setType] = useQueryState('type', {
+    defaultValue: 'movie'
+  })
   const [search] = useQueryState('search', {
     defaultValue: ''
   })

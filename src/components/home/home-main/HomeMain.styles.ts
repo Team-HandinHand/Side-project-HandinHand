@@ -27,11 +27,12 @@ const fadeOut = keyframes`
 export const HomeMainWrapper = styled.div`
   width: 100%;
   height: auto;
-  background-color: var(--color-white);
+  background-color: var(--color-black);
   color: var(--color-black);
   display: flex;
   align-items: center;
   flex-direction: column;
+  color: var(--color-white);
 `
 
 export const HomeMainContainer = styled.div`
@@ -52,6 +53,14 @@ export const HomePoster = styled.div`
   border: 1px solid var(--color-black);
   border-radius: var(--border-radius-medium);
   margin-bottom: 1vh;
+  background-color: var(--color-white);
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `
 
 export const HomeName = styled.div`
@@ -76,9 +85,17 @@ export const HomeRow = styled.div`
   position: relative;
 `
 
+export const HomeGapRow = styled.div`
+  display: flex;
+  flex-wrap: row;
+  position: relative;
+  gap: 12px;
+`
+
 export const HomeColumn = styled.div`
   flex: 1 1 20%;
   max-width: 20%;
+  cursor: pointer;
 
   &.fade-in {
     animation: ${fadeIn} 0.5s ease-in forwards;

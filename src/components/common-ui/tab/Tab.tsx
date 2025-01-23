@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useQueryState } from 'nuqs'
 import { TABS } from '@/constants/commonUi'
 
-export const Tab = ({ title }: { title: string }) => {
+export const Tab = ({ title }: { title?: string }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const [activeTab, setActiveTab] = useQueryState('type', {
