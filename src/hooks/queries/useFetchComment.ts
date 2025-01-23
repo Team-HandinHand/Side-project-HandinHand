@@ -1,5 +1,5 @@
 import { fetchComments } from '@/service/comments/fetchComment'
-import { comment } from '@/types/commentDetail'
+import { Comment } from '@/types/commentDetail'
 import { useQuery } from '@tanstack/react-query'
 
 const useFetchComment = ({
@@ -9,7 +9,7 @@ const useFetchComment = ({
   userId: string
   mediaId: string
 }) => {
-  return useQuery<comment, Error, comment, string[]>({
+  return useQuery<Comment, Error, Comment, string[]>({
     queryKey: ['comments', userId, mediaId],
     queryFn: () => fetchComments({ userId, mediaId }),
     enabled: !!userId && !!mediaId,

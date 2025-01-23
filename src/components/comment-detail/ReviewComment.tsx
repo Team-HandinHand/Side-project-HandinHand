@@ -3,27 +3,12 @@ import * as S from './CommentDetail.styled'
 import { Button } from '../common-ui/button/Button'
 import { useState } from 'react'
 import { Input } from '../common-ui/input/Input'
+import { Comment } from '@/types/commentDetail'
 
 export const ReviewComment = ({
   commentData
 }: {
-  commentData:
-    | {
-        comment: string | null
-
-        comment_id: string
-
-        created_at: string
-
-        movie_id: string
-
-        rating: number | null
-
-        updated_at: string
-
-        user_id: string
-      }
-    | undefined
+  commentData: Comment | undefined
 }) => {
   const [isReadOnly, setIsReadOnly] = useState(true)
 
@@ -41,7 +26,7 @@ export const ReviewComment = ({
           <p>평점</p>
           <StarRating
             size={30}
-            initialRating={commentData.rating!}
+            initialRating={commentData.rating || 0}
             isReadOnly={isReadOnly}
           />
         </div>
