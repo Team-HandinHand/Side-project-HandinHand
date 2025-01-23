@@ -11,7 +11,7 @@ export const DeferredLoader = () => {
   useEffect(() => {
     const id = setTimeout(() => {
       setIsDeferred(true)
-    }, 200)
+    }, 500)
     return () => clearTimeout(id)
   }, [])
 

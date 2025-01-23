@@ -1,6 +1,6 @@
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Button, Input, Profile, PosterBox } from '@/components'
+import { Button, Input, Profile, PosterBox, DeferredLoader } from '@/components'
 import { MediaType, MovieDetails, TvDetails } from '@/types/media'
 import useFetchMovieMoreInfo from '@/hooks/queries/useFetchMediaMoreInfo'
 import extractYear from '@/utils/extractYear'
@@ -30,95 +30,97 @@ export const MediaDetailsPage = () => {
 
   return (
     <Container>
-      {/* 첫번째 박스 */}
-      <MovieHeaderContainer>
-        <MovieInfo>
-          <MovieTitle>{title}</MovieTitle>
-          <InfoBox>
-            <Info>
-              {isMovie
-                ? (mediaData as MovieDetails)?.original_title
-                : (mediaData as TvDetails)?.original_name}
-            </Info>
-            <Info>{releaseYear}</Info>
-            <Info>
-              {isMovie
-                ? `${(mediaData as MovieDetails)?.runtime}분`
-                : `${(mediaData as TvDetails)?.episode_run_time[0]}분`}
-            </Info>
-            <Info>
-              {mediaData?.genres?.map(genre => genre.name).join(' ﹒ ')}
-            </Info>
-          </InfoBox>
+      <Suspense fallback={<DeferredLoader />}>
+        {/* 첫번째 박스 */}
+        <MovieHeaderContainer>
+          <MovieInfo>
+            <MovieTitle>{title}</MovieTitle>
+            <InfoBox>
+              <Info>
+                {isMovie
+                  ? (mediaData as MovieDetails)?.original_title
+                  : (mediaData as TvDetails)?.original_name}
+              </Info>
+              <Info>{releaseYear}</Info>
+              <Info>
+                {isMovie
+                  ? `${(mediaData as MovieDetails)?.runtime}분`
+                  : `${(mediaData as TvDetails)?.episode_run_time[0]}분`}
+              </Info>
+              <Info>
+                {mediaData?.genres?.map(genre => genre.name).join(' ﹒ ')}
+              </Info>
+            </InfoBox>
 
-          <MovieDescription>{mediaData?.overview}</MovieDescription>
-          <StarRating size={48} />
-        </MovieInfo>
+            <MovieDescription>{mediaData?.overview}</MovieDescription>
+            <StarRating size={48} />
+          </MovieInfo>
 
-        <MoviePoster
-          src={`${import.meta.env.VITE_TMDB_IMG_URL}${mediaData?.backdrop_path}`}
-          alt={`${title}-poster`}
-        />
-      </MovieHeaderContainer>
-
-      {/* 두번째 박스 */}
-      <SeparatingBox>
-        <ShowTypes>콘텐츠 정보</ShowTypes>
-        <ShowTypes>관련 콘텐츠</ShowTypes>
-        {recommendations?.data?.results?.slice(0, 10).map(recommend => (
-          <PosterBox
-            key={recommend.id}
-            onClick={() => {
-              navigate(
-                `/media-details/${isMovie ? 'movie' : 'tv'}/${recommend.id}`
-              )
-            }}
-            imageUrl={`${import.meta.env.VITE_TMDB_IMG_URL}${recommend.poster_path}`}
-            title={title}
-            date={releaseYear}
+          <MoviePoster
+            src={`${import.meta.env.VITE_TMDB_IMG_URL}${mediaData?.backdrop_path}`}
+            alt={`${title}-poster`}
           />
-        ))}
-      </SeparatingBox>
+        </MovieHeaderContainer>
 
-      <MovieActorContainer>
-        <ListsTitle>감독/출연</ListsTitle>
-        <ActorBox>
-          {credits?.data?.cast?.slice(0, 10).map(actor => (
-            <ActorList key={actor.id}>
-              <img
-                src={`${import.meta.env.VITE_TMDB_IMG_URL}${actor.profile_path}`}
-                alt={actor.name}
-              />
-              <span>{actor.name}</span>
-              <span>{actor.character}</span>
-            </ActorList>
+        {/* 두번째 박스 */}
+        <SeparatingBox>
+          <ShowTypes>콘텐츠 정보</ShowTypes>
+          <ShowTypes>관련 콘텐츠</ShowTypes>
+          {recommendations?.data?.results?.slice(0, 10).map(recommend => (
+            <PosterBox
+              key={recommend.id}
+              onClick={() => {
+                navigate(
+                  `/media-details/${isMovie ? 'movie' : 'tv'}/${recommend.id}`
+                )
+              }}
+              imageUrl={`${import.meta.env.VITE_TMDB_IMG_URL}${recommend.poster_path}`}
+              title={title}
+              date={releaseYear}
+            />
           ))}
-        </ActorBox>
-      </MovieActorContainer>
+        </SeparatingBox>
 
-      {/* 세번째 박스 */}
-      <UserRateContainer>
-        <UserRateTitle>사용자 평</UserRateTitle>
+        <MovieActorContainer>
+          <ListsTitle>감독/출연</ListsTitle>
+          <ActorBox>
+            {credits?.data?.cast?.slice(0, 10).map(actor => (
+              <ActorList key={actor.id}>
+                <img
+                  src={`${import.meta.env.VITE_TMDB_IMG_URL}${actor.profile_path}`}
+                  alt={actor.name}
+                />
+                <span>{actor.name}</span>
+                <span>{actor.character}</span>
+              </ActorList>
+            ))}
+          </ActorBox>
+        </MovieActorContainer>
 
-        <UserCommentContainer>
+        {/* 세번째 박스 */}
+        <UserRateContainer>
+          <UserRateTitle>사용자 평</UserRateTitle>
+
+          <UserCommentContainer>
+            <Profile onClick={profile} />
+            <Input
+              type="textarea"
+              value=""
+              onChange={profile}
+              width="100%"
+              placeholder="의견을 남겨주세요"
+            />
+            <Button padding="36px">등록</Button>
+          </UserCommentContainer>
+        </UserRateContainer>
+        <CommentContainer>
           <Profile onClick={profile} />
-          <Input
-            type="textarea"
-            value=""
-            onChange={profile}
-            width="100%"
-            placeholder="의견을 남겨주세요"
-          />
-          <Button padding="36px">등록</Button>
-        </UserCommentContainer>
-      </UserRateContainer>
-      <CommentContainer>
-        <Profile onClick={profile} />
-        <CommentBox>
-          <div>전영훈</div>
-          <div>재미있는 영화</div>
-        </CommentBox>
-      </CommentContainer>
+          <CommentBox>
+            <div>전영훈</div>
+            <div>재미있는 영화</div>
+          </CommentBox>
+        </CommentContainer>
+      </Suspense>
     </Container>
   )
 }
@@ -129,6 +131,7 @@ function profile() {
 
 // ✅ component로 분리 필요
 import styled from 'styled-components'
+import { Suspense } from 'react'
 
 //첫번째 박스
 export const Container = styled.div`
