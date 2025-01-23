@@ -5,10 +5,10 @@ import { useQuery } from '@tanstack/react-query'
 import getTimeAgo from '@/utils/getTimeAgo'
 import { AiFillEdit } from 'react-icons/ai'
 import { MdDelete } from 'react-icons/md'
-import useAuthStateChange from '@/hooks/useAuthStateChange'
 import { useState } from 'react'
 import CommentEdit from './commentEdit'
 import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
+import useAuth from '@/hooks/useAuth'
 
 type TComment = {
   key: string
@@ -34,7 +34,7 @@ export default function CommentList({
   comment_id
 }: TComment) {
   const [modifier, setModifier] = useState(false)
-  const { user } = useAuthStateChange()
+  const { user } = useAuth()
   // const queryClient = useQueryClient()
 
   const { data } = useQuery<UserProfile>({
