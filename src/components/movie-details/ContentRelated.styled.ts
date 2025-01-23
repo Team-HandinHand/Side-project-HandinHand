@@ -10,10 +10,5 @@ export const Title = styled.div`
 
 export const PosterBox = styled.div`
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(2, auto);
-`
-
-export const Poster = styled.div`
-  height: 20vh;
+  grid-template-columns: repeat(6, 1fr);
 `
