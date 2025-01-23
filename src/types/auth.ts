@@ -18,8 +18,8 @@ export interface User {
 }
 
 export interface SupabaseUserData {
-  email: string
-  nickname: string
+  email?: string
+  nickname?: string
   profile_picture_path: string
 }
 

@@ -1,49 +1,85 @@
-import { Button } from '../common-ui/button/Button'
-import { Input } from '../common-ui/input/Input'
-import { Profile } from '../common-ui/profile/Profile'
+import { useParams } from 'react-router-dom'
 import * as S from './MovieDetails.styled'
+import useFetchMovieMoreInfo from '@/hooks/queries/useFetchMediaMoreInfo'
+import { MediaType } from '@/types/media'
+import CommentPosts from '../movie-details-comment/commentPosts'
+import { useQuery } from '@tanstack/react-query'
+import { getComments } from '@/service/comments/fetchDetailsComments'
+import CommentList from '../movie-details-comment/commentList'
+import { useState } from 'react'
+
+type ICommentItemProps = {
+  comment_id: string
+  user_id: string
+  comment: string
+  created_at: string
+  updated_at?: string
+  movie_id: string
+}
 
 export default function ContentInfo() {
+  const [content, setContent] = useState('')
+  const { type, mediaId } = useParams()
+  const typedType = type as MediaType
+  const typedId = Number(mediaId)
+  const { credits } = useFetchMovieMoreInfo(typedType, typedId)
+
+  const { data: commentsData } = useQuery<ICommentItemProps[]>({
+    queryKey: ['userComment'],
+    queryFn: () => getComments(typedId)
+  })
+
   return (
     <>
       <S.MovieActorContainer>
         <S.ListsTitle>감독/출연</S.ListsTitle>
         <S.ActorBox>
-          <S.ActorList>가</S.ActorList>
-          <S.ActorList>나</S.ActorList>
-          <S.ActorList>다</S.ActorList>
-          <S.ActorList>라</S.ActorList>
-          <S.ActorList>마</S.ActorList>
+          {credits?.data?.cast?.slice(0, 12).map(actor => (
+            <S.ActorList key={actor.id}>
+              <img
+                src={`${import.meta.env.VITE_TMDB_IMG_URL}${actor.profile_path}`}
+                alt={actor.name}
+              />
+              <span>{actor.name}</span>
+              <span>{actor.character}</span>
+            </S.ActorList>
+          ))}
         </S.ActorBox>
       </S.MovieActorContainer>
 
       {/* 세번째 박스 */}
       <S.UserRateContainer>
         <S.UserRateTitle>사용자 평</S.UserRateTitle>
-
-        <S.UserCommentContainer>
-          <Profile onClick={profile} />
-          <Input
-            type="textarea"
-            value=""
-            onChange={profile}
-            width="100%"
-            placeholder="의견을 남겨주세요"
+        <CommentPosts
+          content={content}
+          setContent={setContent}
+        />
+        {commentsData?.map((data: ICommentItemProps) => (
+          <CommentList
+            key={data.comment_id}
+            commentUserId={data.user_id}
+            comment={data.comment}
+            movie_id={data.movie_id}
+            createAt={data.created_at}
+            updatedAt={data.updated_at}
+            comment_id={data.comment_id}
           />
-          <Button padding="36px">등록</Button>
-        </S.UserCommentContainer>
+        ))}
       </S.UserRateContainer>
-      <S.CommentContainer>
-        <Profile onClick={profile} />
-        <S.CommentBox>
-          <div>전영훈</div>
-          <div>재미있는 영화</div>
-        </S.CommentBox>
-      </S.CommentContainer>
     </>
   )
 }
 
-function profile() {
-  console.log('profile')
-}
+// {
+//   commentsData?.flat().map() => (
+//     <CommentItem
+//       key={data.comment_id}
+//       commentId={data.comment_id}
+//       commentUserId={data.user_id}
+//       comment={data.comment}
+//       createAt={data.created_at}
+//       updatedAt={data.updated_at ? data.updated_at : null}
+//       playlistId={playlistId}
+//     />
+//   ))
+// }
