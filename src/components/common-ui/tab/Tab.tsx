@@ -3,7 +3,13 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useQueryState } from 'nuqs'
 import { TABS } from '@/constants/commonUi'
 
-export const Tab = ({ title }: { title?: string }) => {
+export const Tab = ({
+  title,
+  onTabChange
+}: {
+  title?: string
+  onTabChange?: (value: string) => void
+}) => {
   const navigate = useNavigate()
   const location = useLocation()
   const [activeTab, setActiveTab] = useQueryState('type', {
@@ -13,6 +19,9 @@ export const Tab = ({ title }: { title?: string }) => {
 
   const handleTabChange = (value: string) => {
     setActiveTab(value)
+    if (onTabChange) {
+      onTabChange(value)
+    }
     // 현재 경로가 media-search일 때만 라우팅 업데이트
     if (location.pathname.includes('media-search')) {
       navigate(

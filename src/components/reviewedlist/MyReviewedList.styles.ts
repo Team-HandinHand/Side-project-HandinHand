@@ -9,7 +9,6 @@ export const ReviewListContainer = styled.section`
 export const ReviewItem = styled.div`
   display: flex;
   gap: 80px;
-  padding: var(--space-medium) var(--space-small);
   border-bottom: 1px solid var(--color-dark-gray);
   align-items: center;
 `
@@ -88,4 +87,10 @@ export const Actions = styled.div`
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
+`
+export const Title = styled.h3`
+  font-size: var(--font-large);
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--color-white);
 `

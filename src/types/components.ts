@@ -1,7 +1,7 @@
 interface PosterBoxProps {
-  title: string
+  title?: string
   imageUrl: string
-  date: string
+  date?: string
   flex?: boolean
   onClick?: () => void
   isLoading?: boolean
