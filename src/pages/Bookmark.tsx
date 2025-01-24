@@ -64,7 +64,7 @@ export const Bookmark = () => {
         .select(
           `
           drama_id,
-          dramaResults (
+            dramaResults (
             id,
             poster_path,
             name,
@@ -73,8 +73,6 @@ export const Bookmark = () => {
         `
         )
         .eq('user_id', user?.userId)
-
-      console.log('data:', data)
 
       if (error) {
         console.error('드라마 즐겨찾기 쿼리 에러:', error)
