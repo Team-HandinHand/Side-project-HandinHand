@@ -8,8 +8,9 @@ export const MediaContainer = styled.div<MediaContainerProps>`
   flex-direction: column;
   align-items: center;
   position: relative;
-
-  padding-top: ${({ isMyList }) => (isMyList === false ? '80px' : '0px')};
+  @media (max-width: 1550px) {
+    margin-top: ${({ isMyList }) => (isMyList === false ? '80px' : '0px')};
+  }
 `
 
 export const PosterContainer = styled.div`
