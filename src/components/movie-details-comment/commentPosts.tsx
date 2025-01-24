@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { postComment } from '@/service/comments/postDetailsComment'
 import { TCount } from '@/types/comment'
 import { useRating } from '@/hooks/useRating'
+import toast from 'react-hot-toast'
 
 export default function CommentPosts({ content, setContent }: TCount) {
   const { mediaId } = useParams<{ mediaId: string }>()
@@ -22,6 +23,10 @@ export default function CommentPosts({ content, setContent }: TCount) {
         queryKey: ['userComment']
       })
       setContent('')
+      toast.success('평가가 등록되었습니다!')
+    },
+    onError: () => {
+      toast.error('댓글 등록에 실패하셨습니다!')
     }
   })
 

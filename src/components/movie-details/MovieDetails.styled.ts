@@ -76,6 +76,14 @@ export const RatingBox = styled.div`
   gap: var(--space-small);
 `
 
+export const RatingGuide = styled.div`
+  font-size: var(--font-small);
+  text-align: center;
+  color: var(--color-gray);
+  //margin-top은 옆에 평점과 높낮이를 맞추기위해 토큰을 사용하지 않았어요
+  margin-top: 4.5px;
+`
+
 export const AverageBox = styled.div`
   font-size: 36px;
   text-align: center;

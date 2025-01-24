@@ -4,7 +4,7 @@ export async function postComment(
   movie_id: string | undefined,
   user_id: string | undefined,
   comment: string,
-  rating: number
+  rating: number = 0
 ) {
   if (!movie_id || !user_id) {
     throw new Error('movie_id와 user_id는 필수 값입니다.')

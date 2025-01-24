@@ -10,10 +10,12 @@ import extractYear from '@/utils/extractYear'
 import useFetchUserComment from '@/hooks/queries/useFetchUserComment'
 
 export const MediaDetailsPage = () => {
+  const { type, mediaId } = useParams()
+
   const [showType, setShowType] = useState<'content' | 'related'>('content')
+
   const [isExpanded, setIsExpanded] = useState(false)
   const textRef = useRef<HTMLParagraphElement>(null)
-  const { type, mediaId } = useParams()
 
   // 타입 적용
   const typedType = type as MediaType
@@ -35,21 +37,17 @@ export const MediaDetailsPage = () => {
   const commentsData = useFetchUserComment(typedId)
 
   let averageRating = 0
-  const totalRating = commentsData?.reduce(
+  const filterRating = commentsData?.filter(cur => cur.rating !== 0)
+  const totalRating = filterRating?.reduce(
     (acc, cur) => (cur ? (acc += cur.rating) : 0),
     0
   )
-  if (totalRating && commentsData) {
-    averageRating = totalRating / commentsData?.length
-  }
-
-  const handleToggle = () => {
-    setIsExpanded(prev => !prev)
+  if (totalRating && filterRating) {
+    averageRating = totalRating / filterRating?.length
   }
 
   return (
     <S.Container>
-      {/* 첫번째 박스 */}
       <S.MovieHeaderContainer>
         <S.MovieInfo>
           <S.MovieTitle>{title}</S.MovieTitle>
@@ -76,14 +74,22 @@ export const MediaDetailsPage = () => {
               {mediaData?.overview}
             </S.MovieDescription>
             {!isExpanded && (
-              <S.ShowMoreButton onClick={handleToggle}>더보기</S.ShowMoreButton>
+              <S.ShowMoreButton onClick={() => setIsExpanded(!isExpanded)}>
+                더보기
+              </S.ShowMoreButton>
             )}
           </div>
           <S.RatingBox>
-            <StarRating size={48} />
+            <div>
+              <StarRating size={48} />
+              <S.RatingGuide>
+                별점을 클릭후 댓글 입력시, 평가가 반영됩니다!
+              </S.RatingGuide>
+            </div>
+
             <S.AverageBox>
               {averageRating.toFixed(1)}
-              <div>평균 별점 ({commentsData?.length}명)</div>
+              <div>평균 별점 ({filterRating?.length}명)</div>
             </S.AverageBox>
           </S.RatingBox>
         </S.MovieInfo>
@@ -94,7 +100,6 @@ export const MediaDetailsPage = () => {
         />
       </S.MovieHeaderContainer>
 
-      {/* 두번째 박스 */}
       <S.SeparatingBox>
         <S.ShowTypes
           onClick={() => setShowType('content')}
