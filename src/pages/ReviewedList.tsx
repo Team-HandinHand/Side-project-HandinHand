@@ -3,7 +3,7 @@ import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
 import useAuth from '@/hooks/useAuth'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { MediaContainer } from '@/components/media/Media.styles'
 import { useDeleteReview } from '@/hooks/mutations/useDeleteReview'
 
@@ -12,6 +12,7 @@ import {
   fetchDramaReviews,
   fetchMovieReviews
 } from '@/service/review/fetchReview'
+import { useQuery } from '@tanstack/react-query'
 
 export const ReviewedList = () => {
   const { user } = useAuth()
@@ -20,29 +21,14 @@ export const ReviewedList = () => {
   const { userId } = useParams<{ userId: string }>()
   const isMyList = user?.userId === userId
 
-  const [reviews, setReviews] = useState<Review[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    if (!userId) return
-
-    const fetchReviews = async () => {
-      setIsLoading(true)
-      try {
-        const fetchedReviews =
-          activeTab === 'movie'
-            ? await fetchMovieReviews(userId)
-            : await fetchDramaReviews(userId)
-        setReviews(fetchedReviews)
-      } catch (error) {
-        console.error('Error fetching reviews:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchReviews()
-  }, [userId, activeTab])
+  const { data: reviews = [], isLoading } = useQuery<Review[]>({
+    queryKey: ['reviews', userId, activeTab],
+    queryFn: () =>
+      activeTab === 'movie'
+        ? fetchMovieReviews(userId!)
+        : fetchDramaReviews(userId!),
+    enabled: !!userId
+  })
 
   const { mutate: deleteReview } = useDeleteReview()
 
@@ -53,25 +39,13 @@ export const ReviewedList = () => {
   }
 
   const handleDelete = (commentId: string) => {
-    deleteReview(
-      { commentId, type: activeTab },
-      {
-        onSuccess: () => {
-          setReviews(prevReviews =>
-            prevReviews.filter(review => review.comment_id !== commentId)
-          )
-        },
-        onError: error => {
-          console.error('리뷰 삭제 중 오류 발생:', error)
-        }
-      }
-    )
+    deleteReview({ commentId, type: activeTab })
   }
 
   return (
     <>
       {!isMyList && <Back />}
-      <MediaContainer isMyList={isMyList}>
+      <MediaContainer $isMyList={isMyList}>
         <S.ReviewListContainer>
           <Tab
             title={

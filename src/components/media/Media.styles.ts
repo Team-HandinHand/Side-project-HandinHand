@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 interface MediaContainerProps {
-  isMyList?: boolean
+  $isMyList?: boolean
 }
 
 export const MediaContainer = styled.div<MediaContainerProps>`
@@ -9,7 +9,7 @@ export const MediaContainer = styled.div<MediaContainerProps>`
   align-items: center;
   position: relative;
   @media (max-width: 1550px) {
-    margin-top: ${({ isMyList }) => (isMyList === false ? '80px' : '0px')};
+    margin-top: ${({ $isMyList }) => ($isMyList === false ? '80px' : '0px')};
   }
 `
 
