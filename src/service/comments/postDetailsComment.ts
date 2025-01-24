@@ -3,7 +3,8 @@ import { supabase } from '../../../supabaseConfig'
 export async function postComment(
   movie_id: string | undefined,
   user_id: string | undefined,
-  comment: string
+  comment: string,
+  rating: number
 ) {
   if (!movie_id || !user_id) {
     throw new Error('movie_id와 user_id는 필수 값입니다.')
@@ -11,7 +12,7 @@ export async function postComment(
 
   const { data, error } = await supabase
     .from('comments')
-    .insert([{ movie_id, user_id, comment }])
+    .insert([{ movie_id, user_id, comment, rating }])
 
   if (error) {
     console.error('댓글 추가 에러:', error)

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import * as S from './StarRating.styles'
-
+import { useRating } from '@/hooks/useRating'
 /* <Stars size={50} />  이런식으로 사이즈만 지정해서 사용. */
 
 interface Star {
@@ -17,12 +17,8 @@ interface StarSize {
   isReadOnly?: boolean
 }
 
-export default function StarRating({
-  size,
-  initialRating = 0,
-  isReadOnly = false
-}: StarSize) {
-  const [rating, setRating] = useState(initialRating)
+export default function StarRating({ size, isReadOnly = false }: StarSize) {
+  const { rating, setRating } = useRating()
   const [tempRating, setTempRating] = useState(0)
 
   function handleRating(rating: number) {

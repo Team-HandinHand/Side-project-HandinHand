@@ -23,6 +23,7 @@ import {
 import { ErrorFallback } from '@/components'
 import useAuth from '@/hooks/useAuth'
 import { PUBLIC_PATHS } from '@/constants/path'
+import { RatingProvider } from '@/contexts/rating/RatingProvider'
 
 export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuth()
@@ -84,7 +85,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/media-details/:type/:mediaId',
-        element: <MediaDetailsPage />
+        element: (
+          <RatingProvider>
+            <MediaDetailsPage />
+          </RatingProvider>
+        )
       },
       {
         path: '/media-search',

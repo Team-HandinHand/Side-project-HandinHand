@@ -25,7 +25,7 @@ export const MovieInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--space-medium);
-  padding: var(--space-large);
+  padding: var(--space-large) var(--space-large) 0 var(--space-large);
 `
 
 export const MovieTitle = styled.h1`
@@ -44,18 +44,46 @@ export const Info = styled.span`
   margin: var(--space-small);
 `
 
-export const MovieDescription = styled.p`
+export const MovieDescription = styled.p<{ isExpanded: boolean }>`
   font-size: var(--font-medium);
   color: #333;
   max-width: 500px;
-  text-overflow: ellipsis;
-  margin-bottom: var(--space-large);
 
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: ${props =>
+    props.isExpanded ? 'unset' : '3'}; // 3줄로 제한
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+`
+
+export const ShowMoreButton = styled.button`
+  background: transparent;
+  border: none;
+  color: var(--color-white);
+  cursor: pointer;
+  font-size: var(--font-small);
+  width: 75%;
+  text-align: right;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
+
+export const RatingBox = styled.div`
+  display: flex;
+  gap: var(--space-small);
+`
+
+export const AverageBox = styled.div`
+  font-size: 36px;
+  text-align: center;
+  div {
+    font-size: var(--font-small);
+    text-align: center;
+    letter-spacing: 10%;
+  }
 `
 
 //두번째 박스

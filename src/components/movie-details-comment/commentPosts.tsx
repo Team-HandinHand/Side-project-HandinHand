@@ -7,14 +7,16 @@ import { useParams } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { postComment } from '@/service/comments/postDetailsComment'
 import { TCount } from '@/types/comment'
+import { useRating } from '@/hooks/useRating'
 
 export default function CommentPosts({ content, setContent }: TCount) {
   const { mediaId } = useParams<{ mediaId: string }>()
   const { user } = useAuthStateChange()
+  const { rating } = useRating()
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
-    mutationFn: () => postComment(mediaId, user?.userId, content),
+    mutationFn: () => postComment(mediaId, user?.userId, content, rating),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['userComment']
