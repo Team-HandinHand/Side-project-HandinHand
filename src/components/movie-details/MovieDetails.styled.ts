@@ -96,7 +96,7 @@ export const ListsTitle = styled.div`
 
 export const ActorBox = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-gap: var(--space-medium);
 
   @media (max-width: 768px) {
@@ -104,7 +104,23 @@ export const ActorBox = styled.div`
   }
 `
 
-export const ActorList = styled.div``
+export const ActorList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 60%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  span {
+    margin-top: 8px;
+    text-align: center;
+  }
+`
 
 // 세번째 박스
 
@@ -126,7 +142,36 @@ export const CommentContainer = styled.div`
   display: flex;
   gap: var(--space-small);
   margin-bottom: var(--space-small);
-  padding: var(--space-large) 48px var(--space-small) 48px;
+  padding: var(--space-large) var(--space-small) var(--space-small)
+    var(--space-small);
 `
 
-export const CommentBox = styled.div``
+export const CommentBox = styled.div`
+  margin-left: var(--space-xsmall);
+  width: 100%;
+`
+
+export const BoxForFlex = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+export const UpdatedTimeBox = styled.span`
+  margin-left: var(--space-xsmall);
+  font-size: var(--font-small);
+  color: var(--color-light-gray);
+`
+export const DeleteEditBox = styled.span``
+
+export const ButtonForDeleteEdit = styled.button`
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: var(--font-medium);
+  margin-left: var(--space-small);
+
+  &:hover {
+    opacity: 0.8;
+  }
+`
