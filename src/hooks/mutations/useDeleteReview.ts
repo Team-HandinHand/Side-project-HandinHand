@@ -1,17 +1,34 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { deleteReview } from '@/service/review/deleteReview'
+import toast from 'react-hot-toast'
 
+const toastSuccess = (message: string) => {
+  toast.success(message, {
+    duration: 1500,
+    style: {
+      fontSize: 'var(--font-small)'
+    }
+  })
+}
+const toastError = (message: string) => {
+  toast.error(message, {
+    duration: 1500,
+    style: {
+      fontSize: 'var(--font-small)'
+    }
+  })
+}
 export function useDeleteReview() {
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: deleteReview,
     onSuccess: () => {
-      alert('리뷰가 삭제되었습니다.')
+      toastSuccess('평가가 삭제되었습니다.')
       queryClient.invalidateQueries({ queryKey: ['reviews'] })
     },
-    onError: error => {
-      console.error('리뷰 삭제 중 오류 발생:', error)
+    onError: () => {
+      toastError('삭제 실패했습니다.')
     }
   })
 }
