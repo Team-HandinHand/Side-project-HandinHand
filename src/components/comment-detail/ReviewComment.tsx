@@ -1,12 +1,12 @@
 import StarRating from '../common-ui/star-rating/StarRating'
 import * as S from './CommentDetail.styled'
-import { Button } from '../common-ui/button/Button'
 import { useRef, useState } from 'react'
 import { Input } from '../common-ui/input/Input'
 import { Comment } from '@/types/commentDetail'
 import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
 import { useCommentEdit } from '@/hooks/mutations/useCommentEdit'
 import { toastError } from '@/utils/toast'
+import { CommentEditButton } from './CommentEditButton'
 
 export const ReviewComment = ({
   commentData
@@ -25,16 +25,16 @@ export const ReviewComment = ({
     commentData?.comment_id || ''
   )
 
-  const handelDeleteComment = () => {
-    if (window.confirm('선택한 댓글을을 삭제하시겠습니까?')) {
-      deleteCommentMutation()
-    }
-  }
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (commentRef.current) {
       setCommentValue(e.target.value)
       commentRef.current.value = e.target.value
+    }
+  }
+
+  const handelDeleteComment = () => {
+    if (window.confirm('선택한 댓글을을 삭제하시겠습니까?')) {
+      deleteCommentMutation()
     }
   }
 
@@ -56,9 +56,16 @@ export const ReviewComment = ({
     }
   }
 
+  const handleFunction = {
+    handelEditMode,
+    handleSubmit,
+    handelDeleteComment
+  }
+
   if (!commentData) {
     return <p>데이터가 없습니다.</p>
   }
+
   return (
     <S.ReviewCommentContainer>
       <S.RatingSection>
@@ -70,40 +77,10 @@ export const ReviewComment = ({
             isReadOnly={isReadOnly}
           />
         </div>
-        {!isReadOnly ? (
-          <div>
-            <Button
-              color="transparent"
-              size="small"
-              fontSize="12px"
-              onClick={handelEditMode}>
-              취소
-            </Button>
-            <Button
-              size="small"
-              fontSize="12px"
-              onClick={handleSubmit}>
-              수정 완료
-            </Button>
-          </div>
-        ) : (
-          <div>
-            <Button
-              color="transparent"
-              size="small"
-              fontSize="12px"
-              onClick={handelEditMode}>
-              수정
-            </Button>
-            <Button
-              color="transparent"
-              size="small"
-              fontSize="12px"
-              onClick={handelDeleteComment}>
-              삭제
-            </Button>
-          </div>
-        )}
+        <CommentEditButton
+          isReadOnly={isReadOnly}
+          handleFunction={handleFunction}
+        />
       </S.RatingSection>
       <S.CommentSection readonly={isReadOnly}>
         <p>평가</p>
