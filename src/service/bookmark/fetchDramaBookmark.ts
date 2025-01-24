@@ -26,8 +26,8 @@ export const fetchDramaBookmarks = async (
       return {
         id: dramaData.id,
         poster_path: dramaData.poster_path,
-        title: dramaData.name,
-        release_date: dramaData.first_air_date,
+        name: dramaData.name,
+        first_air_date: dramaData.first_air_date,
         media_type: 'tv'
       }
     })

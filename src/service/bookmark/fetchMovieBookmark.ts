@@ -23,7 +23,7 @@ export const fetchMovieBookmarks = async (
     bookmarks.map(async item => {
       const movieData = await fetchMovieDataFromTMDB(item.movie_id)
       return {
-        movie_id: String(movieData.id),
+        id: movieData.id,
         poster_path: movieData.poster_path,
         title: movieData.title,
         release_date: movieData.release_date,
