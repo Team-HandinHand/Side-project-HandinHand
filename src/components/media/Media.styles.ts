@@ -1,9 +1,15 @@
 import styled from 'styled-components'
+interface MediaContainerProps {
+  isMyList?: boolean
+}
 
-export const MediaContainer = styled.div`
+export const MediaContainer = styled.div<MediaContainerProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+
+  padding-top: ${({ isMyList }) => (isMyList === false ? '80px' : '0px')};
 `
 
 export const PosterContainer = styled.div`

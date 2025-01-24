@@ -12,7 +12,7 @@ export const PosterContainer = styled.div`
   display: grid;
   /* grid-template-columns: repeat(auto-fit, minmax(212px, 1fr)); */
   grid-template-columns: repeat(auto-fill, 212px);
-  gap: 20px;
+  gap: 30px;
   justify-content: start;
   @media (min-width: 1441px) {
     width: 1440px;
