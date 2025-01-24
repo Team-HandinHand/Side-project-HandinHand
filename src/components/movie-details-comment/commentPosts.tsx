@@ -25,8 +25,8 @@ export default function CommentPosts({ content, setContent }: TCount) {
       setContent('')
       toast.success('평가가 등록되었습니다!')
     },
-    onError: () => {
-      toast.error('댓글 등록에 실패하셨습니다!')
+    onError: error => {
+      toast.error(error.message || '댓글을 추가하는 중 오류가 발생했습니다.')
     }
   })
 
