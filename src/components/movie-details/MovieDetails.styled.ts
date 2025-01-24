@@ -77,15 +77,16 @@ export const RatingBox = styled.div`
 `
 
 export const RatingGuide = styled.div`
-  font-size: var(--font-small);
+  //font-size의 경우, 토큰내에서 적절한 크기가 없어 커스텀하였습니다.
+  font-size: 12px;
+  //margin-top의 경우 토큰내에서 적절한 크기가 없어 커스텀하였습니다.
+  margin-top: 11.5px;
   text-align: center;
   color: var(--color-gray);
-  //margin-top은 옆에 평점과 높낮이를 맞추기위해 토큰을 사용하지 않았어요
-  margin-top: 4.5px;
 `
 
 export const AverageBox = styled.div`
-  font-size: 36px;
+  font-size: 40px;
   text-align: center;
   div {
     font-size: var(--font-small);
@@ -190,6 +191,11 @@ export const CommentBox = styled.div`
 export const BoxForFlex = styled.div`
   display: flex;
   justify-content: space-between;
+`
+
+export const CommentInfoBox = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 export const UpdatedTimeBox = styled.span`

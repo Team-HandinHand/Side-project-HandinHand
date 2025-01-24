@@ -1,6 +1,6 @@
 import { UpdateComment } from '@/service/comments/putDetailsComment'
+import { toastError, toastSuccess } from '@/utils/toast'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import toast from 'react-hot-toast'
 
 type TEditComment = {
   comment_id: string
@@ -18,13 +18,14 @@ export const useCommentEdit = ({
   const { mutate: updateCommentMutation } = useMutation({
     mutationFn: () => UpdateComment(comment_id, newComment, updatedAt, rating),
     onSuccess: () => {
+      toastSuccess('댓글이 수정되었습니다.')
       queryClient.invalidateQueries({
         queryKey: ['userComment']
       })
-      toast.success('수정이 완료되었습니다!')
     },
-    onError: () => {
-      toast.error('수정에 실패하였습니다!')
+    onError: (error: Error) => {
+      console.error('수정 실패:', error)
+      toastError('댓글 수정 중 오류가 발생했습니다.')
     }
   })
 

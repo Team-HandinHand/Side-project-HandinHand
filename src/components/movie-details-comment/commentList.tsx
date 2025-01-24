@@ -9,6 +9,7 @@ import { useState } from 'react'
 import CommentEdit from './commentEdit'
 import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
 import useAuth from '@/hooks/useAuth'
+import StarRating from '../common-ui/star-rating/StarRating'
 
 type TComment = {
   key: string
@@ -18,6 +19,7 @@ type TComment = {
   updatedAt?: string
   movie_id?: string
   comment_id: string
+  rating: number
 }
 
 type UserProfile = {
@@ -31,11 +33,11 @@ export default function CommentList({
   comment,
   createAt,
   updatedAt,
-  comment_id
+  comment_id,
+  rating
 }: TComment) {
   const [modifier, setModifier] = useState(false)
   const { user } = useAuth()
-  // const queryClient = useQueryClient()
 
   const { data } = useQuery<UserProfile>({
     queryKey: ['user', commentUserId],
@@ -60,16 +62,28 @@ export default function CommentList({
         <div>
           <S.BoxForFlex>
             <div>
-              <span style={{ fontSize: 'var(--font-medium)' }}>
-                {data?.nickname}
-                {user?.userId === commentUserId && '🎆'}
-              </span>
+              <S.CommentInfoBox>
+                <div style={{ fontSize: 'var(--font-medium)' }}>
+                  {data?.nickname}
+                  {user?.userId === commentUserId && '🎆'}
+                </div>
 
-              <S.UpdatedTimeBox>
-                {updatedAt !== createAt
-                  ? `${getTimeAgo(updatedAt!)} (수정됨)`
-                  : getTimeAgo(createAt)}
-              </S.UpdatedTimeBox>
+                {rating ? (
+                  <StarRating
+                    size={18}
+                    isReadOnly={true}
+                    CommentRating={rating}
+                  />
+                ) : (
+                  ''
+                )}
+
+                <S.UpdatedTimeBox>
+                  {updatedAt !== createAt
+                    ? `${getTimeAgo(updatedAt!)} (수정됨)`
+                    : getTimeAgo(createAt)}
+                </S.UpdatedTimeBox>
+              </S.CommentInfoBox>
             </div>
             {user?.userId === commentUserId && (
               <S.DeleteEditBox>

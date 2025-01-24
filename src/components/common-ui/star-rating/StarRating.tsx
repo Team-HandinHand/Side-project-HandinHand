@@ -15,11 +15,16 @@ interface StarSize {
   size: number
   initialRating?: number
   isReadOnly?: boolean
+  CommentRating?: number
 }
 
-export default function StarRating({ size, isReadOnly = false }: StarSize) {
+export default function StarRating({
+  size,
+  isReadOnly = false,
+  CommentRating = 0
+}: StarSize) {
   const { rating, setRating } = useRating()
-  const [tempRating, setTempRating] = useState(0)
+  const [tempRating, setTempRating] = useState(CommentRating)
 
   function handleRating(rating: number) {
     if (!isReadOnly) {

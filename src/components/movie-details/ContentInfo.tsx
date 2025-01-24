@@ -14,6 +14,7 @@ type ICommentItemProps = {
   created_at: string
   updated_at?: string
   movie_id: string
+  rating: number
 }
 
 export default function ContentInfo() {
@@ -60,23 +61,10 @@ export default function ContentInfo() {
             createAt={data.created_at}
             updatedAt={data.updated_at}
             comment_id={data.comment_id}
+            rating={data.rating}
           />
         ))}
       </S.UserRateContainer>
     </>
   )
 }
-
-// {
-//   commentsData?.flat().map() => (
-//     <CommentItem
-//       key={data.comment_id}
-//       commentId={data.comment_id}
-//       commentUserId={data.user_id}
-//       comment={data.comment}
-//       createAt={data.created_at}
-//       updatedAt={data.updated_at ? data.updated_at : null}
-//       playlistId={playlistId}
-//     />
-//   ))
-// }
