@@ -1,32 +1,43 @@
+import { MovieResult } from '@/types/media'
 import { supabase } from '../../../supabaseConfig'
-import { MovieBookmark } from '@/types/bookmark'
-import { MediaResult } from '@/types/media'
+import { movieApi } from '@/lib/axios'
+interface MovieBookmark {
+  movie_id: string
+}
 
-export async function fetchMovieBookmarks(userId: string) {
+export const fetchMovieBookmarks = async (
+  userId: string
+): Promise<MovieResult[]> => {
   const { data, error } = await supabase
     .from('moviebookmark')
-    .select(
-      `
-        movie_id,
-        movieResults (
-          id,
-          poster_path,
-          title,
-          release_date
-        )
-      `
-    )
+    .select('movie_id')
     .eq('user_id', userId)
 
   if (error) {
     throw new Error(error.message)
   }
 
-  return (data as unknown as MovieBookmark[]).map(item => ({
-    id: String(item.movieResults?.id || ''),
-    poster_path: item.movieResults?.poster_path || '',
-    title: item.movieResults?.title || '',
-    release_date: item.movieResults?.release_date || '',
-    media_type: 'movie'
-  })) as unknown as MediaResult[]
+  const bookmarks = data as unknown as MovieBookmark[]
+
+  const movieDetails = await Promise.all(
+    bookmarks.map(async item => {
+      const movieData = await fetchMovieDataFromTMDB(item.movie_id)
+      return {
+        movie_id: String(movieData.id),
+        poster_path: movieData.poster_path,
+        title: movieData.title,
+        release_date: movieData.release_date,
+        media_type: 'movie'
+      }
+    })
+  )
+
+  return movieDetails
+}
+
+async function fetchMovieDataFromTMDB(movieId: string) {
+  const response = await movieApi.get(`/movie/${movieId}`, {
+    params: { language: 'ko' }
+  })
+  return response.data
 }

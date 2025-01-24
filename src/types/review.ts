@@ -1,37 +1,27 @@
-export type ReviewWithMedia = {
-  comment_id: string
-  media_id: string
-  comment: string | null
-  rating: number | null
-  created_at: string
-  mediaResults: {
-    poster_path: string | null
-    title?: string
-    name?: string
-  }
+export interface Review {
+  id: string
+  poster_path: string | null
   title: string
+  release_date: string
+  media_type: 'movie' | 'tv'
+  comment: string | null
+  comment_id: string
+  rating: number
+  created_at: string
 }
 
-export type MovieReview = {
-  comment_id: string
+export interface MovieReviewData {
   movie_id: string
+  comment_id: string
   comment: string | null
-  rating: number | null
+  rating: number
   created_at: string
-  movieResults: {
-    poster_path: string | null
-    title: string
-  }
 }
 
-export type DramaReview = {
-  comment_id: string
+export interface DramaReviewData {
   drama_id: string
+  comment_id: string
   comment: string | null
-  rating: number | null
+  rating: number
   created_at: string
-  dramaResults: {
-    poster_path: string | null
-    name: string
-  }
 }

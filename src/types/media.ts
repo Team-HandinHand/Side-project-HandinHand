@@ -76,20 +76,20 @@ export interface UpcomingMovie {
 }
 
 export interface MovieResult {
-  adult: boolean // 성인 콘텐츠 여부
-  backdrop_path: string | null // 배경 이미지 경로 (null일 수 있음)
-  genre_ids: number[] // 장르 ID 배열
-  id: number // 영화 ID
-  original_language: string // 원래 언어
-  original_title: string // 원래 제목
-  overview: string // 영화 개요
-  popularity: number // 인기 점수
-  poster_path: string | null // 포스터 이미지 경로 (null일 수 있음)
-  release_date: string // 개봉일
-  title: string // 영화 제목
-  video: boolean // 비디오 여부
-  vote_average: number // 평균 투표 점수
-  vote_count: number // 투표 수
+  adult?: boolean // 성인 콘텐츠 여부
+  backdrop_path?: string | null // 배경 이미지 경로 (null일 수 있음, 선택사항)
+  genre_ids?: number[] // 장르 ID 배열
+  id?: number // 영화 ID
+  original_language?: string // 원래 언어
+  original_title?: string // 원래 제목
+  overview?: string // 영화 개요
+  popularity?: number // 인기 점수
+  poster_path?: string | null // 포스터 이미지 경로 (null일 수 있음, 선택사항)
+  release_date?: string // 개봉일
+  title?: string // 영화 제목
+  video?: boolean // 비디오 여부
+  vote_average?: number // 평균 투표 점수
+  vote_count?: number // 투표 수
 }
 
 // Movie Detail
@@ -194,20 +194,20 @@ export interface Tv {
 }
 
 export interface TvResult {
-  adult: boolean // 성인 콘텐츠 여부
-  backdrop_path: string | null // 배경 이미지 경로 (null일 수 있음)
-  genre_ids: number[] // 장르 ID 배열
-  id: number // 드라마 ID
-  origin_country: string[] // 원산지 국가 배열
-  original_language: string // 원래 언어
-  original_name: string // 원래 제목
-  overview: string // 드라마 개요
-  popularity: number // 인기 점수
-  poster_path: string | null // 포스터 이미지 경로 (null일 수 있음)
-  first_air_date: string // 첫 방영일
-  name: string // 드라마 제목
-  vote_average: number // 평균 투표 점수
-  vote_count: number // 투표 수
+  adult?: boolean // 성인 콘텐츠 여부
+  backdrop_path?: string | null // 배경 이미지 경로 (null일 수 있음)
+  genre_ids?: number[] // 장르 ID 배열
+  id?: number // 드라마 ID
+  origin_country?: string[] // 원산지 국가 배열
+  original_language?: string // 원래 언어
+  original_name?: string // 원래 제목
+  overview?: string // 드라마 개요
+  popularity?: number // 인기 점수
+  poster_path?: string | null // 포스터 이미지 경로 (null일 수 있음)
+  first_air_date?: string // 첫 방영일
+  name?: string // 드라마 제목
+  vote_average?: number // 평균 투표 점수
+  vote_count?: number // 투표 수
 }
 
 // Tv Detail

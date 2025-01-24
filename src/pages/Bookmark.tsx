@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Back, MediaList, Tab } from '@/components'
 import { MediaContainer } from '@/components/media/Media.styles'
 import useAuth from '@/hooks/useAuth'
-import useFetchBookmark from '@/hooks/queries/useFetchBookmark'
 import { useParams } from 'react-router-dom'
+import { fetchMovieBookmarks } from '@/service/bookmark/fetchMovieBookmark'
+import { fetchDramaBookmarks } from '@/service/bookmark/fetchDramaBookmark'
+import { MediaResult } from '@/types/media'
 
 export const Bookmark = () => {
   const { user } = useAuth()
@@ -11,10 +13,32 @@ export const Bookmark = () => {
   const { userId } = useParams()
   const isMyList = user?.userId === userId
 
-  const { data: bookmarks = [], isLoading } = useFetchBookmark(
-    user?.userId,
-    activeTab
-  )
+  const [bookmarks, setBookmarks] = useState<MediaResult[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    if (!userId) return
+
+    const fetchBookmarksData = async () => {
+      setIsLoading(true)
+      try {
+        let fetchedBookmarks: MediaResult[] = []
+        if (activeTab === 'movie') {
+          fetchedBookmarks = await fetchMovieBookmarks(userId)
+        } else {
+          fetchedBookmarks = await fetchDramaBookmarks(userId)
+        }
+        setBookmarks(fetchedBookmarks)
+      } catch (error) {
+        console.error('Error fetching bookmarks:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchBookmarksData()
+  }, [userId, activeTab])
+
   return (
     <>
       {!isMyList && <Back />}
@@ -29,7 +53,7 @@ export const Bookmark = () => {
             onTabChange={tab => setActiveTab(tab as 'movie' | 'tv')}
           />
           <MediaList
-            medias={bookmarks}
+            medias={bookmarks} // medias는 MediaResult[] 타입입니다.
             isLoading={isLoading}
           />
         </div>
