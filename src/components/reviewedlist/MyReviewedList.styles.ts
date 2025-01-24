@@ -11,6 +11,7 @@ export const ReviewItem = styled.div`
   gap: 80px;
   border-bottom: 1px solid var(--color-dark-gray);
   align-items: center;
+  margin-top: var(--space-large);
 `
 
 export const Poster = styled.div`
