@@ -3,8 +3,9 @@ import * as S from './ContentRelated.styled'
 import { MediaType } from '@/types/media'
 import { PosterBox } from '../common-ui/poster/PosterBox'
 import useFetchMovieMoreInfo from '@/hooks/queries/useFetchMediaMoreInfo'
+import { ContentRelatedProps } from '@/types/comment'
 
-export default function ContentRelated() {
+export default function ContentRelated({ setShowType }: ContentRelatedProps) {
   const { type, mediaId } = useParams()
   const navigate = useNavigate()
   const typedType = type as MediaType
@@ -24,6 +25,9 @@ export default function ContentRelated() {
               navigate(
                 `/media-details/${isMovie ? 'movie' : 'tv'}/${recommend.id}`
               )
+              setShowType('content')
+
+              window.scrollTo(0, 0)
             }}
             imageUrl={`${import.meta.env.VITE_TMDB_IMG_URL}${recommend.poster_path}`}
           />

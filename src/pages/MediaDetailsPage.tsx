@@ -74,7 +74,11 @@ export const MediaDetailsPage = () => {
           관련 콘텐츠
         </S.ShowTypes>
       </S.SeparatingBox>
-      {showType === 'content' ? <ContentInfo /> : <ContentRelated />}
+      {showType === 'content' ? (
+        <ContentInfo />
+      ) : (
+        <ContentRelated setShowType={setShowType} />
+      )}
     </S.Container>
   )
 }
