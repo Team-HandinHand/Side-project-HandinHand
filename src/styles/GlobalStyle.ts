@@ -47,6 +47,19 @@ const GlobalStyle = createGlobalStyle`
   img {
     display: block;
   }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-dark-gray);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--color-black);
+  }
 
   ::-webkit-scrollbar-thumb {
     background-color: var(--color-dark-gray);

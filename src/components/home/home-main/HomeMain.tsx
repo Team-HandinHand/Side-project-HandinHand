@@ -285,7 +285,7 @@ export const HomeMain = () => {
                     {checkIsMovie(media) ? media.title : media.name}
                   </S.HomeName>
                   <S.HomeRating>
-                    평점 ★{media.vote_average.toFixed(1)}
+                    평점 ★{media?.vote_average?.toFixed(1)}
                   </S.HomeRating>
                 </motion.div>
               </S.HomeColumn>
@@ -327,7 +327,7 @@ export const HomeMain = () => {
                     {checkIsMovie(media) ? media.title : media.name}
                   </S.HomeName>
                   <S.HomeRating>
-                    평점 ★{media.vote_average.toFixed(1)}
+                    평점 ★{media?.vote_average?.toFixed(1)}
                   </S.HomeRating>
                 </motion.div>
               </S.HomeColumn>
@@ -369,7 +369,7 @@ export const HomeMain = () => {
                     {checkIsMovie(media) ? media.title : media.name}
                   </S.HomeName>
                   <S.HomeRating>
-                    평점 ★{media.vote_average.toFixed(1)}
+                    평점 ★{media?.vote_average?.toFixed(1)}
                   </S.HomeRating>
                 </motion.div>
               </S.HomeColumn>
@@ -422,7 +422,7 @@ export const HomeMain = () => {
                     {checkIsMovie(media) ? media.title : media.name}
                   </S.HomeName>
                   <S.HomeRating>
-                    평점 ★{media.vote_average.toFixed(1)}
+                    평점 ★{media?.vote_average?.toFixed(1)}
                   </S.HomeRating>
                 </motion.div>
               </S.HomeColumn>
