@@ -7,6 +7,7 @@ export { Input } from './common-ui/input/Input'
 export { Profile } from './common-ui/profile/Profile'
 export { PosterBox } from './common-ui/poster/PosterBox'
 export { Tab } from './common-ui/tab/Tab'
+export { ScrollToTop } from './common-ui/scroll-button/index'
 
 export { HomeMain } from './home/home-main/HomeMain'
 export { HomeNoAuth } from './home/home-no-auth/HomeNoAuth'

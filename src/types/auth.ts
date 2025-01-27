@@ -17,6 +17,12 @@ export interface User {
   profilePicturePath: string
 }
 
+export interface UserStore {
+  user: User | null
+  setUser: (user: User) => void
+  clearUser: () => void
+}
+
 export interface SupabaseUserData {
   email?: string
   nickname?: string

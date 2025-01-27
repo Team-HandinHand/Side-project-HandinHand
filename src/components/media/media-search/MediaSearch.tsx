@@ -1,8 +1,8 @@
 import * as S from './MediaSearch.styles'
-import { Fragment, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useQueryState } from 'nuqs'
-import { Tab, MediaList } from '@/components'
+import { Tab, MediaList, ScrollToTop } from '@/components'
 import useFetchInfiniteSearchMedia from '@/hooks/queries/useFetchInfiniteSearchMedia'
 import { MediaType, MediaResult } from '@/types/media'
 
@@ -34,7 +34,7 @@ export const MediaSearch = () => {
     <S.Container>
       <Tab title={'검색 결과'} />
       {(medias?.length ?? 0) > 0 ? (
-        <Fragment>
+        <>
           <MediaList
             medias={medias}
             isLoading={isFetching}
@@ -43,10 +43,11 @@ export const MediaSearch = () => {
             ref={ref}
             style={{ height: '2px' }}
           />
-        </Fragment>
+        </>
       ) : (
         <S.NoResultText>찾으시는 콘텐츠가 없습니다.</S.NoResultText>
       )}
+      <ScrollToTop />
     </S.Container>
   )
 }

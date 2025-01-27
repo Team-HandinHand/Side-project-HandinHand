@@ -1,4 +1,4 @@
-import fetchUserProfile from '@/services/auth/fetchUserProfile'
+import fetchUserProfile from '@/service/auth/fetchUserProfile'
 import { Profile } from '../common-ui/profile/Profile'
 import * as S from '../movie-details/MovieDetails.styled'
 import { useQuery } from '@tanstack/react-query'
@@ -8,7 +8,7 @@ import { MdDelete } from 'react-icons/md'
 import { useState } from 'react'
 import CommentEdit from './commentEdit'
 import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
-import useAuth from '@/hooks/useAuth'
+import useUserStore from '@/stores/useUserStore'
 import StarRating from '../common-ui/star-rating/StarRating'
 
 type TComment = {
@@ -37,7 +37,8 @@ export default function CommentList({
   rating
 }: TComment) {
   const [modifier, setModifier] = useState(false)
-  const { user } = useAuth()
+  const { user } = useUserStore()
+  // const queryClient = useQueryClient()
 
   const { data } = useQuery<UserProfile>({
     queryKey: ['user', commentUserId],

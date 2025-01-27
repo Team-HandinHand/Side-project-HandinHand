@@ -13,7 +13,6 @@ import Router from './routes/router'
 import GlobalStyle from '@/styles/GlobalStyle'
 import '@/styles/fonts.css'
 import '@/styles/designToken.css'
-import { AuthProvider } from './contexts/auth'
 
 const App = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false) //ReactQueryDevtoolsPanel 열고 닫기
@@ -39,9 +38,7 @@ const App = () => {
             FallbackComponent={ErrorFallback}>
             <Suspense fallback={<DeferredLoader />}>
               <NuqsAdapter>
-                <AuthProvider>
-                  <Router />
-                </AuthProvider>
+                <Router />
               </NuqsAdapter>
             </Suspense>
           </ErrorBoundary>

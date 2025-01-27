@@ -1,5 +1,5 @@
 import { Button } from '../common-ui/button/Button'
-import useAuth from '@/hooks/useAuth'
+import useUserStore from '@/stores/useUserStore'
 import { useParams } from 'react-router-dom'
 
 type HandleFunction = {
@@ -16,7 +16,7 @@ export const CommentEditButton = ({
 }) => {
   const { handelEditMode, handleSubmit, handelDeleteComment } = handleFunction
   const paramsData = useParams()
-  const { user: currentUser } = useAuth()
+  const { user: currentUser } = useUserStore()
 
   if (paramsData.userId !== currentUser?.userId) {
     return null
