@@ -7,6 +7,7 @@ import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
 import { useCommentEdit } from '@/hooks/mutations/useCommentEdit'
 import { CommentEditButton } from './CommentEditButton'
 import toast from 'react-hot-toast'
+import { useRating } from '@/hooks/useRating'
 
 export const ReviewComment = ({
   commentData
@@ -16,10 +17,12 @@ export const ReviewComment = ({
   const [isReadOnly, setIsReadOnly] = useState(true)
   const commentRef = useRef<HTMLInputElement>(null)
   const [commentValue, setCommentValue] = useState(commentData?.comment || '')
+  const { rating } = useRating()
 
   const { updateCommentMutation } = useCommentEdit({
     comment_id: commentData?.comment_id || '',
-    newComment: commentRef.current?.value || ''
+    newComment: commentRef.current?.value || '',
+    rating: rating
   })
   const { deleteCommentMutation } = useCommentDelete(
     commentData?.comment_id || ''
@@ -73,7 +76,7 @@ export const ReviewComment = ({
           <p>평점</p>
           <StarRating
             size={30}
-            initialRating={commentData.rating || 0}
+            CommentRating={commentData.rating || 0}
             isReadOnly={isReadOnly}
           />
         </div>
