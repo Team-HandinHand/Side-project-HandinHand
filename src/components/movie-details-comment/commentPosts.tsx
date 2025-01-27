@@ -7,19 +7,26 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { postComment } from '@/service/comments/postDetailsComment'
 import useUserStore from '@/stores/useUserStore'
 import { TCount } from '@/types/comment'
+import { useRating } from '@/hooks/useRating'
+import toast from 'react-hot-toast'
 
 export default function CommentPosts({ content, setContent }: TCount) {
   const { mediaId } = useParams<{ mediaId: string }>()
   const { user } = useUserStore()
+  const { rating } = useRating()
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
-    mutationFn: () => postComment(mediaId, user?.userId, content),
+    mutationFn: () => postComment(mediaId, user?.userId, content, rating),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['userComment']
       })
       setContent('')
+      toast.success('평가가 등록되었습니다!')
+    },
+    onError: error => {
+      toast.error(error.message || '댓글을 추가하는 중 오류가 발생했습니다.')
     }
   })
 

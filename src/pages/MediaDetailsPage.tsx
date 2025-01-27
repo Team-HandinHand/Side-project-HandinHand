@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import * as S from '@/components/movie-details/MovieDetails.styled'
 import { MediaType, MovieDetails, TvDetails } from '@/types/media'
@@ -7,10 +7,15 @@ import ContentInfo from '@/components/movie-details/ContentInfo'
 import ContentRelated from '@/components/movie-details/ContentRelated'
 import useFetchMovieMoreInfo from '@/hooks/queries/useFetchMediaMoreInfo'
 import extractYear from '@/utils/extractYear'
+import useFetchUserComment from '@/hooks/queries/useFetchUserComment'
 
 export const MediaDetailsPage = () => {
-  const [showType, setShowType] = useState<'content' | 'related'>('content')
   const { type, mediaId } = useParams()
+
+  const [showType, setShowType] = useState<'content' | 'related'>('content')
+
+  const [isExpanded, setIsExpanded] = useState(false)
+  const textRef = useRef<HTMLParagraphElement>(null)
 
   // 타입 적용
   const typedType = type as MediaType
@@ -28,9 +33,21 @@ export const MediaDetailsPage = () => {
     ? extractYear((mediaData as MovieDetails)?.release_date)
     : extractYear((mediaData as TvDetails)?.first_air_date)
 
+  // 평균 평점 계산
+  const commentsData = useFetchUserComment(typedId)
+
+  let averageRating = 0
+  const filterRating = commentsData?.filter(cur => cur.rating !== 0)
+  const totalRating = filterRating?.reduce(
+    (acc, cur) => (cur ? (acc += cur.rating) : 0),
+    0
+  )
+  if (totalRating && filterRating) {
+    averageRating = totalRating / filterRating?.length
+  }
+
   return (
     <S.Container>
-      {/* 첫번째 박스 */}
       <S.MovieHeaderContainer>
         <S.MovieInfo>
           <S.MovieTitle>{title}</S.MovieTitle>
@@ -50,9 +67,31 @@ export const MediaDetailsPage = () => {
               {mediaData?.genres?.map(genre => genre.name).join(' ﹒ ')}
             </S.Info>
           </S.InfoBox>
+          <div>
+            <S.MovieDescription
+              ref={textRef}
+              isExpanded={isExpanded}>
+              {mediaData?.overview}
+            </S.MovieDescription>
+            {!isExpanded && (
+              <S.ShowMoreButton onClick={() => setIsExpanded(!isExpanded)}>
+                더보기
+              </S.ShowMoreButton>
+            )}
+          </div>
+          <S.RatingBox>
+            <div>
+              <StarRating size={48} />
+              <S.RatingGuide>
+                별점을 클릭후 댓글 입력시, 평가가 반영됩니다!
+              </S.RatingGuide>
+            </div>
 
-          <S.MovieDescription>{mediaData?.overview}</S.MovieDescription>
-          <StarRating size={48} />
+            <S.AverageBox>
+              {averageRating.toFixed(1)}
+              <div>평균 별점 ({filterRating?.length}명)</div>
+            </S.AverageBox>
+          </S.RatingBox>
         </S.MovieInfo>
 
         <S.MoviePoster
@@ -61,7 +100,6 @@ export const MediaDetailsPage = () => {
         />
       </S.MovieHeaderContainer>
 
-      {/* 두번째 박스 */}
       <S.SeparatingBox>
         <S.ShowTypes
           onClick={() => setShowType('content')}
@@ -74,7 +112,11 @@ export const MediaDetailsPage = () => {
           관련 콘텐츠
         </S.ShowTypes>
       </S.SeparatingBox>
-      {showType === 'content' ? <ContentInfo /> : <ContentRelated />}
+      {showType === 'content' ? (
+        <ContentInfo />
+      ) : (
+        <ContentRelated setShowType={setShowType} />
+      )}
     </S.Container>
   )
 }

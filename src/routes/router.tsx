@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -24,7 +25,7 @@ import useUserStore from '@/stores/useUserStore'
 import { ErrorFallback } from '@/components'
 import { PUBLIC_PATHS, AUTH_PATHS } from '@/constants/path'
 import useAuthStateChange from '@/hooks/useAuthStateChange'
-import { useMemo } from 'react'
+import { RatingProvider } from '@/contexts/rating/RatingProvider'
 
 export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUserStore()
@@ -92,7 +93,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/media-details/:type/:mediaId',
-        element: <MediaDetailsPage />
+        element: (
+          <RatingProvider>
+            <MediaDetailsPage />
+          </RatingProvider>
+        )
       },
       {
         path: '/media-search',

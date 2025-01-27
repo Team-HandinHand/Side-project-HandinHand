@@ -3,11 +3,12 @@ import { supabase } from '../../../supabaseConfig'
 export async function UpdateComment(
   comment_id: string,
   newComment: string,
-  updatedAt: string
+  updatedAt: string,
+  rating?: number
 ) {
   const { data, error } = await supabase
     .from('comments')
-    .update({ comment: newComment, updated_at: updatedAt })
+    .update({ comment: newComment, updated_at: updatedAt, rating: rating })
     .eq('comment_id', comment_id)
     .select()
 
