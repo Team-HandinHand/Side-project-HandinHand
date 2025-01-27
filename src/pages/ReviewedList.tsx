@@ -3,23 +3,31 @@ import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
 import useAuth from '@/hooks/useAuth'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useState } from 'react'
 import { MediaContainer } from '@/components/media/Media.styles'
 import { useDeleteReview } from '@/hooks/mutations/useDeleteReview'
-
 import { Review } from '@/types/review'
 import {
   fetchDramaReviews,
   fetchMovieReviews
 } from '@/service/review/fetchReview'
 import { useQuery } from '@tanstack/react-query'
+import { useQueryState } from 'nuqs'
 
 export const ReviewedList = () => {
   const { user } = useAuth()
-  const [activeTab, setActiveTab] = useState<'movie' | 'tv'>('movie')
   const navigate = useNavigate()
   const { userId } = useParams<{ userId: string }>()
   const isMyList = user?.userId === userId
+
+  const parseTabType = (value: string | null): 'movie' | 'tv' | null => {
+    if (value === 'movie' || value === 'tv') return value
+    return null
+  }
+
+  const [activeTab, setActiveTab] = useQueryState<'movie' | 'tv'>('type', {
+    parse: parseTabType,
+    defaultValue: 'movie'
+  })
 
   const { data: reviews = [], isLoading } = useQuery<Review[]>({
     queryKey: ['reviews', userId, activeTab],
