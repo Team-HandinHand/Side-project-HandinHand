@@ -16,6 +16,7 @@ export const CommentDetailPage = () => {
   )
 
   const { data: commentData, isLoading } = useFetchComment({
+    types: paramsData.type as 'movie' | 'tv',
     userId: paramsData.userId as string,
     mediaId: paramsData.mediaId as string
   })
