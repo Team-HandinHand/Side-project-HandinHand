@@ -21,7 +21,7 @@ export const CommentDetailPage = () => {
   })
 
   const createdTime = formatDateWithDateObject(commentData?.created_at ?? '')
-  const updatedTime = formatDateWithDateObject(commentData?.created_at ?? '')
+  const updatedTime = formatDateWithDateObject(commentData?.updated_at ?? '')
 
   if (mediaData.isLoading || isLoading) {
     return <p>로딩중입니다.</p>
