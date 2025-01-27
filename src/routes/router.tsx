@@ -20,32 +20,40 @@ import {
   MediaSearchPage
 } from '@/pages'
 //OtherUserProfilePage 추가 사용 예정
+import useUserStore from '@/stores/useUserStore'
 import { ErrorFallback } from '@/components'
-import useAuth from '@/hooks/useAuth'
-import { PUBLIC_PATHS } from '@/constants/path'
+import { PUBLIC_PATHS, AUTH_PATHS } from '@/constants/path'
+import useAuthStateChange from '@/hooks/useAuthStateChange'
+import { useMemo } from 'react'
 
 export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth()
+  const { user } = useUserStore()
   const { pathname } = useLocation()
+  useAuthStateChange()
 
   // console.log({
   //   user,
   //   pathname
   // })
 
-  const isPublicRoute = PUBLIC_PATHS.includes(
-    pathname as (typeof PUBLIC_PATHS)[number]
-  )
-  const AUTH_PATHS = ['/signin', '/signup']
-  const isAuthPath = AUTH_PATHS.includes(pathname)
-  if (!user && !isPublicRoute)
+  const routeCheck = useMemo(() => {
+    const isPublicRoute = PUBLIC_PATHS.includes(
+      pathname as (typeof PUBLIC_PATHS)[number]
+    )
+    const isAuthPath = AUTH_PATHS.includes(
+      pathname as (typeof AUTH_PATHS)[number]
+    )
+    return { isPublicRoute, isAuthPath }
+  }, [pathname])
+
+  if (!user && !routeCheck.isPublicRoute)
     return (
       <Navigate
         to={'/signin'}
         replace
       />
     )
-  if (user && isAuthPath) {
+  if (user && routeCheck.isAuthPath) {
     return (
       <Navigate
         to={'/'}
