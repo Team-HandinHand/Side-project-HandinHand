@@ -12,6 +12,7 @@ import {
 } from '@/service/review/fetchReview'
 import { useQuery } from '@tanstack/react-query'
 import { useQueryState } from 'nuqs'
+import queryClient from '@/lib/queryClient'
 
 export const ReviewedList = () => {
   const { user } = useAuth()
@@ -35,7 +36,10 @@ export const ReviewedList = () => {
       activeTab === 'movie'
         ? fetchMovieReviews(userId!)
         : fetchDramaReviews(userId!),
-    enabled: !!userId
+    enabled: !!userId && !!activeTab,
+    staleTime: 1000 * 60 * 5,
+    placeholderData: () =>
+      queryClient.getQueryData(['reviews', userId, activeTab]) as Review[]
   })
 
   const { mutate: deleteReview } = useDeleteReview()

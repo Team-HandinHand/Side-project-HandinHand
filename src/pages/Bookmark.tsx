@@ -7,6 +7,7 @@ import { fetchDramaBookmarks } from '@/service/bookmark/fetchDramaBookmark'
 import { MediaResult } from '@/types/media'
 import { useQuery } from '@tanstack/react-query'
 import { useQueryState } from 'nuqs'
+import queryClient from '@/lib/queryClient'
 
 const parseTabType = (value: string | null): 'movie' | 'tv' | null => {
   if (value === 'movie' || value === 'tv') return value
@@ -29,7 +30,10 @@ export const Bookmark = () => {
       activeTab === 'movie'
         ? fetchMovieBookmarks(userId || '')
         : fetchDramaBookmarks(userId || ''),
-    enabled: !!userId
+    enabled: !!userId,
+    staleTime: 1000 * 60 * 5,
+    placeholderData: () =>
+      queryClient.getQueryData(['ookmarks', userId, activeTab]) as MediaResult[]
   })
   return (
     <>
