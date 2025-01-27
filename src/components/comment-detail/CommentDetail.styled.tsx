@@ -67,7 +67,6 @@ export const CommentSection = styled.div<{ $readonly: boolean }>`
     ${({ $readonly }) =>
       $readonly &&
       `
-    height: auto;
     background-color: var(--color-black);
 
     &:focus {
