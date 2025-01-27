@@ -7,6 +7,7 @@ import { Button, Profile } from '@/components'
 import { memo, useMemo } from 'react'
 import { useSignOut } from '@/hooks/mutations/useSignOut'
 import useUserStore from '@/stores/useUserStore'
+import { LOGO_PATH } from '@/constants/commonUi'
 
 export const Header = memo(({ $backgroundColor }: HeaderProps) => {
   const { signOut, isPending } = useSignOut()
@@ -74,7 +75,7 @@ export const Header = memo(({ $backgroundColor }: HeaderProps) => {
     <S.HeaderContainer $backgroundColor={$backgroundColor}>
       <S.LogoWrapper>
         <S.RestrictedLink to="/">
-          <S.Logo src="/assets/img/logo/logo.webp" />
+          <S.Logo src={LOGO_PATH} />
         </S.RestrictedLink>
       </S.LogoWrapper>
 
@@ -161,15 +162,11 @@ export const Header = memo(({ $backgroundColor }: HeaderProps) => {
             </S.BaseLink>
             <S.BaseLink to="/edit-profile">
               <Profile
-                // imageUrl={session?.user?.user_metadata?.avatar_url}
                 imageUrl={user?.profilePicturePath}
                 size="small"
               />
             </S.BaseLink>
-            <S.UserNickname>
-              {/* {session?.user?.user_metadata?.name} */}
-              {user?.nickname}
-            </S.UserNickname>
+            <S.UserNickname>{user?.nickname}</S.UserNickname>
             <Button
               type="button"
               color="transparent"

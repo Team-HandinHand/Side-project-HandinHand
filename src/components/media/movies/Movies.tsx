@@ -2,7 +2,7 @@ import * as S from '../Media.styles'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useQueryState } from 'nuqs'
-import { MediaFilter, MediaList } from '@/components'
+import { MediaFilter, MediaList, ScrollToTop } from '@/components'
 import useFetchInfiniteMedias from '@/hooks/queries/useFetchInfiniteMedias'
 import { MediaResult, MovieCategory } from '@/types/media'
 import { MOVIE_CATEGORIES } from '@/constants/media'
@@ -38,6 +38,7 @@ export const Movies = () => {
         ref={ref}
         style={{ height: '2px' }}
       />
+      <ScrollToTop />
     </S.MediaContainer>
   )
 }
