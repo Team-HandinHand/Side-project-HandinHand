@@ -30,15 +30,15 @@ export const PosterBox = ({
   }
   return (
     <S.PosterBoxContainer
-      flex={flex}
+      $flex={flex}
       onClick={onClick}
       $pointer={pointer}>
       <S.MovieImageBox
         src={imageUrl}
         alt={`${title}-poster`}
-        flex={flex}
+        $flex={flex}
       />
-      <S.ContentBox flex={flex}>
+      <S.ContentBox $flex={flex}>
         <S.ContentTitle>{title}</S.ContentTitle>
         <S.ContentDescription>{date}</S.ContentDescription>
       </S.ContentBox>

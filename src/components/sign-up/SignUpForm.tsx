@@ -20,8 +20,7 @@ export const SignUpForm = () => {
     formState: { isSubmitting, errors, touchedFields },
     setError,
     getValues,
-    trigger,
-    watch // 디버깅용
+    trigger
   } = useForm<TSignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     mode: 'onChange',
@@ -92,10 +91,10 @@ export const SignUpForm = () => {
   }
 
   // 디버깅용
-  console.log('current sign up form', {
-    errors: errors,
-    data: watch()
-  })
+  // console.log('current sign up form', {
+  //   errors: errors,
+  //   data: watch()
+  // })
 
   return (
     <S.SignUpFormContainer>

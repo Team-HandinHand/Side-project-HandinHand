@@ -350,6 +350,4 @@ export type FetchMediasQKType<T extends MediaType> = [
 
 export type FetchMediasForNoAuthHomeQKType = ['MediasForNoAuthHome', MediaType]
 
-export type MediaMoreInfoQKType = readonly [string, MediaType, number]
-
 export type MediaSearchQKType = [string, MediaType, string]

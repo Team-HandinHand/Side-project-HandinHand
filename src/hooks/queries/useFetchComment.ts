@@ -13,7 +13,8 @@ const useFetchComment = ({
     queryKey: ['comments', userId, mediaId],
     queryFn: () => fetchComments({ userId, mediaId }),
     enabled: !!userId && !!mediaId,
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60 * 5,
+    throwOnError: true
   })
 }
 

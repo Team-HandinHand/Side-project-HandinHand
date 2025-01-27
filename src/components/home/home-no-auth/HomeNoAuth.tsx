@@ -7,6 +7,7 @@ import { Suspense } from 'react'
 
 export const HomeNoAuth = () => {
   const navigate = useNavigate()
+
   return (
     <S.Container>
       <S.Title>영차에 오신 것을 환영합니다 </S.Title>

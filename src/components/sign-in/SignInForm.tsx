@@ -12,8 +12,7 @@ export const SignInForm = () => {
     handleSubmit,
     formState: { isSubmitting, errors, touchedFields },
     setError,
-    trigger,
-    watch // 디버깅용
+    trigger
   } = useForm<TSignInFormValues>({
     resolver: zodResolver(signInSchema),
     mode: 'onChange',
@@ -41,11 +40,11 @@ export const SignInForm = () => {
   }
 
   // 디버깅용
-  console.log('current sign in form', {
-    errors,
-    data: watch(),
-    touchedFields
-  })
+  // console.log('current sign in form', {
+  //   errors,
+  //   data: watch(),
+  //   touchedFields
+  // })
 
   return (
     <S.SignInFormContainer>

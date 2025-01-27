@@ -15,6 +15,7 @@ export const useCommentEdit = ({
 }: TEditComment) => {
   const queryClient = useQueryClient()
   const updatedAt = new Date().toISOString()
+
   const { mutate: updateCommentMutation } = useMutation({
     mutationFn: () => UpdateComment(comment_id, newComment, updatedAt, rating),
     onSuccess: () => {
