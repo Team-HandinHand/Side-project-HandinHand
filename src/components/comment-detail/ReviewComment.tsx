@@ -5,8 +5,8 @@ import { Input } from '../common-ui/input/Input'
 import { Comment } from '@/types/commentDetail'
 import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
 import { useCommentEdit } from '@/hooks/mutations/useCommentEdit'
-import { toastError } from '@/utils/toast'
 import { CommentEditButton } from './CommentEditButton'
+import toast from 'react-hot-toast'
 
 export const ReviewComment = ({
   commentData
@@ -33,7 +33,7 @@ export const ReviewComment = ({
   }
 
   const handelDeleteComment = () => {
-    if (window.confirm('선택한 댓글을을 삭제하시겠습니까?')) {
+    if (window.confirm('선택한 댓글을 삭제하시겠습니까?')) {
       deleteCommentMutation()
     }
   }
@@ -48,7 +48,7 @@ export const ReviewComment = ({
   }
   const handleSubmit = () => {
     if (commentRef.current?.value === '') {
-      toastError('댓글을 입력해주세요.')
+      toast.error('댓글을 입력해주세요.')
       return
     } else {
       updateCommentMutation()
