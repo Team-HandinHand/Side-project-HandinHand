@@ -1,8 +1,8 @@
 import { supabase } from '../../../supabaseConfig'
 
-export async function deleteComment(comment_id: string) {
+export async function deleteComment(comment_id: string, types: 'movie' | 'tv') {
   const { error } = await supabase
-    .from('comments')
+    .from(types === 'movie' ? 'comments' : 'drama_comments')
     .delete()
     .eq('comment_id', comment_id)
 

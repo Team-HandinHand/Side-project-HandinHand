@@ -10,6 +10,7 @@ import CommentEdit from './commentEdit'
 import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
 import useAuth from '@/hooks/useAuth'
 import StarRating from '../common-ui/star-rating/StarRating'
+import { useParams } from 'react-router-dom'
 
 type TComment = {
   key: string
@@ -36,6 +37,7 @@ export default function CommentList({
   comment_id,
   rating
 }: TComment) {
+  const paramsData = useParams()
   const [modifier, setModifier] = useState(false)
   const { user } = useAuth()
 
@@ -45,7 +47,10 @@ export default function CommentList({
   })
 
   //댓글삭제
-  const { deleteCommentMutation } = useCommentDelete(comment_id)
+  const { deleteCommentMutation } = useCommentDelete(
+    comment_id,
+    paramsData.type as 'movie' | 'tv'
+  )
 
   function handleDelete() {
     deleteCommentMutation()
