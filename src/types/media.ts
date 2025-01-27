@@ -75,22 +75,26 @@ export interface UpcomingMovie {
   total_results: number // 총 결과 수
 }
 
-export interface MovieResult {
-  adult: boolean // 성인 콘텐츠 여부
-  backdrop_path: string | null // 배경 이미지 경로 (null일 수 있음)
-  genre_ids: number[] // 장르 ID 배열
-  id: number // 영화 ID
-  original_language: string // 원래 언어
-  original_title: string // 원래 제목
-  overview: string // 영화 개요
-  popularity: number // 인기 점수
-  poster_path: string | null // 포스터 이미지 경로 (null일 수 있음)
-  release_date: string // 개봉일
-  title: string // 영화 제목
-  video: boolean // 비디오 여부
-  vote_average: number // 평균 투표 점수
-  vote_count: number // 투표 수
+interface BaseMedia {
+  id: number // ID는 항상 필수
+  title: string // 제목은 항상 필수
+  poster_path: string | null // 포스터 경로는 null 가능
+  release_date: string // 개봉일은 필수
 }
+
+interface OptionalMedia {
+  adult?: boolean // 성인 콘텐츠 여부
+  backdrop_path?: string | null // 배경 이미지 경로
+  genre_ids?: number[] // 장르 ID 배열
+  original_language?: string // 원래 언어
+  original_title?: string // 원래 제목
+  overview?: string // 영화 개요
+  popularity?: number // 인기 점수
+  video?: boolean // 비디오 여부
+  vote_average?: number // 평균 투표 점수
+  vote_count?: number // 투표 수
+}
+export type MovieResult = BaseMedia & OptionalMedia
 
 // Movie Detail
 // Genre, ProductionCompany, ProductionCountry,SpokenLanguage 는 Tv에서도 쓰임
@@ -193,22 +197,27 @@ export interface Tv {
   total_results: number // 총 결과 수
 }
 
-export interface TvResult {
-  adult: boolean // 성인 콘텐츠 여부
-  backdrop_path: string | null // 배경 이미지 경로 (null일 수 있음)
-  genre_ids: number[] // 장르 ID 배열
+interface BaseTv {
   id: number // 드라마 ID
-  origin_country: string[] // 원산지 국가 배열
-  original_language: string // 원래 언어
-  original_name: string // 원래 제목
-  overview: string // 드라마 개요
-  popularity: number // 인기 점수
-  poster_path: string | null // 포스터 이미지 경로 (null일 수 있음)
-  first_air_date: string // 첫 방영일
   name: string // 드라마 제목
-  vote_average: number // 평균 투표 점수
-  vote_count: number // 투표 수
+  poster_path: string | null // 포스터 이미지 경로
+  first_air_date: string // 첫 방영일
 }
+
+interface OptionalTv {
+  adult?: boolean // 성인 콘텐츠 여부
+  backdrop_path?: string | null // 배경 이미지 경로
+  genre_ids?: number[] // 장르 ID 배열
+  origin_country?: string[] // 원산지 국가 배열
+  original_language?: string // 원래 언어
+  original_name?: string // 원래 제목
+  overview?: string // 드라마 개요
+  popularity?: number // 인기 점수
+  vote_average?: number // 평균 투표 점수
+  vote_count?: number // 투표 수
+}
+
+export type TvResult = BaseTv & OptionalTv
 
 // Tv Detail
 export interface CreatedBy {

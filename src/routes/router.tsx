@@ -107,11 +107,11 @@ const router = createBrowserRouter([
         element: <EditProfilePage />
       },
       {
-        path: '/reviewedlist',
+        path: '/review/:userId',
         element: <ReviewedList />
       },
       {
-        path: '/bookmark',
+        path: '/bookmark/:userId',
         element: <Bookmark />
       }
     ]

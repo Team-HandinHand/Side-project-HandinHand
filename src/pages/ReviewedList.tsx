@@ -1,85 +1,113 @@
-import { Button, Tab } from '@/components'
+import { Back, Button, PosterBox, Tab } from '@/components'
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
 import useAuth from '@/hooks/useAuth'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
+import { MediaContainer } from '@/components/media/Media.styles'
+import { useDeleteReview } from '@/hooks/mutations/useDeleteReview'
 
-const mockReviews = [
-  {
-    id: 1,
-    poster: '/assets/img/test/image.png',
-    rating: 3,
-    comment: '2024년 가장 기억에 남는 영화'
-  },
-  {
-    id: 2,
-    poster: '/assets/img/test/image.png',
-    rating: 4,
-    comment:
-      '긴텍스트 test : Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the  Lorem Ipsum is simply dummy text of the   .'
-  },
-  {
-    id: 3,
-    poster: '/assets/img/test/image.png',
-    rating: 3,
-    comment: '긴텍스트 tests : Lorem Ipsum is simply dummy text.'
-  },
-  {
-    id: 4,
-    poster: '/assets/img/test/image.png',
-    rating: 5,
-    comment: '완벽한 작품이었어요!'
-  }
-]
+import { Review } from '@/types/review'
+import {
+  fetchDramaReviews,
+  fetchMovieReviews
+} from '@/service/review/fetchReview'
+import { useQuery } from '@tanstack/react-query'
 
 export const ReviewedList = () => {
-  const [reviews] = useState(mockReviews)
   const { user } = useAuth()
-  const username = user?.nickname
+  const [activeTab, setActiveTab] = useState<'movie' | 'tv'>('movie')
+  const navigate = useNavigate()
+  const { userId } = useParams<{ userId: string }>()
+  const isMyList = user?.userId === userId
+
+  const { data: reviews = [], isLoading } = useQuery<Review[]>({
+    queryKey: ['reviews', userId, activeTab],
+    queryFn: () =>
+      activeTab === 'movie'
+        ? fetchMovieReviews(userId!)
+        : fetchDramaReviews(userId!),
+    enabled: !!userId
+  })
+
+  const { mutate: deleteReview } = useDeleteReview()
+
+  const handleEdit = (review: Review) => {
+    navigate(
+      `/comments/detail/${review.media_type}/${review.id}/${user?.userId}`
+    )
+  }
+
+  const handleDelete = (commentId: string) => {
+    deleteReview({ commentId, type: activeTab })
+  }
 
   return (
-    <S.ReviewListContainer>
-      <Tab title={`${username}의 평가 목록`} />
-      {reviews.map(review => (
-        <S.ReviewItem key={review.id}>
-          <S.Poster>
-            <img
-              src={review.poster}
-              alt="영화 포스터"
-            />
-          </S.Poster>
-          <S.ReviewDetails>
-            <S.RatingWrapper>
-              <S.Rating>
-                <span>별점</span>
-                <StarRating
-                  size={28}
-                  initialRating={review.rating}
-                  isReadOnly={true}
-                />
-              </S.Rating>
-              <S.Actions>
-                <Button
-                  color="transparent"
-                  size="small"
-                  fontSize="12px">
-                  수정
-                </Button>
-                <Button
-                  color="transparent"
-                  size="small"
-                  fontSize="12px">
-                  삭제
-                </Button>
-              </S.Actions>
-            </S.RatingWrapper>
-            <S.Comment>
-              <span>평가</span>
-              <S.CommentText>{review.comment}</S.CommentText>
-            </S.Comment>
-          </S.ReviewDetails>
-        </S.ReviewItem>
-      ))}
-    </S.ReviewListContainer>
+    <>
+      {!isMyList && <Back />}
+      <MediaContainer $isMyList={isMyList}>
+        <S.ReviewListContainer>
+          <Tab
+            title={
+              isMyList
+                ? `${user?.nickname}의 평가 목록`
+                : `${userId} 님의 평가 목록`
+            }
+            onTabChange={tab => setActiveTab(tab as 'movie' | 'tv')}
+          />
+          {reviews.map(review => (
+            <S.ReviewItem key={review.comment_id}>
+              <PosterBox
+                imageUrl={
+                  review.poster_path
+                    ? `https://image.tmdb.org/t/p/w500/${review.poster_path}`
+                    : '/default-poster.png'
+                }
+                isLoading={isLoading}
+                onClick={() => handleEdit(review)}
+                pointer
+              />
+              <S.ReviewDetails>
+                <S.Title>{review.title}</S.Title>
+                <S.RatingWrapper>
+                  <S.Rating>
+                    <span>별점</span>
+                    <StarRating
+                      size={28}
+                      initialRating={review.rating || 0}
+                      isReadOnly
+                    />
+                  </S.Rating>
+                  {isMyList && (
+                    <S.Actions>
+                      <Button
+                        color="transparent"
+                        size="small"
+                        fontSize="12px"
+                        onClick={() => handleEdit(review)}>
+                        수정
+                      </Button>
+                      <Button
+                        color="transparent"
+                        size="small"
+                        fontSize="12px"
+                        onClick={() => handleDelete(review.comment_id)}>
+                        삭제
+                      </Button>
+                    </S.Actions>
+                  )}
+                </S.RatingWrapper>
+                <S.Comment>
+                  <span>평가</span>
+                  <S.CommentText>
+                    {review.comment || '작성된 댓글이 없습니다.'}
+                  </S.CommentText>
+                </S.Comment>
+              </S.ReviewDetails>
+            </S.ReviewItem>
+          ))}
+        </S.ReviewListContainer>
+      </MediaContainer>
+    </>
   )
 }
