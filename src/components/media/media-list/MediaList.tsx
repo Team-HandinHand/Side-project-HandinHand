@@ -9,9 +9,9 @@ export const MediaList = ({ medias, isLoading, flex }: MediaListProps) => {
 
   return (
     <S.PosterContainer>
-      {medias?.map(media => (
+      {medias?.map((media, index) => (
         <PosterBox
-          key={media.id}
+          key={`${media.id}-${index}`}
           flex={flex}
           title={checkIsMovie(media) ? media.title : media.name}
           imageUrl={`${import.meta.env.VITE_TMDB_IMG_URL}${media.poster_path}`}

@@ -151,11 +151,13 @@ export const Header = memo(({ $backgroundColor }: HeaderProps) => {
                 autoComplete="off"
               />
             </S.SearchWrapper>
-            <S.BaseLink to="/bookmark">
-              <S.FavoriteIcon $active={pathname === '/bookmark'} />
+            <S.BaseLink to={`/bookmark/${user?.userId}`}>
+              <S.FavoriteIcon
+                $active={pathname === `/bookmark/${user?.userId}`}
+              />
             </S.BaseLink>
-            <S.BaseLink to="/reviewedlist">
-              <S.StorageIcon $active={pathname === '/reviewedlist'} />
+            <S.BaseLink to={`/review/${user?.userId}`}>
+              <S.StorageIcon $active={pathname === `/review/${user?.userId}`} />
             </S.BaseLink>
             <S.BaseLink to="/edit-profile">
               <Profile

@@ -96,7 +96,7 @@ const router = createBrowserRouter([
         element: <MediaSearchPage />
       },
       {
-        path: '/comments/detail',
+        path: '/comments/detail/:type/:mediaId/:userId',
         element: <CommentDetailPage />
       },
       {
@@ -112,11 +112,11 @@ const router = createBrowserRouter([
         element: <EditProfilePage />
       },
       {
-        path: '/reviewedlist',
+        path: '/review/:userId',
         element: <ReviewedList />
       },
       {
-        path: '/bookmark',
+        path: '/bookmark/:userId',
         element: <Bookmark />
       }
     ]
