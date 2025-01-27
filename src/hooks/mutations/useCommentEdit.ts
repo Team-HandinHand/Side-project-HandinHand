@@ -5,14 +5,19 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 type TEditComment = {
   comment_id: string
   newComment: string
+  rating?: number
 }
 
-export const useCommentEdit = ({ comment_id, newComment }: TEditComment) => {
+export const useCommentEdit = ({
+  comment_id,
+  newComment,
+  rating
+}: TEditComment) => {
   const queryClient = useQueryClient()
   const updatedAt = new Date().toISOString()
 
   const { mutate: updateCommentMutation } = useMutation({
-    mutationFn: () => UpdateComment(comment_id, newComment, updatedAt),
+    mutationFn: () => UpdateComment(comment_id, newComment, updatedAt, rating),
     onSuccess: () => {
       toastSuccess('댓글이 수정되었습니다.')
       queryClient.invalidateQueries({

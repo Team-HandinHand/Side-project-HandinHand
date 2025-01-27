@@ -3,10 +3,9 @@ import * as S from './MovieDetails.styled'
 import useFetchMovieMoreInfo from '@/hooks/queries/useFetchMediaMoreInfo'
 import { MediaType } from '@/types/media'
 import CommentPosts from '../movie-details-comment/commentPosts'
-import { useQuery } from '@tanstack/react-query'
-import { getComments } from '@/service/comments/fetchDetailsComments'
 import CommentList from '../movie-details-comment/commentList'
 import { useState } from 'react'
+import useFetchUserComment from '@/hooks/queries/useFetchUserComment'
 
 type ICommentItemProps = {
   comment_id: string
@@ -15,6 +14,7 @@ type ICommentItemProps = {
   created_at: string
   updated_at?: string
   movie_id: string
+  rating: number
 }
 
 export default function ContentInfo() {
@@ -24,10 +24,7 @@ export default function ContentInfo() {
   const typedId = Number(mediaId)
   const { credits } = useFetchMovieMoreInfo(typedType, typedId)
 
-  const { data: commentsData } = useQuery<ICommentItemProps[]>({
-    queryKey: ['userComment'],
-    queryFn: () => getComments(typedId)
-  })
+  const commentsData = useFetchUserComment(typedId)
 
   return (
     <>
@@ -50,6 +47,7 @@ export default function ContentInfo() {
       {/* 세번째 박스 */}
       <S.UserRateContainer>
         <S.UserRateTitle>사용자 평</S.UserRateTitle>
+
         <CommentPosts
           content={content}
           setContent={setContent}
@@ -63,23 +61,10 @@ export default function ContentInfo() {
             createAt={data.created_at}
             updatedAt={data.updated_at}
             comment_id={data.comment_id}
+            rating={data.rating}
           />
         ))}
       </S.UserRateContainer>
     </>
   )
 }
-
-// {
-//   commentsData?.flat().map() => (
-//     <CommentItem
-//       key={data.comment_id}
-//       commentId={data.comment_id}
-//       commentUserId={data.user_id}
-//       comment={data.comment}
-//       createAt={data.created_at}
-//       updatedAt={data.updated_at ? data.updated_at : null}
-//       playlistId={playlistId}
-//     />
-//   ))
-// }
