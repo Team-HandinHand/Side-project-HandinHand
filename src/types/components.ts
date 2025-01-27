@@ -8,14 +8,14 @@ interface PosterBoxProps {
   pointer?: boolean
 }
 interface PosterBoxContainerProps {
-  flex?: boolean
+  $flex?: boolean
   $pointer?: boolean
 }
 interface MovieImageBoxProps {
-  flex?: boolean
+  $flex?: boolean
 }
 interface ContentBoxProps {
-  flex?: boolean
+  $flex?: boolean
 }
 
 export type {

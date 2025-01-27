@@ -43,13 +43,12 @@ export const RatingSection = styled.div`
   > div {
     font-weight: bold;
     display: flex;
-    align-items:center;
+    align-items: center;
     gap: 5px;
   }
-
-  }
 `
-export const CommentSection = styled.div<{ readonly: boolean }>`
+
+export const CommentSection = styled.div<{ $readonly: boolean }>`
   display: flex;
   gap: var(--space-small);
   margin-top: var(--space-medium);
@@ -65,8 +64,8 @@ export const CommentSection = styled.div<{ readonly: boolean }>`
     font-weight: normal;
     resize: none;
     padding: var(--space-small);
-    ${({ readonly }) =>
-      readonly &&
+    ${({ $readonly }) =>
+      $readonly &&
       `
     height: auto;
     background-color: var(--color-black);

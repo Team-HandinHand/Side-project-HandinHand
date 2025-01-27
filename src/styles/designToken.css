@@ -1,9 +1,4 @@
 :root {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
   /** colors **/
   --color-black: #000000;
   --color-white: #ffffff;

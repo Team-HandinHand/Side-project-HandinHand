@@ -27,6 +27,8 @@ export const CommentDetailPage = () => {
     return <p>로딩중입니다.</p>
   }
 
+  console.log(commentData)
+
   return (
     <S.PageContainer>
       <Back />

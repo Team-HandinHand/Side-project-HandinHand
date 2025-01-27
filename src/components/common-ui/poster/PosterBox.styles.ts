@@ -6,13 +6,13 @@ import type {
 } from '@/types/components'
 
 export const PosterBoxContainer = styled.div<PosterBoxContainerProps>`
-  width: ${props => (props.flex ? '70%' : '212px')};
-  display: ${props => (props.flex ? 'flex' : 'inline-block')};
+  width: ${props => (props.$flex ? '70%' : '212px')};
+  display: ${props => (props.$flex ? 'flex' : 'inline-block')};
   cursor: ${props => (props.$pointer ? 'pointer' : 'default')};
 `
 export const MovieImageBox = styled.img<MovieImageBoxProps>`
-  width: ${props => (props.flex ? '150px' : '212px')};
-  height: ${props => (props.flex ? '240px' : '318px')};
+  width: ${props => (props.$flex ? '150px' : '212px')};
+  height: ${props => (props.$flex ? '240px' : '318px')};
   border-radius: var(--border-radius-small);
   transition: transform 0.3s ease;
   ${PosterBoxContainer}:hover & {
@@ -21,8 +21,8 @@ export const MovieImageBox = styled.img<MovieImageBoxProps>`
 `
 
 export const ContentBox = styled.div<ContentBoxProps>`
-  ${props => (props.flex ? 'align-self: center' : '')};
-  ${props => (props.flex ? 'margin-left: var(--space-medium)' : '')};
+  ${props => (props.$flex ? 'align-self: center' : '')};
+  ${props => (props.$flex ? 'margin-left: var(--space-medium)' : '')};
 `
 export const ContentTitle = styled.div`
   font-size: var(--font-medium);
