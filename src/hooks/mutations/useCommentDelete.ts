@@ -1,6 +1,6 @@
 import { deleteComment } from '@/service/comments/deleteDetailsComment'
-import { toastError, toastSuccess } from '@/utils/toast'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
 import { To, useMatch, useNavigate } from 'react-router-dom'
 
 export const useCommentDelete = (comment_id: string) => {
@@ -11,7 +11,7 @@ export const useCommentDelete = (comment_id: string) => {
   const { mutate: deleteCommentMutation } = useMutation({
     mutationFn: () => deleteComment(comment_id),
     onSuccess: () => {
-      toastSuccess('해당 댓글이 삭제되었습니다.')
+      toast.success('해당 댓글이 삭제되었습니다.')
       queryClient.invalidateQueries({
         queryKey: ['userComment']
       })
@@ -21,7 +21,7 @@ export const useCommentDelete = (comment_id: string) => {
     },
     onError: (error: Error) => {
       console.error('삭제 실패:', error)
-      toastError('댓글 삭제 중 오류가 발생했습니다.')
+      toast.error('댓글 삭제 중 오류가 발생했습니다.')
     }
   })
   return { deleteCommentMutation }

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Back, MediaList, Tab } from '@/components'
 import { MediaContainer } from '@/components/media/Media.styles'
-import useAuth from '@/hooks/useAuth'
+import useUserStore from '@/stores/useUserStore'
 import { useParams } from 'react-router-dom'
 import { fetchMovieBookmarks } from '@/service/bookmark/fetchMovieBookmark'
 import { fetchDramaBookmarks } from '@/service/bookmark/fetchDramaBookmark'
@@ -9,7 +9,7 @@ import { MediaResult } from '@/types/media'
 import { useQuery } from '@tanstack/react-query'
 
 export const Bookmark = () => {
-  const { user } = useAuth()
+  const { user } = useUserStore()
   const [activeTab, setActiveTab] = useState<'movie' | 'tv'>('movie')
   const { userId } = useParams()
   const isMyList = user?.userId === userId

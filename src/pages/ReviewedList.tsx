@@ -1,7 +1,7 @@
 import { Back, Button, PosterBox, Tab } from '@/components'
 import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
-import useAuth from '@/hooks/useAuth'
+import useUserStore from '@/stores/useUserStore'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { MediaContainer } from '@/components/media/Media.styles'
@@ -15,7 +15,7 @@ import {
 import { useQuery } from '@tanstack/react-query'
 
 export const ReviewedList = () => {
-  const { user } = useAuth()
+  const { user } = useUserStore()
   const [activeTab, setActiveTab] = useState<'movie' | 'tv'>('movie')
   const navigate = useNavigate()
   const { userId } = useParams<{ userId: string }>()

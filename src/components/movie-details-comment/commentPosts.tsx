@@ -1,4 +1,3 @@
-import useAuthStateChange from '@/hooks/useAuthStateChange'
 import { Button } from '../common-ui/button/Button'
 import { Input } from '../common-ui/input/Input'
 import { Profile } from '../common-ui/profile/Profile'
@@ -6,13 +5,14 @@ import * as S from '../movie-details/MovieDetails.styled'
 import { useParams } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { postComment } from '@/service/comments/postDetailsComment'
+import useUserStore from '@/stores/useUserStore'
 import { TCount } from '@/types/comment'
 import { useRating } from '@/hooks/useRating'
 import toast from 'react-hot-toast'
 
 export default function CommentPosts({ content, setContent }: TCount) {
   const { mediaId } = useParams<{ mediaId: string }>()
-  const { user } = useAuthStateChange()
+  const { user } = useUserStore()
   const { rating } = useRating()
 
   const queryClient = useQueryClient()
