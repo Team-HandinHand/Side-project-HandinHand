@@ -1,4 +1,5 @@
 import { useCommentEdit } from '@/hooks/mutations/useCommentEdit'
+import { useRatingStore } from '@/stores/useRatingStore'
 import { useState } from 'react'
 import styled from 'styled-components'
 
@@ -65,10 +66,12 @@ const CancelButton = styled.button`
 
 function CommentEdit({ comment_id, setModifier, comment }: CommentEditProps) {
   const [newComment, setNewComment] = useState(comment)
+  const { rating } = useRatingStore()
 
   const { updateCommentMutation } = useCommentEdit({
     comment_id,
-    newComment
+    newComment,
+    rating
   })
 
   function handleEdit() {

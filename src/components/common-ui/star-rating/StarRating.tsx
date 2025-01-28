@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as S from './StarRating.styles'
 import { useRatingStore } from '@/stores/useRatingStore'
 /* <Stars size={50} />  이런식으로 사이즈만 지정해서 사용. */
@@ -31,6 +31,10 @@ export default function StarRating({
       setRating(rating)
     }
   }
+
+  useEffect(() => {
+    setTempRating(CommentRating)
+  }, [CommentRating])
 
   return (
     <S.Container>
