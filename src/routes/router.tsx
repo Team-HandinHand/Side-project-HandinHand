@@ -25,17 +25,11 @@ import useUserStore from '@/stores/useUserStore'
 import { ErrorFallback } from '@/components'
 import { PUBLIC_PATHS, AUTH_PATHS } from '@/constants/path'
 import useAuthStateChange from '@/hooks/useAuthStateChange'
-import { RatingProvider } from '@/contexts/rating/RatingProvider'
 
 export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUserStore()
   const { pathname } = useLocation()
   useAuthStateChange()
-
-  // console.log({
-  //   user,
-  //   pathname
-  // })
 
   const routeCheck = useMemo(() => {
     const isPublicRoute = PUBLIC_PATHS.includes(
@@ -93,11 +87,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/media-details/:type/:mediaId',
-        element: (
-          <RatingProvider>
-            <MediaDetailsPage />
-          </RatingProvider>
-        )
+        element: <MediaDetailsPage />
       },
       {
         path: '/media-search',

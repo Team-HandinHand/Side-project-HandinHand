@@ -24,7 +24,7 @@ export async function postComment(
 
     if (existingComment && existingComment.length > 0) {
       throw new Error(
-        '이미 이 영화에 관해 평점을 주신적이었어요! 댓글을 통해 수정해주세요'
+        '이미 이 영화를 평가를 하신 적이 있었어요! 댓글을 통해 수정해주세요'
       )
     }
   }

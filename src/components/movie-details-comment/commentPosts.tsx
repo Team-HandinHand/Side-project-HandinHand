@@ -1,19 +1,19 @@
+import { useParams } from 'react-router-dom'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
+import * as S from '../movie-details/MovieDetails.styled'
 import { Button } from '../common-ui/button/Button'
 import { Input } from '../common-ui/input/Input'
 import { Profile } from '../common-ui/profile/Profile'
-import * as S from '../movie-details/MovieDetails.styled'
-import { useParams } from 'react-router-dom'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { postComment } from '@/service/comments/postDetailsComment'
-import useUserStore from '@/stores/useUserStore'
 import { TCount } from '@/types/comment'
-import { useRating } from '@/hooks/useRating'
-import toast from 'react-hot-toast'
+import useUserStore from '@/stores/useUserStore'
+import { useRatingStore } from '@/stores/useRatingStore'
 
 export default function CommentPosts({ content, setContent }: TCount) {
   const { mediaId } = useParams<{ mediaId: string }>()
   const { user } = useUserStore()
-  const { rating } = useRating()
+  const { rating } = useRatingStore()
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
