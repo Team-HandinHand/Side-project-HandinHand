@@ -1,5 +1,6 @@
 import { PosterBox } from '@/components/common-ui/poster/PosterBox'
 import * as S from '@/components/comment-detail/CommentDetail.styled'
+import * as Skeleton from '@/components/comment-detail/CommentDetailSkeleton'
 import checkIsMovie from '@/utils/checkIsMovie'
 import { MediaDetails } from '@/types/media'
 import { Link } from 'react-router-dom'
@@ -32,7 +33,11 @@ export const CommentPosterBox = ({
           flex={true}
         />
       </Link>
-      <S.WrittenDate>작성일: {created_at}</S.WrittenDate>
+      {isLoading ? (
+        <Skeleton.WrittenDate />
+      ) : (
+        <S.WrittenDate>작성일: {created_at}</S.WrittenDate>
+      )}
     </S.ContentsHeader>
   )
 }
