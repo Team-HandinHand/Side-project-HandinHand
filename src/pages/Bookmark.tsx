@@ -33,7 +33,11 @@ export const Bookmark = () => {
     enabled: !!userId,
     staleTime: 1000 * 60 * 5,
     placeholderData: () =>
-      queryClient.getQueryData(['ookmarks', userId, activeTab]) as MediaResult[]
+      queryClient.getQueryData([
+        'bookmarks',
+        userId,
+        activeTab
+      ]) as MediaResult[]
   })
   return (
     <>
