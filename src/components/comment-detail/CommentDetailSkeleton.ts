@@ -64,5 +64,5 @@ export const CommentSection = styled(SkeletonBox)`
 `
 export const WrittenDate = styled(SkeletonBox)`
   width: 20%;
-  height: 10px;
+  height: 1rem;
 `

@@ -79,7 +79,10 @@ export const ReviewComment = ({
         <Skeleton.RatingSection>
           <div>
             <p>평점</p>
-            <Skeleton.RatingSkeleton />
+            <StarRating
+              size={30}
+              isReadOnly={isReadOnly}
+            />
           </div>
         </Skeleton.RatingSection>
         <div>

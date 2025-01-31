@@ -50,7 +50,7 @@ export const SkeletonTitle = styled(SkeletonBox)`
 
 export const SkeletonDescription = styled(SkeletonBox)`
   width: ${props => (props.flex ? '40%' : '100%')};
-  height: 0.75rem;
+  height: 1rem;
   margin-top: var(--space-small);
 `
 export const SkeletonProfile = styled(SkeletonBox)`
