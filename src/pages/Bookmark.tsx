@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Back, MediaList, Tab } from '@/components'
 import { MediaContainer } from '@/components/media/Media.styles'
 import useUserStore from '@/stores/useUserStore'
@@ -7,12 +6,23 @@ import { fetchMovieBookmarks } from '@/service/bookmark/fetchMovieBookmark'
 import { fetchDramaBookmarks } from '@/service/bookmark/fetchDramaBookmark'
 import { MediaResult } from '@/types/media'
 import { useQuery } from '@tanstack/react-query'
+import { useQueryState } from 'nuqs'
+import queryClient from '@/lib/queryClient'
+
+const parseTabType = (value: string | null): 'movie' | 'tv' | null => {
+  if (value === 'movie' || value === 'tv') return value
+  return null
+}
 
 export const Bookmark = () => {
   const { user } = useUserStore()
-  const [activeTab, setActiveTab] = useState<'movie' | 'tv'>('movie')
   const { userId } = useParams()
   const isMyList = user?.userId === userId
+
+  const [activeTab, setActiveTab] = useQueryState<'movie' | 'tv'>('type', {
+    parse: parseTabType,
+    defaultValue: 'movie'
+  })
 
   const { data: bookmarks = [], isLoading } = useQuery<MediaResult[]>({
     queryKey: ['bookmarks', userId, activeTab],
@@ -20,7 +30,14 @@ export const Bookmark = () => {
       activeTab === 'movie'
         ? fetchMovieBookmarks(userId || '')
         : fetchDramaBookmarks(userId || ''),
-    enabled: !!userId
+    enabled: !!userId,
+    staleTime: 1000 * 60 * 5,
+    placeholderData: () =>
+      queryClient.getQueryData([
+        'bookmarks',
+        userId,
+        activeTab
+      ]) as MediaResult[]
   })
   return (
     <>
