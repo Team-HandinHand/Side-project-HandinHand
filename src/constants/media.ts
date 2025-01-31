@@ -1,3 +1,5 @@
+import defaultPoster from '@/assets/img/poster/default_poster.webp'
+
 export const TV_CATEGORY_MAP = {
   인기: 'popular',
   '높은 평점': 'top_rated',
@@ -25,3 +27,5 @@ export const MOVIE_CATEGORIES = [
   'now_playing',
   'upcoming'
 ] as const
+
+export const DEFAULT_POSTER_PATH = defaultPoster

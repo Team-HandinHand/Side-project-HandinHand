@@ -7,6 +7,7 @@ export interface ICommentItemProps {
   created_at: string
   updated_at?: string
   movie_id: string
+  rating: number
 }
 
 export async function getComments(movie_id: number) {

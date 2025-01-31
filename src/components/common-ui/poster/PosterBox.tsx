@@ -7,6 +7,7 @@ import {
   SkeletonTitle
 } from '../skeleton/Skeleton.tsx'
 import * as S from './PosterBox.styles.ts'
+import { DEFAULT_POSTER_PATH } from '@/constants/media'
 
 export const PosterBox = ({
   title,
@@ -17,6 +18,9 @@ export const PosterBox = ({
   isLoading,
   pointer = true
 }: PosterBoxProps) => {
+  const imgUrl =
+    !imageUrl || imageUrl.includes('null') ? DEFAULT_POSTER_PATH : imageUrl
+
   if (isLoading) {
     return (
       <SkeletonContainer flex={flex}>
@@ -34,7 +38,7 @@ export const PosterBox = ({
       onClick={onClick}
       $pointer={pointer}>
       <S.MovieImageBox
-        src={imageUrl}
+        src={imgUrl}
         alt={`${title}-poster`}
         $flex={flex}
       />

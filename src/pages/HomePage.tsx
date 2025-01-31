@@ -1,9 +1,8 @@
-import { HomeMain, HomeNoAuth } from '@/components'
-import { ScrollToTop } from '@/components/common-ui/scroll-button'
-import useAuth from '@/hooks/useAuth'
+import { HomeMain, HomeNoAuth, ScrollToTop } from '@/components'
+import useUserStore from '@/stores/useUserStore'
 
 export const HomePage = () => {
-  const { user } = useAuth()
+  const { user } = useUserStore()
   return user ? (
     <>
       <HomeMain />

@@ -5,24 +5,31 @@ import { Input } from '../common-ui/input/Input'
 import { Comment } from '@/types/commentDetail'
 import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
 import { useCommentEdit } from '@/hooks/mutations/useCommentEdit'
-import { toastError } from '@/utils/toast'
 import { CommentEditButton } from './CommentEditButton'
+import toast from 'react-hot-toast'
+import { useRating } from '@/hooks/useRating'
+import { useParams } from 'react-router-dom'
 
 export const ReviewComment = ({
   commentData
 }: {
   commentData: Comment | undefined
 }) => {
+  const paramsData = useParams()
   const [isReadOnly, setIsReadOnly] = useState(true)
   const commentRef = useRef<HTMLInputElement>(null)
   const [commentValue, setCommentValue] = useState(commentData?.comment || '')
+  const { rating, setRating } = useRating()
 
   const { updateCommentMutation } = useCommentEdit({
+    types: paramsData.type as 'movie' | 'tv',
     comment_id: commentData?.comment_id || '',
-    newComment: commentRef.current?.value || ''
+    newComment: commentRef.current?.value || '',
+    rating: rating
   })
   const { deleteCommentMutation } = useCommentDelete(
-    commentData?.comment_id || ''
+    commentData?.comment_id || '',
+    paramsData.type as 'movie' | 'tv'
   )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,13 +40,14 @@ export const ReviewComment = ({
   }
 
   const handelDeleteComment = () => {
-    if (window.confirm('선택한 댓글을을 삭제하시겠습니까?')) {
+    if (window.confirm('선택한 댓글을 삭제하시겠습니까?')) {
       deleteCommentMutation()
     }
   }
 
   const handelEditMode = () => {
     setIsReadOnly(!isReadOnly)
+    setRating(commentData?.rating || 0)
     if (!isReadOnly) {
       if (commentRef.current?.value === '') {
         setCommentValue(commentData?.comment || '')
@@ -48,7 +56,7 @@ export const ReviewComment = ({
   }
   const handleSubmit = () => {
     if (commentRef.current?.value === '') {
-      toastError('댓글을 입력해주세요.')
+      toast.error('댓글을 입력해주세요.')
       return
     } else {
       updateCommentMutation()
@@ -73,7 +81,7 @@ export const ReviewComment = ({
           <p>평점</p>
           <StarRating
             size={30}
-            initialRating={commentData.rating || 0}
+            CommentRating={commentData.rating || 0}
             isReadOnly={isReadOnly}
           />
         </div>

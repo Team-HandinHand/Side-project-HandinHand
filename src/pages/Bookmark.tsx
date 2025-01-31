@@ -1,6 +1,6 @@
 import { Back, MediaList, Tab } from '@/components'
 import { MediaContainer } from '@/components/media/Media.styles'
-import useAuth from '@/hooks/useAuth'
+import useUserStore from '@/stores/useUserStore'
 import { useParams } from 'react-router-dom'
 import { fetchMovieBookmarks } from '@/service/bookmark/fetchMovieBookmark'
 import { fetchDramaBookmarks } from '@/service/bookmark/fetchDramaBookmark'
@@ -15,7 +15,7 @@ const parseTabType = (value: string | null): 'movie' | 'tv' | null => {
 }
 
 export const Bookmark = () => {
-  const { user } = useAuth()
+  const { user } = useUserStore()
   const { userId } = useParams()
   const isMyList = user?.userId === userId
 

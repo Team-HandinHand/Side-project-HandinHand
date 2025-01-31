@@ -1,11 +1,11 @@
 import { supabase } from '../../../supabaseConfig'
 import { useMutation } from '@tanstack/react-query'
 import { useErrorHandler } from '@/hooks/useErrorHandler'
-import useAuth from '@/hooks/useAuth'
+import useUserStore from '@/stores/useUserStore'
 import { CheckDuplicateProps } from '@/types/auth'
 
 export const useCheckDuplicate = () => {
-  const { user } = useAuth()
+  const { user } = useUserStore()
   const handleError = useErrorHandler()
 
   const { mutateAsync: checkDuplicate, isPending } = useMutation<

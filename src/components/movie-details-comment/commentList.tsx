@@ -1,4 +1,4 @@
-import fetchUserProfile from '@/services/auth/fetchUserProfile'
+import fetchUserProfile from '@/service/auth/fetchUserProfile'
 import { Profile } from '../common-ui/profile/Profile'
 import * as S from '../movie-details/MovieDetails.styled'
 import { useQuery } from '@tanstack/react-query'
@@ -8,7 +8,9 @@ import { MdDelete } from 'react-icons/md'
 import { useState } from 'react'
 import CommentEdit from './commentEdit'
 import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
-import useAuth from '@/hooks/useAuth'
+import useUserStore from '@/stores/useUserStore'
+import StarRating from '../common-ui/star-rating/StarRating'
+import { useParams } from 'react-router-dom'
 
 type TComment = {
   key: string
@@ -18,6 +20,7 @@ type TComment = {
   updatedAt?: string
   movie_id?: string
   comment_id: string
+  rating: number
 }
 
 type UserProfile = {
@@ -31,10 +34,12 @@ export default function CommentList({
   comment,
   createAt,
   updatedAt,
-  comment_id
+  comment_id,
+  rating
 }: TComment) {
+  const paramsData = useParams()
   const [modifier, setModifier] = useState(false)
-  const { user } = useAuth()
+  const { user } = useUserStore()
   // const queryClient = useQueryClient()
 
   const { data } = useQuery<UserProfile>({
@@ -43,7 +48,10 @@ export default function CommentList({
   })
 
   //댓글삭제
-  const { deleteCommentMutation } = useCommentDelete(comment_id)
+  const { deleteCommentMutation } = useCommentDelete(
+    comment_id,
+    paramsData.type as 'movie' | 'tv'
+  )
 
   function handleDelete() {
     deleteCommentMutation()
@@ -60,16 +68,28 @@ export default function CommentList({
         <div>
           <S.BoxForFlex>
             <div>
-              <span style={{ fontSize: 'var(--font-medium)' }}>
-                {data?.nickname}
-                {user?.userId === commentUserId && '🎆'}
-              </span>
+              <S.CommentInfoBox>
+                <div style={{ fontSize: 'var(--font-medium)' }}>
+                  {data?.nickname}
+                  {user?.userId === commentUserId && '🎆'}
+                </div>
 
-              <S.UpdatedTimeBox>
-                {updatedAt !== createAt
-                  ? `${getTimeAgo(updatedAt!)} (수정됨)`
-                  : getTimeAgo(createAt)}
-              </S.UpdatedTimeBox>
+                {rating ? (
+                  <StarRating
+                    size={18}
+                    isReadOnly={true}
+                    CommentRating={rating}
+                  />
+                ) : (
+                  ''
+                )}
+
+                <S.UpdatedTimeBox>
+                  {updatedAt !== createAt
+                    ? `${getTimeAgo(updatedAt!)} (수정됨)`
+                    : getTimeAgo(createAt)}
+                </S.UpdatedTimeBox>
+              </S.CommentInfoBox>
             </div>
             {user?.userId === commentUserId && (
               <S.DeleteEditBox>
