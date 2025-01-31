@@ -7,22 +7,29 @@ import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
 import { useCommentEdit } from '@/hooks/mutations/useCommentEdit'
 import { CommentEditButton } from './CommentEditButton'
 import toast from 'react-hot-toast'
+import { useRating } from '@/hooks/useRating'
+import { useParams } from 'react-router-dom'
 
 export const ReviewComment = ({
   commentData
 }: {
   commentData: Comment | undefined
 }) => {
+  const paramsData = useParams()
   const [isReadOnly, setIsReadOnly] = useState(true)
   const commentRef = useRef<HTMLInputElement>(null)
   const [commentValue, setCommentValue] = useState(commentData?.comment || '')
+  const { rating, setRating } = useRating()
 
   const { updateCommentMutation } = useCommentEdit({
+    types: paramsData.type as 'movie' | 'tv',
     comment_id: commentData?.comment_id || '',
-    newComment: commentRef.current?.value || ''
+    newComment: commentRef.current?.value || '',
+    rating: rating
   })
   const { deleteCommentMutation } = useCommentDelete(
-    commentData?.comment_id || ''
+    commentData?.comment_id || '',
+    paramsData.type as 'movie' | 'tv'
   )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +47,7 @@ export const ReviewComment = ({
 
   const handelEditMode = () => {
     setIsReadOnly(!isReadOnly)
+    setRating(commentData?.rating || 0)
     if (!isReadOnly) {
       if (commentRef.current?.value === '') {
         setCommentValue(commentData?.comment || '')
@@ -73,7 +81,7 @@ export const ReviewComment = ({
           <p>평점</p>
           <StarRating
             size={30}
-            initialRating={commentData.rating || 0}
+            CommentRating={commentData.rating || 0}
             isReadOnly={isReadOnly}
           />
         </div>
