@@ -3,23 +3,32 @@ import StarRating from '@/components/common-ui/star-rating/StarRating'
 import * as S from '@/components/reviewedlist/MyReviewedList.styles'
 import useUserStore from '@/stores/useUserStore'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useState } from 'react'
 import { MediaContainer } from '@/components/media/Media.styles'
 import { useDeleteReview } from '@/hooks/mutations/useDeleteReview'
-
 import { Review } from '@/types/review'
 import {
   fetchDramaReviews,
   fetchMovieReviews
 } from '@/service/review/fetchReview'
 import { useQuery } from '@tanstack/react-query'
+import { useQueryState } from 'nuqs'
+import queryClient from '@/lib/queryClient'
 
 export const ReviewedList = () => {
   const { user } = useUserStore()
-  const [activeTab, setActiveTab] = useState<'movie' | 'tv'>('movie')
   const navigate = useNavigate()
   const { userId } = useParams<{ userId: string }>()
   const isMyList = user?.userId === userId
+
+  const parseTabType = (value: string | null): 'movie' | 'tv' | null => {
+    if (value === 'movie' || value === 'tv') return value
+    return null
+  }
+
+  const [activeTab, setActiveTab] = useQueryState<'movie' | 'tv'>('type', {
+    parse: parseTabType,
+    defaultValue: 'movie'
+  })
 
   const { data: reviews = [], isLoading } = useQuery<Review[]>({
     queryKey: ['reviews', userId, activeTab],
@@ -27,7 +36,10 @@ export const ReviewedList = () => {
       activeTab === 'movie'
         ? fetchMovieReviews(userId!)
         : fetchDramaReviews(userId!),
-    enabled: !!userId
+    enabled: !!userId && !!activeTab,
+    staleTime: 1000 * 60 * 5,
+    placeholderData: () =>
+      queryClient.getQueryData(['reviews', userId, activeTab]) as Review[]
   })
 
   const { mutate: deleteReview } = useDeleteReview()

@@ -3,12 +3,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 
 type TEditComment = {
+  types: 'movie' | 'tv'
   comment_id: string
   newComment: string
   rating?: number
 }
 
 export const useCommentEdit = ({
+  types,
   comment_id,
   newComment,
   rating
@@ -17,7 +19,8 @@ export const useCommentEdit = ({
   const updatedAt = new Date().toISOString()
 
   const { mutate: updateCommentMutation } = useMutation({
-    mutationFn: () => UpdateComment(comment_id, newComment, updatedAt, rating),
+    mutationFn: () =>
+      UpdateComment(types, comment_id, newComment, updatedAt, rating),
     onSuccess: () => {
       toast.success('평가가 수정되었습니다.')
       queryClient.invalidateQueries({

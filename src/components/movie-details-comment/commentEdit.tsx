@@ -1,6 +1,7 @@
 import { useCommentEdit } from '@/hooks/mutations/useCommentEdit'
 import { useRatingStore } from '@/stores/useRatingStore'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 type CommentEditProps = {
@@ -65,10 +66,12 @@ const CancelButton = styled.button`
 `
 
 function CommentEdit({ comment_id, setModifier, comment }: CommentEditProps) {
+  const paramsData = useParams()
   const [newComment, setNewComment] = useState(comment)
   const { rating } = useRatingStore()
 
   const { updateCommentMutation } = useCommentEdit({
+    types: paramsData.type as 'movie' | 'tv',
     comment_id,
     newComment,
     rating

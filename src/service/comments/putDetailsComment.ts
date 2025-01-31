@@ -1,13 +1,14 @@
 import { supabase } from '../../../supabaseConfig'
 
 export async function UpdateComment(
+  types: 'movie' | 'tv',
   comment_id: string,
   newComment: string,
   updatedAt: string,
   rating?: number
 ) {
   const { data, error } = await supabase
-    .from('comments')
+    .from(types === 'movie' ? 'comments' : 'drama_comments')
     .update({ comment: newComment, updated_at: updatedAt, rating: rating })
     .eq('comment_id', comment_id)
     .select()

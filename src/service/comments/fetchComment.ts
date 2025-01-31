@@ -2,17 +2,19 @@ import { Comment } from '@/types/commentDetail'
 import { supabase } from '../../../supabaseConfig'
 
 export const fetchComments = async ({
+  types,
   userId,
   mediaId
 }: {
+  types: 'movie' | 'tv'
   userId: string
   mediaId: string
 }): Promise<Comment> => {
   const { data, error } = await supabase
-    .from('comments')
+    .from(types === 'movie' ? 'comments' : 'drama_comments')
     .select('*')
     .eq('user_id', userId)
-    .eq('movie_id', mediaId)
+    .eq(types === 'movie' ? 'movie_id' : 'drama_id', mediaId)
     .single()
 
   if (error) {
