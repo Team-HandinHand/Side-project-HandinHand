@@ -40,7 +40,6 @@ export default function CommentList({
   const paramsData = useParams()
   const [modifier, setModifier] = useState(false)
   const { user } = useUserStore()
-  // const queryClient = useQueryClient()
 
   const { data } = useQuery<UserProfile>({
     queryKey: ['user', commentUserId],

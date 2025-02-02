@@ -34,7 +34,7 @@ export const MediaDetailsPage = () => {
     : extractYear((mediaData as TvDetails)?.first_air_date)
 
   // 평균 평점 계산
-  const commentsData = useFetchUserComment(typedId)
+  const commentsData = useFetchUserComment(typedId, typedType)
 
   let averageRating = 0
   const filterRating = commentsData?.filter(cur => cur.rating !== 0)

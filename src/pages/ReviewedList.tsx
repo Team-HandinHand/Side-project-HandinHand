@@ -86,7 +86,7 @@ export const ReviewedList = () => {
                     <span>별점</span>
                     <StarRating
                       size={28}
-                      initialRating={review.rating || 0}
+                      CommentRating={review.rating || 0}
                       isReadOnly
                     />
                   </S.Rating>

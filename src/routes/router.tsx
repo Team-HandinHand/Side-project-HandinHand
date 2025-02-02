@@ -95,11 +95,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/comments/detail/:type/:mediaId/:userId',
-        element: (
-          <RatingProvider>
-            <CommentDetailPage />
-          </RatingProvider>
-        )
+        element: <CommentDetailPage />
       },
       {
         path: '/signup',

@@ -11,13 +11,13 @@ import useUserStore from '@/stores/useUserStore'
 import { useRatingStore } from '@/stores/useRatingStore'
 
 export default function CommentPosts({ content, setContent }: TCount) {
-  const { mediaId } = useParams<{ mediaId: string }>()
+  const { type, mediaId } = useParams()
   const { user } = useUserStore()
   const { rating } = useRatingStore()
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
-    mutationFn: () => postComment(mediaId, user?.userId, content, rating),
+    mutationFn: () => postComment(type, mediaId, user?.userId, content, rating),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['userComment']
