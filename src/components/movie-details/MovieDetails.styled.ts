@@ -63,7 +63,8 @@ export const ShowMoreButton = styled.button`
   color: var(--color-white);
   cursor: pointer;
   font-size: var(--font-small);
-  width: 75%;
+  width: 100%;
+  max-width: 500px;
   text-align: right;
 
   &:hover {
