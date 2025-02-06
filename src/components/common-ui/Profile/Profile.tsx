@@ -29,7 +29,7 @@ export const Profile = ({
       onClick={onClick}
       size={size}>
       <S.ProfileImage
-        src={imageUrl ?? DEFAULT_PROFILE_PATH}
+        src={imageUrl || DEFAULT_PROFILE_PATH}
         alt={altText}
         onError={e => {
           e.currentTarget.src = DEFAULT_PROFILE_PATH
