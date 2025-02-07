@@ -24,7 +24,7 @@ export default function ContentInfo() {
   const typedId = Number(mediaId)
   const { credits } = useFetchMovieMoreInfo(typedType, typedId)
 
-  const commentsData = useFetchUserComment(typedId)
+  const commentsData = useFetchUserComment(typedId, typedType)
 
   return (
     <>

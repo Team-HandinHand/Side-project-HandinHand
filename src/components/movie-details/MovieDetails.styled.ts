@@ -63,7 +63,8 @@ export const ShowMoreButton = styled.button`
   color: var(--color-white);
   cursor: pointer;
   font-size: var(--font-small);
-  width: 75%;
+  width: 100%;
+  max-width: 500px;
   text-align: right;
 
   &:hover {
@@ -173,7 +174,7 @@ export const UserRateTitle = styled.div`
 export const UserCommentContainer = styled.div`
   display: flex;
   gap: var(--space-medium);
-  margin-bottom: var(--space-xlarge);
+  margin-bottom: var(--space-large);
 `
 export const CommentContainer = styled.div`
   display: flex;

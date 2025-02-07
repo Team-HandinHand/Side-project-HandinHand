@@ -22,14 +22,14 @@ export const useCommentEdit = ({
     mutationFn: () =>
       UpdateComment(types, comment_id, newComment, updatedAt, rating),
     onSuccess: () => {
-      toast.success('댓글이 수정되었습니다.')
+      toast.success('평가가 수정되었습니다.')
       queryClient.invalidateQueries({
         queryKey: ['userComment']
       })
     },
     onError: (error: Error) => {
       console.error('수정 실패:', error)
-      toast.error('댓글 수정 중 오류가 발생했습니다.')
+      toast.error('평가 수정 중 오류가 발생했습니다.')
     }
   })
 

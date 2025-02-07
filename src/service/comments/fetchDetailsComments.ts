@@ -1,3 +1,4 @@
+import { MediaType } from '@/types/media'
 import { supabase } from '../../../supabaseConfig'
 
 export interface ICommentItemProps {
@@ -10,11 +11,11 @@ export interface ICommentItemProps {
   rating: number
 }
 
-export async function getComments(movie_id: number) {
+export async function getComments(movie_id: number, typedType: MediaType) {
   let { data: comments, error } = await supabase
-    .from('comments')
+    .from(typedType === 'movie' ? 'comments' : 'drama_comments')
     .select('*')
-    .eq('movie_id', String(movie_id))
+    .eq(typedType === 'movie' ? 'movie_id' : 'drama_id', String(movie_id))
     .order('created_at', { ascending: false })
 
   if (error) {

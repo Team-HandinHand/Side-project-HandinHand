@@ -8,8 +8,8 @@ import { useCommentDelete } from '@/hooks/mutations/useCommentDelete'
 import { useCommentEdit } from '@/hooks/mutations/useCommentEdit'
 import { CommentEditButton } from './CommentEditButton'
 import toast from 'react-hot-toast'
-import { useRating } from '@/hooks/useRating'
 import { useParams } from 'react-router-dom'
+import { useRatingStore } from '@/stores/useRatingStore'
 
 export const ReviewComment = ({
   commentData,
@@ -22,7 +22,7 @@ export const ReviewComment = ({
   const [isReadOnly, setIsReadOnly] = useState(true)
   const commentRef = useRef<HTMLInputElement>(null)
   const [commentValue, setCommentValue] = useState(commentData?.comment || '')
-  const { rating, setRating } = useRating()
+  const { rating, setRating } = useRatingStore()
 
   const { updateCommentMutation } = useCommentEdit({
     types: paramsData.type as 'movie' | 'tv',

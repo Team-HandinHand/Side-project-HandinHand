@@ -40,7 +40,6 @@ export default function CommentList({
   const paramsData = useParams()
   const [modifier, setModifier] = useState(false)
   const { user } = useUserStore()
-  // const queryClient = useQueryClient()
 
   const { data } = useQuery<UserProfile>({
     queryKey: ['user', commentUserId],
@@ -63,7 +62,10 @@ export default function CommentList({
 
   return (
     <S.CommentContainer key={key}>
-      <Profile imageUrl={data?.profile_picture_path} />
+      <Profile
+        imageUrl={data?.profile_picture_path}
+        size="medium"
+      />
       <S.CommentBox>
         <div>
           <S.BoxForFlex>
