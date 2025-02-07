@@ -23,7 +23,7 @@ export const EditProfileForm = () => {
   // 사집 업로드
   const imgRef = useRef<HTMLInputElement>(null)
   const [imgPreview, setImgPreview] = useState<string>(
-    user?.profilePicturePath ?? DEFAULT_PROFILE_PATH
+    user?.profilePicturePath || DEFAULT_PROFILE_PATH
   )
 
   // 중복 확인 해야하는 필드 valid 여부

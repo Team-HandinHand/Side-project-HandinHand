@@ -1,5 +1,6 @@
 import StarRating from '../common-ui/star-rating/StarRating'
 import * as S from './CommentDetail.styled'
+import * as Skeleton from './CommentDetailSkeleton'
 import { useRef, useState } from 'react'
 import { Input } from '../common-ui/input/Input'
 import { Comment } from '@/types/commentDetail'
@@ -11,9 +12,11 @@ import { useParams } from 'react-router-dom'
 import { useRatingStore } from '@/stores/useRatingStore'
 
 export const ReviewComment = ({
-  commentData
+  commentData,
+  isLoading
 }: {
   commentData: Comment | undefined
+  isLoading: boolean
 }) => {
   const paramsData = useParams()
   const [isReadOnly, setIsReadOnly] = useState(true)
@@ -70,6 +73,25 @@ export const ReviewComment = ({
     handelDeleteComment
   }
 
+  if (isLoading) {
+    return (
+      <Skeleton.ReviewCommentContainer>
+        <Skeleton.RatingSection>
+          <div>
+            <p>평점</p>
+            <StarRating
+              size={30}
+              isReadOnly={isReadOnly}
+            />
+          </div>
+        </Skeleton.RatingSection>
+        <div>
+          <p>평가</p>
+          <Skeleton.CommentSection />
+        </div>
+      </Skeleton.ReviewCommentContainer>
+    )
+  }
   if (!commentData) {
     return <p>데이터가 없습니다.</p>
   }
