@@ -45,7 +45,7 @@ export default function CommentPosts({ content, setContent }: TCount) {
         placeholder="의견을 남겨주세요"
       />
       <Button
-        padding="36px"
+        padding="24px"
         onClick={handleClick}>
         등록
       </Button>

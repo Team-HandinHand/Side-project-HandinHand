@@ -174,7 +174,7 @@ export const UserRateTitle = styled.div`
 export const UserCommentContainer = styled.div`
   display: flex;
   gap: var(--space-medium);
-  margin-bottom: var(--space-xlarge);
+  margin-bottom: var(--space-large);
 `
 export const CommentContainer = styled.div`
   display: flex;

@@ -62,7 +62,10 @@ export default function CommentList({
 
   return (
     <S.CommentContainer key={key}>
-      <Profile imageUrl={data?.profile_picture_path} />
+      <Profile
+        imageUrl={data?.profile_picture_path}
+        size="medium"
+      />
       <S.CommentBox>
         <div>
           <S.BoxForFlex>
