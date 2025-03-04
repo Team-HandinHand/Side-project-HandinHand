@@ -1,24 +1,21 @@
 interface PosterBoxProps {
-  title: string
+  title?: string
   imageUrl: string
-  date: string
+  date?: string
   flex?: boolean
   onClick?: () => void
   isLoading?: boolean
+  pointer?: boolean
 }
 interface PosterBoxContainerProps {
-  title: string
-  imageUrl: string
-  date: string
-  flex?: boolean
+  $flex?: boolean
+  $pointer?: boolean
 }
 interface MovieImageBoxProps {
-  src: string
-  alt: string
-  flex?: boolean
+  $flex?: boolean
 }
 interface ContentBoxProps {
-  flex?: boolean
+  $flex?: boolean
 }
 
 export type {
