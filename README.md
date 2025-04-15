@@ -140,7 +140,7 @@ SIDE-PROJECT-HANDINHAND-ROOT/
    GitHub 레포지토리를 로컬에 클론합니다.
 
    ```bash
-   git clone https://github.com/Hoonshi/Side-project-HandinHand.git
+   git clone https://github.com/Team-HandinHand/Side-project-HandinHand.git
    cd Side-project-HandinHand
    ```
 
